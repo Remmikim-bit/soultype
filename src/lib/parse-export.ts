@@ -421,11 +421,17 @@ export function toDigest(parsed: ParsedExport): UsageDigest {
   };
 }
 
-export function digestKey(digest: UsageDigest): string {
-  return JSON.stringify({
-    c: digest.totalConversations,
-    m: digest.totalMessages,
-    n: digest.nightShare,
-    t: digest.sampleTitles.slice(0, 6),
-  });
+export function collectHumanTexts(parsed: ParsedExport, limit = 80): string[] {
+  const out: string[] = [];
+  for (const conv of parsed.conversations) {
+    for (const m of conv.messages) {
+      if (m.sender !== "human") continue;
+      const t = m.text.trim();
+      if (t.length < 2) continue;
+      out.push(t.slice(0, 500));
+      if (out.length >= limit) return out;
+    }
+  }
+  return out;
 }
+

@@ -98,3 +98,27 @@ export type AnalysisResult = {
   fromAi: boolean;
   shallow: boolean;
 };
+
+export type GradeCard = {
+  score: number;
+  rank: string;
+  headline: string;
+  oneLiner: string;
+  detail: string;
+  traits: { label: string; body: string }[];
+  extraTitle: string;
+  extraBody: string;
+  shallow: boolean;
+};
+
+export type DuelNote = { label: string; ok: boolean };
+
+export type DuelResult = {
+  scenario: string;
+  prompt: string;
+  score: number;
+  rank: string;
+  notes: DuelNote[];
+  extraTitle: string;
+  extraBody: string;
+};

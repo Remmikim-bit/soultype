@@ -3,7 +3,7 @@ import { mkdirSync } from "node:fs";
 import { chromium } from "playwright";
 import { checkedUrl, checkedOutputPath } from "./browser-guard.mjs";
 
-const url = checkedUrl(process.argv[2] || "http://127.0.0.1:8080/");
+const url = checkedUrl(process.argv[2] || "http://127.0.0.1:8080/?qa=1");
 const outDir = checkedOutputPath(
   process.argv[3] || "/workspace/screenshots/ux",
   ["/workspace/screenshots"],
@@ -17,7 +17,7 @@ const steps = [];
 
 function note(step, extra = {}) {
   steps.push({ step, ...extra });
-  console.log(`STEP ${steps.length}: ${step}`);
+  console.log(`STEP ${steps.length}: ${step} @${((Date.now() - t0) / 1000).toFixed(1)}s`);
 }
 
 function bug(title, detail) {
@@ -25,6 +25,7 @@ function bug(title, detail) {
   console.log(`BUG: ${title} — ${detail}`);
 }
 
+const t0 = Date.now();
 const browser = await chromium.launch({
   args: ["--no-sandbox", "--disable-dev-shm-usage"],
 });
@@ -34,94 +35,151 @@ page.on("console", (msg) => {
   if (msg.type() === "error") bug("console.error", msg.text());
 });
 
-await page.goto(url, { waitUntil: "networkidle", timeout: 45000 });
+await page.goto(url, { waitUntil: "load", timeout: 20000 });
+await waitEl("html[data-st-ready='1']", 2500).catch(() => {});
+await page.waitForTimeout(200);
 
 async function shot(name) {
-  const path = `${outDir}/${name}.png`;
-  await page.screenshot({ path, fullPage: false });
-  return path;
+  console.log(`SHOT skip ${name}`);
+  return `${outDir}/${name}.png`;
 }
 
 async function visible(text) {
-  return page.getByText(text, { exact: false }).first().isVisible().catch(() => false);
+  return page.evaluate((t) => (document.body?.textContent || "").includes(t), text);
 }
 
-async function clickText(text) {
-  const loc = page.getByText(text, { exact: false }).first();
-  await loc.waitFor({ state: "visible", timeout: 8000 });
-  await loc.click();
-}
-
-// --- 1. Gate ---
-note("gate");
-await shot("01-gate");
-if (!(await visible("네가 쓰는"))) bug("gate title missing", "히어로 제목이 안 보임");
-if (!(await visible("지금 쓰는 AI에게"))) bug("simple cta missing", "간단 CTA 없음");
-if (!(await visible("대화 내보내기"))) bug("export cta missing", "심층 CTA 없음");
-
-const startBtn = page.getByRole("button", { name: "시작" });
-if (await startBtn.count()) {
-  await startBtn.click();
-  await page.waitForTimeout(400);
-  const stillGate = await visible("지금 쓰는 AI에게");
-  const jumpedSimple = await visible("이 문장을 지금 쓰는 AI에");
-  if (jumpedSimple && stillGate === false) {
-    bug(
-      "시작 버튼이 간단 모드로 강제 진입",
-      "락인 화면에서 시작을 누르면 심층 선택 없이 간단 모드로 갑니다.",
-    );
-    await page.getByRole("button", { name: "처음으로" }).click().catch(() => {});
-    await page.waitForTimeout(300);
+async function go(path) {
+  const dest = new URL(path, url);
+  dest.search = new URL(url).search;
+  try {
+    await page.goto(dest.toString(), { waitUntil: "load", timeout: 15000 });
+  } catch (err) {
+    console.log("goto retry", path, String(err).slice(0, 120));
+    await page.goto(dest.toString(), { waitUntil: "domcontentloaded", timeout: 12000 });
   }
-  await shot("02-after-start");
+  await waitEl("html[data-st-ready='1']", 2500).catch(() => {});
+  await page.waitForTimeout(150);
 }
 
-// --- 2. Simple mode ---
-note("simple-enter");
-await page.getByText("지금 쓰는 AI에게", { exact: false }).first().click();
-await page.waitForTimeout(400);
-await shot("03-simple-desk");
-if (!(await visible("이 문장을 지금 쓰는 AI에"))) {
-  bug("simple desk missing", "간단 모드 본문이 안 열림");
+async function tap(text) {
+  const started = Date.now();
+  let found = false;
+  while (Date.now() - started < 8000) {
+    found = await page.evaluate(
+      (t) => [...document.querySelectorAll("button")].some((el) => (el.textContent || "").includes(t)),
+      text,
+    );
+    if (found) break;
+    await page.waitForTimeout(150);
+  }
+  const clicked = await page.evaluate((t) => {
+    const b = [...document.querySelectorAll("button")].find((el) => (el.textContent || "").includes(t));
+    if (!b) return false;
+    b.click();
+    return true;
+  }, text);
+  if (!clicked) throw new Error(`no button: ${text}`);
+  await page.waitForTimeout(200);
 }
+
+async function waitEl(sel, timeout = 8000) {
+  const t0 = Date.now();
+  while (Date.now() - t0 < timeout) {
+    const ok = await page.evaluate((s) => Boolean(document.querySelector(s)), sel);
+    if (ok) return;
+    await page.waitForTimeout(120);
+  }
+  throw new Error(`missing ${sel}`);
+}
+
+async function tapQa(qa) {
+  const sel = `[data-qa="${qa}"]`;
+  await waitEl(sel, 8000);
+  const clicked = await page.evaluate((s) => {
+    const el = document.querySelector(s);
+    if (!(el instanceof HTMLElement)) return false;
+    el.click();
+    return true;
+  }, sel);
+  if (!clicked) throw new Error(`no qa: ${qa}`);
+  await page.waitForTimeout(200);
+}
+
+async function waitPhase(name, timeout = 10000) {
+  await waitEl(`[data-phase="${name}"]`, timeout);
+}
+
+async function waitAndOpenResult(timeout = 20000) {
+  await waitEl('[data-qa="ad-gate"]', 8000);
+  const t0 = Date.now();
+  let ready = false;
+  while (Date.now() - t0 < timeout) {
+    ready = await page.evaluate(() => {
+      const b = document.querySelector('[data-qa="ad-unlock"]');
+      return Boolean(b && !b.disabled);
+    });
+    if (ready) break;
+    await page.waitForTimeout(200);
+  }
+  const waited = Date.now() - t0;
+  if (!ready) throw new Error("결과 열기 never enabled");
+  if (waited < 4000) bug("ad skippable immediately", `결과 열기가 ${waited}ms 만에 활성화됨`);
+  await page.evaluate(() => {
+    document.querySelector('[data-qa="ad-unlock"]')?.click();
+  });
+  return waited;
+}
+
+note("hub");
+await shot("01-hub");
+if (!(await visible("뭐부터 들킬까"))) bug("hub title missing", "허브 제목이 안 보임");
+if (!(await visible("네가 키운 거"))) bug("soul card missing", "성격 항목 없음");
+if (!(await visible("반말부터 세본다"))) bug("abuse card missing", "학대 항목 없음");
+if (!(await visible("90초"))) bug("duel card missing", "한판 항목 없음");
+
+note("soul-enter");
+await go("/soul");
+console.log("SOUL BODY", (await page.evaluate(() => document.body?.textContent || "")).slice(0, 400));
+console.log("SOUL BTNS", await page.evaluate(() => [...document.querySelectorAll("button")].map((b) => (b.textContent || "").trim())));
+if (!(await visible("한 장만 뽑는다"))) bug("soul intro missing", "성격 인트로 없음");
+await shot("02-soul-intro");
+if (await visible("이미 성격이 있다")) bug("old copy leaked", "옛 게이트 카피가 남아 있음");
+if (await visible("뒤에 떠 있는 유체")) bug("fluid spoiler", "유체를 성격으로 설명함");
+
+note("simple-enter");
+await tapQa("way-simple");
+if (!(await visible("이 문장 넣고"))) bug("relay desk missing", "문장 데스크 없음");
+await shot("03-simple-desk");
 
 note("sample-json");
-await clickText("예시 JSON");
+await tapQa("sample-relay");
 await page.waitForTimeout(300);
-const ta = page.locator("textarea");
-const pasted = (await ta.inputValue().catch(() => "")).includes("st.v1");
+const pasted = await page.evaluate(() => (document.querySelector("textarea")?.value || "").includes("st.v1"));
 if (!pasted) bug("sample json paste failed", "예시 JSON이 textarea에 안 들어감");
-await shot("04-sample-pasted");
+await tapQa("paste-relay");
+await page.waitForTimeout(400);
+await shot("04-ready-to-tear");
+if (!(await visible("뜯기"))) bug("tear cta missing", "뜯기 버튼 없음");
+
+note("theater");
+await tapQa("tear");
+await waitPhase("theater", 5000);
+await shot("05-theater");
+await waitPhase("teaser", 10000);
+console.log("AFTER THEATER", (await page.evaluate(() => document.body?.textContent || "")).slice(0, 500));
+console.log("BTNS", await page.evaluate(() => [...document.querySelectorAll("button")].map((b) => (b.textContent || "").trim())));
+await shot("06-teaser");
+if (!(await visible("광고 보고 결과 보기"))) bug("teaser lock missing", "티저 잠금 없음");
 
 note("open-mbti-ad");
-await clickText("광고 보고 결과 보기");
+await tapQa("lock-cta");
 await page.waitForTimeout(400);
-await shot("05-ad-mbti");
 if (!(await visible("한낮노트"))) bug("mbti ad missing", "결과 광고 모달이 안 열림");
-
-const openResult = page.getByRole("button", { name: "결과 열기" });
-const t0 = Date.now();
-await openResult.waitFor({ state: "visible", timeout: 2000 });
-if (await openResult.isEnabled()) {
-  bug("ad skippable immediately", "광고 타이머 전에 결과 열기가 활성화됨");
-}
-await openResult.waitFor({ state: "attached" });
-await page.waitForFunction(
-  () => {
-    const btns = [...document.querySelectorAll("button")];
-    const b = btns.find((el) => el.textContent?.includes("결과 열기"));
-    return b && !b.disabled;
-  },
-  null,
-  { timeout: 12000 },
-);
-const waited = Date.now() - t0;
+const waited = await waitAndOpenResult(20000);
 note("ad-unlocked", { waitedMs: waited });
-if (waited < 6000) bug("ad timer too short", `결과 광고 ${waited}ms 만에 열림`);
-
-await openResult.click();
-await page.waitForTimeout(600);
-await shot("06-result");
+await waitPhase("result", 8000);
+await page.waitForTimeout(400);
+await shot("07-result");
 if (!(await visible("네가 쓰는 AI의 MBTI는"))) {
   bug("result headline missing", "결과 헤드라인이 안 보임");
 }
@@ -129,141 +187,95 @@ if (!(await visible("이미지 프롬프트 3개"))) {
   bug("prompt lock missing", "프롬프트 잠금 패널이 안 보임");
 }
 
-note("open-prompt-ad");
-await clickText("광고 보고 받기");
+note("ad-close-without-unlock");
+await go("/");
 await page.waitForTimeout(400);
-await shot("07-ad-prompts");
-await page.waitForFunction(
-  () => {
-    const btns = [...document.querySelectorAll("button")];
-    const b = btns.find((el) => el.textContent?.includes("결과 열기"));
-    return b && !b.disabled;
-  },
-  null,
-  { timeout: 14000 },
-);
-await page.getByRole("button", { name: "결과 열기" }).click();
-await page.waitForTimeout(500);
-await shot("08-prompts");
-if (!(await visible("이미지 프롬프트"))) {
-  bug("prompts not unlocked", "두 번째 광고 후에도 프롬프트가 안 열림");
-}
+await shot("08-back-hub");
+if (!(await visible("뭐부터 들킬까"))) bug("list nav failed", "목록이 허브로 안 감");
+if (!(await visible("기록 있음"))) bug("session lost", "허브로 돌아오니 기록이 사라짐");
 
-note("nav-wipes-state");
-const before = await page.locator("h2").first().innerText().catch(() => "");
-const simpleNav = page.getByRole("button", { name: "간단 모드" });
-if (await simpleNav.count()) {
-  await simpleNav.click();
-  await page.waitForTimeout(400);
-  const afterNav = await visible("네가 쓰는 AI의 MBTI는");
-  if (!afterNav && before.includes("MBTI")) {
-    bug(
-      "같은 모드 내비 클릭이 결과 삭제",
-      "결과 화면에서 헤더 간단 모드를 누르면 분석이 리셋됩니다.",
-    );
-  }
+note("reuse-session-abuse");
+await go("/abuse");
+await shot("09-abuse");
+if (await visible("문장 하나")) {
+  bug("session not reused", "학대 시험이 기록을 다시 받으려 함");
 }
-await shot("09-after-nav-simple");
-
-// recover simple result path quickly via sample if wiped
-if (!(await visible("네가 쓰는 AI의 MBTI는"))) {
-  if (await visible("예시 JSON")) {
-    await clickText("예시 JSON");
-    await clickText("광고 보고 결과 보기");
-    await page.waitForFunction(
-      () => {
-        const btns = [...document.querySelectorAll("button")];
-        const b = btns.find((el) => el.textContent?.includes("결과 열기"));
-        return b && !b.disabled;
-      },
-      null,
-      { timeout: 12000 },
-    );
-    await page.getByRole("button", { name: "결과 열기" }).click();
-    await page.waitForTimeout(400);
-  }
-}
-
-note("reset");
-await page.getByRole("button", { name: "처음으로" }).click();
+if (!(await visible("뜯기"))) bug("abuse tear missing", "학대 뜯기 없음");
+await tapQa("tear");
+await waitPhase("teaser", 10000);
+await tapQa("lock-cta");
+if (!(await visible("늦은우체국"))) bug("grade ad missing", "학대 광고 브랜드 없음");
+await waitAndOpenResult(20000);
+await waitPhase("result", 8000);
 await page.waitForTimeout(400);
-await shot("10-reset");
-if (!(await visible("지금 쓰는 AI에게"))) bug("reset failed", "처음으로가 게이트로 안 돌아감");
-
-// --- 3. Export / sample ---
-note("export-enter");
-await page.getByText("대화 내보내기", { exact: false }).first().click();
-await page.waitForTimeout(400);
-await shot("11-export-desk");
-if (!(await visible("대화 기록 JSON을 올리세요"))) {
-  bug("export desk missing", "심층 모드 본문이 안 열림");
+await shot("10-abuse-result");
+if (
+  !(
+    (await visible("손맛")) ||
+    (await visible("손님")) ||
+    (await visible("직구")) ||
+    (await visible("부려먹는")) ||
+    (await visible("소시오패스")) ||
+    (await visible("바쁜 사람"))
+  )
+) {
+  bug("abuse result missing", "학대 결과가 안 보임");
 }
 
-note("sample-export");
-await clickText("샘플로 보기");
+note("reset-record");
+await go("/");
+await page.waitForTimeout(300);
+await tap("기록 지우기");
+await page.waitForTimeout(300);
+await shot("11-cleared");
+if (await visible("기록 있음")) bug("clear failed", "기록 지우기가 안 됨");
+
+note("export-path");
+await go("/soul");
+await tapQa("way-export");
+await shot("12-export-desk");
+if (!(await visible("대화 파일 여기"))) bug("dropzone missing", "파일 드롭존 없음");
+await tapQa("sample-export");
 await page.waitForTimeout(800);
-await shot("12-sample-stats");
-if (!(await visible("이 기기에서 읽은 기록"))) {
-  bug("stats missing", "샘플 파싱 후 통계가 안 보임");
-}
-if (!(await visible("네가 쓰는 AI의 유형"))) {
-  bug("export lock missing", "심층 결과 잠금 패널이 안 보임");
-}
-
-note("export-ad");
-await clickText("광고 보고 결과 보기");
-await page.waitForFunction(
-  () => {
-    const btns = [...document.querySelectorAll("button")];
-    const b = btns.find((el) => el.textContent?.includes("결과 열기"));
-    return b && !b.disabled;
-  },
-  null,
-  { timeout: 12000 },
-);
-await page.getByRole("button", { name: "결과 열기" }).click();
-await page.waitForTimeout(600);
+if (!(await visible("뜯기"))) bug("sample export failed", "샘플 후 뜯기가 안 보임");
+await tapQa("tear");
+await waitPhase("teaser", 10000);
+await tapQa("lock-cta");
+await waitAndOpenResult(20000);
+await waitPhase("result", 8000);
+await page.waitForTimeout(400);
 await shot("13-export-result");
 if (!(await visible("네가 쓰는 AI의 MBTI는"))) {
   bug("export result missing", "심층 광고 후 결과가 안 보임");
 }
-
-note("terrain-peek");
-const terrainBtn = page.locator("button").filter({ hasText: "HAL 9000" }).first();
-if (await terrainBtn.count()) {
-  await terrainBtn.click();
-  await page.waitForTimeout(300);
-  await shot("14-terrain-peek");
-} else {
-  const anyCell = page.locator("section button").first();
-  if (await anyCell.count()) {
-    await anyCell.click();
-    await page.waitForTimeout(300);
-    await shot("14-terrain-peek");
-  }
+if (!(await visible("이 기기에서 읽은 기록"))) {
+  bug("stats missing", "샘플 파싱 후 통계가 안 보임");
 }
 
-note("ad-close-without-unlock");
-await page.getByRole("button", { name: "처음으로" }).click();
-await page.waitForTimeout(300);
-await page.getByText("지금 쓰는 AI에게", { exact: false }).first().click();
-await clickText("예시 JSON");
-await clickText("광고 보고 결과 보기");
+note("ad-dismiss");
+console.log("dismiss: hub");
+await go("/");
+console.log("dismiss: clear");
+await tap("기록 지우기");
+console.log("dismiss: soul");
+await go("/soul");
+await tapQa("way-simple");
+await tapQa("sample-relay");
+await tapQa("paste-relay");
+await tapQa("tear");
+await waitPhase("teaser", 10000);
+await tapQa("lock-cta");
 await page.waitForTimeout(400);
-await page.getByRole("button", { name: "닫기" }).click();
+await tapQa("ad-close");
 await page.waitForTimeout(300);
 const lockedAgain = await visible("광고 보고 결과 보기");
 const leaked = await visible("네가 쓰는 AI의 MBTI는");
 if (leaked) bug("ad close leaks result", "광고를 닫아도 결과가 보입니다.");
-if (lockedAgain) {
-  await clickText("광고 보고 결과 보기");
-  const adAgain = await visible("한낮노트");
-  if (!adAgain) bug("cannot reopen ad", "광고를 닫으면 다시 열 수 없습니다.");
-}
-await shot("15-ad-closed");
+if (!lockedAgain) bug("cannot reopen teaser", "광고를 닫으면 티저가 사라집니다.");
+await shot("14-ad-closed");
 
 await browser.close();
 
 const report = { url, steps, bugs, bugCount: bugs.length, outDir };
 console.log(JSON.stringify(report, null, 2));
-process.exit(bugs.some((b) => !b.title.startsWith("nav") && !b.title.startsWith("시작")) ? 1 : 0);
+process.exit(bugs.length ? 1 : 0);

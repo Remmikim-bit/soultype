@@ -6,15 +6,27 @@ import { Button } from "@/components/ui/button";
 const ADS = {
   mbti: {
     brand: "한낮노트",
-    line: "대화 기록은 이 기기에만 남습니다.",
+    line: "기록은 이 기기에만 남는다.",
     hold: 7,
   },
   prompts: {
     brand: "잉크랩",
-    line: "같은 캐릭터로 그리는 영어 프롬프트 3개.",
+    line: "같은 얼굴로 그리는 영어 문장.",
     hold: 8,
   },
+  grade: {
+    brand: "늦은우체국",
+    line: "점수는 광고 뒤에.",
+    hold: 6,
+  },
+  extra: {
+    brand: "잉크랩",
+    line: "한 줄 더.",
+    hold: 6,
+  },
 } as const;
+
+const endsAt = new Map<string, number>();
 
 export function AdGate({
   kind,
@@ -28,16 +40,24 @@ export function AdGate({
   onComplete: () => void;
 }) {
   const ad = ADS[kind];
-  const [left, setLeft] = useState(0);
+  const [left, setLeft] = useState<number>(ad.hold);
 
   useEffect(() => {
-    if (!open) return;
-    setLeft(ad.hold);
-    const id = window.setInterval(() => {
-      setLeft((n) => (n <= 1 ? 0 : n - 1));
-    }, 1000);
+    if (!open) {
+      endsAt.delete(kind);
+      setLeft(ad.hold);
+      return;
+    }
+    if (!endsAt.has(kind)) endsAt.set(kind, Date.now() + ad.hold * 1000);
+    const tick = () => {
+      const end = endsAt.get(kind) ?? Date.now();
+      const rem = Math.max(0, Math.ceil((end - Date.now()) / 1000));
+      setLeft(rem);
+    };
+    tick();
+    const id = window.setInterval(tick, 200);
     return () => window.clearInterval(id);
-  }, [open, ad.hold]);
+  }, [open, kind, ad.hold]);
 
   if (!open) return null;
 
@@ -50,6 +70,7 @@ export function AdGate({
       role="dialog"
       aria-modal="true"
       aria-labelledby="ad-title"
+      data-qa="ad-gate"
     >
       <div className="sheet w-full max-w-lg p-6 md:p-8">
         <p className="kicker">광고</p>
@@ -71,10 +92,10 @@ export function AdGate({
             )}
           </p>
           <div className="flex gap-2">
-            <Button variant="ghost" size="sm" onClick={onClose}>
+            <Button variant="ghost" size="sm" onClick={onClose} data-qa="ad-close">
               닫기
             </Button>
-            <Button size="sm" disabled={left > 0} onClick={onComplete}>
+            <Button size="sm" disabled={left > 0} onClick={onComplete} data-qa="ad-unlock">
               결과 열기
             </Button>
           </div>

@@ -8,7 +8,6 @@ import {
   idleParams,
   lerpParams,
   mixRgb,
-  paramLabel,
   paramsFromAxes,
   QUAD_TOKEN,
   readTokenRgb,
@@ -206,7 +205,6 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       document.documentElement.style.setProperty("--mood-x", ptr.x.toFixed(3));
       document.documentElement.style.setProperty("--mood-y", ptr.y.toFixed(3));
 
-      if (formRef.current) formRef.current.textContent = paramLabel(params);
       if (captionRef.current) captionRef.current.textContent = p.caption ?? "";
 
       renderer.render(scene, camera);

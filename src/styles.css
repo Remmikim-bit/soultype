@@ -178,8 +178,8 @@
   }
 
   .proscenium {
-    height: 38dvh;
-    min-height: 12rem;
+    height: 22dvh;
+    min-height: 7.5rem;
     pointer-events: none;
   }
 
@@ -190,7 +190,7 @@
     width: min(40rem, 100%);
     gap: 2.5rem;
     padding-inline: 1.25rem;
-    padding-bottom: 7rem;
+    padding-bottom: 9rem;
   }
 
   .overlay-veil {
@@ -219,6 +219,26 @@
 
   .cta-row:active {
     transform: scale(0.96);
+  }
+
+  .ad-slot {
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-xl);
+    background: color-mix(in oklab, var(--color-bg) 72%, transparent);
+    box-shadow: var(--shadow-border);
+  }
+
+  .theater-line {
+    animation: fade-up 500ms var(--ease-out) both;
+  }
+
+  .theater-bar {
+    width: 0;
+    animation: theater-fill 2.8s linear forwards;
+  }
+
+  .soul-form-label {
+    display: none;
   }
 
   .tint-in {
@@ -267,6 +287,7 @@
   }
 
   .soul-form-label {
+    display: none;
     position: absolute;
     top: 5.75rem;
     left: 50%;
@@ -358,7 +379,7 @@
 
   .overlay-col {
     padding-inline: 2rem;
-    padding-bottom: 4rem;
+    padding-bottom: 6rem;
   }
 
   .overlay-veil {
@@ -411,5 +432,14 @@
     opacity: 1;
     transform: translateY(0);
     filter: blur(0);
+  }
+}
+
+@keyframes theater-fill {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
   }
 }

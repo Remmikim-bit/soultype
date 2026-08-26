@@ -13,7 +13,7 @@ export const Route = createRootRoute({
       { title: APP_NAME },
       {
         name: "description",
-        content: "대화 내보내기로 네가 쓰는 AI의 성격을 읽습니다. 파싱은 이 기기에서만.",
+        content: "대화 한 번 올리면 여러 번 뜯는다. 파싱은 이 기기에서만.",
       },
       { name: "theme-color", content: "#0e0e0e" },
     ],

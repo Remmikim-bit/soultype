@@ -48,9 +48,9 @@ export function DropZone({
           over && "shadow-[var(--shadow-border-hover)]",
         )}
       >
-        <p className="font-serif text-2xl tracking-tight text-fg md:text-3xl">대화 내보내기 JSON을 놓으세요</p>
+        <p className="font-serif text-2xl tracking-tight text-fg md:text-3xl">대화 파일 여기</p>
         <p className="mt-3 max-w-md text-sm text-muted">
-          Grok, ChatGPT, Claude JSON. 이 기기에서만 읽고, 원문 대화는 서버로 보내지 않습니다.
+          Grok, ChatGPT, Claude JSON. 이 기기에서만 연다. 원문은 안 나간다.
         </p>
         <p className="mt-6 text-sm text-accent">conversations.json</p>
       </button>
@@ -67,7 +67,7 @@ export function DropZone({
         <Button arrow onClick={() => inputRef.current?.click()} disabled={busy}>
           JSON 선택
         </Button>
-        <Button variant="ghost" onClick={onSample} disabled={busy}>
+        <Button variant="ghost" onClick={onSample} disabled={busy} data-qa="sample-export">
           샘플로 보기
         </Button>
       </div>

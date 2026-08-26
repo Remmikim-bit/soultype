@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 export function MbtiCard({ analysis }: { analysis: AnalysisResult }) {
   return (
-    <article className={cn("overflow-hidden", QUADRANT_TINT[analysis.quadrant])}>
+    <article className={cn("overflow-hidden", QUADRANT_TINT[analysis.quadrant])} data-qa="mbti-card">
       <div className="grid gap-4 p-6 md:p-8">
         <p className="kicker">{analysis.quadrantTitle}</p>
         <h2 className="font-serif text-3xl tracking-tight md:text-4xl">
@@ -59,11 +59,11 @@ export function LockedPanel({
   onAction: () => void;
 }) {
   return (
-    <section className="sheet p-6 md:p-8">
+    <section className="sheet p-6 md:p-8" data-qa="lock-panel">
       <p className="kicker">{kicker}</p>
       <h2 className="mt-3 font-serif text-3xl tracking-tight md:text-4xl">{title}</h2>
       <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted">{body}</p>
-      <button type="button" onClick={onAction} className="cta-row mt-4">
+      <button type="button" onClick={onAction} className="cta-row mt-4" data-qa="lock-cta">
         <span className="font-serif text-xl">{action}</span>
         <ArrowGlyph className="size-5 shrink-0" />
       </button>

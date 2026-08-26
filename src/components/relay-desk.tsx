@@ -44,10 +44,10 @@ export function RelayDesk({
   return (
     <section className="grid gap-8">
       <div className="glass grid max-w-xl gap-3 p-5 md:p-6">
-        <p className="kicker">간단</p>
-        <h1 className="font-serif text-3xl tracking-tight md:text-4xl">이 문장을 지금 쓰는 AI에 붙이세요</h1>
+        <p className="kicker">문장 하나</p>
+        <h1 className="font-serif text-3xl tracking-tight md:text-4xl">이 문장 넣고, 돌아온 거 붙여</h1>
         <p className="text-sm text-muted">
-          Grok, ChatGPT, Claude 어디든 됩니다. AI가 준 JSON을 아래에 다시 붙이면 유형을 봅니다.
+          Grok, ChatGPT, Claude 어디든. JSON만 다시 가져오면 된다.
         </p>
       </div>
       <div className="sheet p-4 md:p-5">
@@ -57,6 +57,7 @@ export function RelayDesk({
             <Button
               variant="ghost"
               size="sm"
+              data-qa="sample-relay"
               onClick={() => {
                 setPaste(SAMPLE_RELAY);
                 setOpenPaste(true);
@@ -85,8 +86,8 @@ export function RelayDesk({
             className="w-full resize-y rounded-xl bg-surface px-4 py-3 font-mono text-xs text-fg shadow-[var(--shadow-border)] outline-none placeholder:text-subtle"
           />
           <div className="flex flex-wrap items-center gap-2">
-            <Button disabled={!parsedOk || busy} arrow onClick={run}>
-              {busy ? "읽는 중" : "광고 보고 결과 보기"}
+            <Button disabled={!parsedOk || busy} arrow onClick={run} data-qa="paste-relay">
+              {busy ? "읽는 중" : "붙이기"}
             </Button>
           </div>
           {paste && !parsedOk ? (
@@ -95,7 +96,7 @@ export function RelayDesk({
           {error ? <p className="text-sm text-muted">{error}</p> : null}
         </div>
       ) : (
-        <p className="text-sm text-muted">복사한 문장을 AI에 넣고, 돌아온 답을 가져오면 붙여넣기 칸이 열립니다.</p>
+        <p className="text-sm text-muted">복사해서 넣고, 돌아온 답을 가져오면 칸이 열린다.</p>
       )}
     </section>
   );
