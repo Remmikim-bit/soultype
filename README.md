@@ -10,10 +10,21 @@
 2. **심층 모드** — Grok / ChatGPT / Claude 대화 내보내기 JSON을 이 기기에 올립니다.
 3. 광고를 보면 유형이 열리고, 한 번 더 보면 이미지 프롬프트 3개를 복사할 수 있습니다.
 
+## 저장소
+
+[Remmikim-bit/soultype](https://github.com/Remmikim-bit/soultype)
+
 ## 배포
 
-GitHub 저장소는 [Remmikim-bit/soultype](https://github.com/Remmikim-bit/soultype)입니다. Vercel에 연결하면 `npm run build`로 올라갑니다.
+Vercel 프로젝트 이름: `remmikim-bit-soultype`
 
-- 인증과 데이터베이스는 꺼져 있습니다.
-- `VITE_AUTH_ENABLED=false`는 프로덕션 기본값입니다.
-- `XAI_API_KEY`가 있으면 결과 문장을 다듬습니다. 없어도 유형은 나옵니다.
+이미 미리보기 배포가 올라가 있습니다. 이 연결 계정은 프로덕션 배포 권한이 없어서, 누구나 여는 주소는 Vercel 대시보드에서 한 번 열어줘야 합니다.
+
+1. [remmikim-bit-soultype](https://vercel.com/jhkims-projects-f8238bef/remmikim-bit-soultype) 프로젝트를 연다.
+2. Deployment Protection을 끈다. 끄면 미리보기 주소가 공개된다.
+3. Git 설정에서 `Remmikim-bit/soultype`을 연결하면 이후 푸시가 자동으로 배포된다.
+
+선택 환경 변수:
+
+- `VITE_AUTH_ENABLED=false` (이미 프로덕션 기본값)
+- `XAI_API_KEY` — 있으면 결과 문장을 다듬습니다. 없어도 유형은 나옵니다.
