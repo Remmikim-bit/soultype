@@ -255,10 +255,10 @@ export const CHARACTERS: Record<string, Character> = {
 };
 
 export const QUADRANT_TINT: Record<QuadrantId, string> = {
-  in: "bg-bold text-fg",
-  is: "bg-true text-accent-fg",
-  en: "bg-accent text-accent-fg",
-  es: "bg-soft text-accent-fg",
+  in: "sheet tint-in text-fg",
+  is: "sheet tint-is text-fg",
+  en: "sheet tint-en text-fg",
+  es: "sheet tint-es text-fg",
 };
 
 export const TERRAIN_ORDER: QuadrantId[] = ["in", "is", "en", "es"];

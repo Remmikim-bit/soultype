@@ -4,16 +4,13 @@ import { ArrowGlyph } from "@/components/hero-switch";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 min-h-11 px-4 text-sm font-normal uppercase tracking-wide transition-[color,background-color,opacity,box-shadow,transform] duration-300 ease-in-out active:scale-96 disabled:opacity-40 disabled:pointer-events-none disabled:active:scale-100 rounded-full",
+  "inline-flex items-center justify-center gap-2 min-h-11 px-4 text-sm font-normal transition-[color,background-color,opacity,box-shadow,transform] duration-300 ease-in-out active:scale-96 disabled:opacity-40 disabled:pointer-events-none disabled:active:scale-100 rounded-full",
   {
     variants: {
       variant: {
-        primary: "bg-accent text-accent-fg hover:opacity-50",
-        ghost:
-          "bg-transparent text-fg shadow-[var(--shadow-border)] hover:shadow-[var(--shadow-border-hover)] hover:opacity-70",
-        quiet: "bg-raised text-fg hover:opacity-70",
-        true: "bg-true text-accent-fg hover:opacity-70",
-        bold: "bg-bold text-fg hover:opacity-70",
+        primary: "bg-accent text-accent-fg hover:opacity-70",
+        ghost: "bg-transparent text-fg shadow-[var(--shadow-border)] hover:shadow-[var(--shadow-border-hover)] hover:opacity-70",
+        quiet: "bg-surface text-fg hover:opacity-70",
       },
       size: {
         default: "h-11",

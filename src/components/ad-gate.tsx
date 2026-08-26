@@ -41,6 +41,9 @@ export function AdGate({
 
   if (!open) return null;
 
+  const elapsed = ad.hold - left;
+  const progress = Math.min(100, (elapsed / ad.hold) * 100);
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-end justify-center bg-bg/85 p-4 md:items-center"
@@ -48,12 +51,14 @@ export function AdGate({
       aria-modal="true"
       aria-labelledby="ad-title"
     >
-      <div className="w-full max-w-lg rounded-2xl bg-raised p-6 md:p-8">
-        <p className="text-sm text-accent">광고</p>
-        <div className="mt-6 aspect-video rounded-2xl bg-surface p-6">
+      <div className="sheet w-full max-w-lg p-6 md:p-8">
+        <p className="kicker">광고</p>
+        <div className="mt-6 aspect-video rounded-xl bg-surface p-6">
           <p className="font-serif text-4xl text-fg">{ad.brand}</p>
           <p className="mt-3 max-w-sm text-sm text-muted">{ad.line}</p>
-          <div className="mt-8 size-10 rounded-full bg-accent" />
+          <div className="relative mt-10 h-px bg-line">
+            <span className="absolute inset-y-0 left-0 bg-accent" style={{ width: `${progress}%` }} />
+          </div>
         </div>
         <div className="mt-6 flex items-center justify-between gap-3">
           <p id="ad-title" className="text-sm text-muted">

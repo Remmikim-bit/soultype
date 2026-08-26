@@ -8,8 +8,8 @@ export function PromptList({ prompts }: { prompts: ImagePrompt[] }) {
   return (
     <section className="grid gap-3">
       <div>
-        <p className="text-sm text-accent">이미지</p>
-        <h2 className="mt-1 font-serif text-4xl tracking-tight">이미지 프롬프트</h2>
+        <p className="kicker">이미지</p>
+        <h2 className="mt-2 font-serif text-4xl tracking-tight">이미지 프롬프트</h2>
         <p className="mt-2 max-w-lg text-sm text-muted">
           이미지 생성기에 그대로 붙여 넣으세요. 로고와 네온은 빼 두었습니다.
         </p>
@@ -37,7 +37,7 @@ function PromptRow({ index, prompt }: { index: number; prompt: ImagePrompt }) {
   };
 
   return (
-    <li className="rounded-2xl bg-raised p-5">
+    <li className="sheet p-5">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="font-mono text-xs tabular-nums text-subtle">{String(index).padStart(2, "0")}</p>

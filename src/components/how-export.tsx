@@ -17,10 +17,10 @@ export function HowExport() {
   return (
     <section className="grid gap-4">
       <h2 className="font-serif text-2xl tracking-tight">JSON은 여기서 받습니다</h2>
-      <ol className="grid gap-3 md:grid-cols-3">
+      <ol className="grid gap-3">
         {STEPS.map((s) => (
-          <li key={s.who} className="rounded-2xl bg-raised p-5">
-            <p className="text-sm text-accent">{s.who}</p>
+          <li key={s.who} className="sheet p-5">
+            <p className="kicker">{s.who}</p>
             <p className="mt-2 text-sm text-muted">{s.body}</p>
           </li>
         ))}

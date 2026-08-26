@@ -18,10 +18,9 @@ export function AxisStack({ axes }: { axes: AxisScores; live?: boolean }) {
               <span className={cn(activeLeft ? "text-fg" : "text-subtle")}>{m.left.letter}</span>
               <span className={cn(activeRight ? "text-fg" : "text-subtle")}>{m.right.letter}</span>
             </div>
-            <div className="relative mt-2 h-2 rounded-full bg-raised">
-              <span className="absolute inset-y-0 left-1/2 w-px bg-line" />
+            <div className="relative mt-2 h-px bg-line">
               <span
-                className="absolute top-1/2 size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent ring-4 ring-raised transition-[left] duration-300 ease-[var(--ease-out)]"
+                className="absolute top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent transition-[left] duration-300 ease-[var(--ease-out)]"
                 style={{ left: `${pct}%` }}
               />
             </div>

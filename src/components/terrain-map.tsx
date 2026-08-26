@@ -15,8 +15,8 @@ export function TerrainMap({
   return (
     <section className="grid gap-4">
       <div>
-        <p className="text-sm text-accent">2050</p>
-        <h2 className="mt-1 font-serif text-4xl tracking-tight">AI의 2050년 모습</h2>
+        <p className="kicker">2050</p>
+        <h2 className="mt-2 font-serif text-4xl tracking-tight">AI의 2050년 모습</h2>
       </div>
       <div className={cn("relative", locked && "select-none")}>
         <div
@@ -36,8 +36,8 @@ export function TerrainMap({
                   {cells.map((c) => {
                     const on = Boolean(active) && c.mbti === active;
                     const className = cn(
-                      "rounded-full px-3 py-3 text-left transition-[background-color,color,opacity] duration-300 ease-in-out",
-                      on ? "bg-bg text-fg" : "bg-bg/20",
+                      "rounded-lg px-3 py-3 text-left transition-[color,opacity,box-shadow] duration-300 ease-in-out",
+                      on ? "text-accent shadow-[var(--shadow-border-hover)]" : "bg-surface/70",
                       onPick && !on ? "hover:opacity-80" : "",
                     );
                     const inner = (
@@ -63,7 +63,7 @@ export function TerrainMap({
         </div>
         {locked ? (
           <div className="absolute inset-0 flex items-end justify-center rounded-2xl bg-bg/20 p-6">
-            <p className="rounded-full bg-raised px-4 py-2 text-sm text-muted">
+            <p className="rounded-full bg-bg px-4 py-2 text-sm text-muted">
               광고를 보면 이 지도가 선명해집니다
             </p>
           </div>

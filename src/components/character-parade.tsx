@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { TypeMark } from "@/components/type-mark";
 import { CHARACTERS } from "@/lib/characters";
 import { cn } from "@/lib/utils";
 
@@ -95,22 +94,18 @@ function ParadeRow({
             <article
               key={`${c.mbti}-${i}`}
               className={cn(
-                "flex shrink-0 items-center gap-3 rounded-2xl px-3",
-                compact ? "w-52 py-2" : "w-56 py-3",
-                on ? "bg-accent text-accent-fg" : "bg-raised",
+                "flex shrink-0 items-baseline gap-3 rounded-xl px-3",
+                compact ? "w-48 py-2" : "w-56 py-3",
+                on ? "sheet text-accent" : "sheet text-fg",
               )}
             >
-              <TypeMark
-                mbti={c.mbti}
-                className={cn(compact ? "size-10" : "size-12", on ? "text-accent-fg" : "text-accent")}
-              />
               <div className="min-w-0 flex-1">
                 <p className="truncate font-serif text-sm leading-tight">{c.name}</p>
-                <p className={cn("text-xs tabular-nums", on ? "text-accent-fg/70" : "text-subtle")}>
+                <p className={cn("font-mono text-xs tabular-nums", on ? "text-accent" : "text-subtle")}>
                   {c.mbti}
                 </p>
               </div>
-              <p className={cn("text-sm tabular-nums", on ? "text-accent-fg" : "text-accent")}>
+              <p className={cn("text-sm tabular-nums", on ? "text-accent" : "text-muted")}>
                 {pct.toFixed(1)}
                 <span className="text-xs">%</span>
               </p>

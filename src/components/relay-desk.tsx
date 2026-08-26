@@ -44,15 +44,15 @@ export function RelayDesk({
   return (
     <section className="grid gap-8">
       <div className="grid max-w-xl gap-3">
-        <p className="text-sm text-accent">간단 모드</p>
-        <h1 className="font-serif text-4xl tracking-tight md:text-6xl">이 문장을 지금 쓰는 AI에 붙여넣으세요</h1>
+        <p className="kicker">간단</p>
+        <h1 className="font-serif text-3xl tracking-tight md:text-4xl">이 문장을 지금 쓰는 AI에 붙이세요</h1>
         <p className="text-sm text-muted">
           Grok, ChatGPT, Claude 어디든 됩니다. AI가 준 JSON을 아래에 다시 붙이면 유형을 봅니다.
         </p>
       </div>
-      <div className="rounded-2xl bg-raised p-4 md:p-5">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <p className="font-mono text-xs text-subtle">st.v1 / measure</p>
+      <div className="sheet p-4 md:p-5">
+        <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <p className="font-mono text-xs text-subtle">st.v1</p>
           <div className="flex gap-2">
             <Button
               variant="ghost"
@@ -82,7 +82,7 @@ export function RelayDesk({
             onChange={(e) => setPaste(e.target.value)}
             rows={8}
             placeholder='{"schema":"st.v1","vec":[...]}'
-            className="w-full resize-y rounded-2xl bg-raised px-4 py-3 font-mono text-xs text-fg outline-none placeholder:text-subtle"
+            className="w-full resize-y rounded-xl bg-surface px-4 py-3 font-mono text-xs text-fg shadow-[var(--shadow-border)] outline-none placeholder:text-subtle"
           />
           <div className="flex flex-wrap items-center gap-2">
             <Button disabled={!parsedOk || busy} arrow onClick={run}>

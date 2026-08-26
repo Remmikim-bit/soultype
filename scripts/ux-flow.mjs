@@ -57,7 +57,7 @@ note("gate");
 await shot("01-gate");
 if (!(await visible("네가 쓰는"))) bug("gate title missing", "히어로 제목이 안 보임");
 if (!(await visible("지금 쓰는 AI에게"))) bug("simple cta missing", "간단 CTA 없음");
-if (!(await visible("대화 기록 올리기"))) bug("export cta missing", "심층 CTA 없음");
+if (!(await visible("대화 내보내기"))) bug("export cta missing", "심층 CTA 없음");
 
 const startBtn = page.getByRole("button", { name: "시작" });
 if (await startBtn.count()) {
@@ -151,14 +151,17 @@ if (!(await visible("이미지 프롬프트"))) {
 
 note("nav-wipes-state");
 const before = await page.locator("h2").first().innerText().catch(() => "");
-await page.getByRole("button", { name: "간단 모드" }).click();
-await page.waitForTimeout(400);
-const afterNav = await visible("네가 쓰는 AI의 MBTI는");
-if (!afterNav && before.includes("MBTI")) {
-  bug(
-    "같은 모드 내비 클릭이 결과 삭제",
-    "결과 화면에서 헤더 간단 모드를 누르면 분석이 리셋됩니다.",
-  );
+const simpleNav = page.getByRole("button", { name: "간단 모드" });
+if (await simpleNav.count()) {
+  await simpleNav.click();
+  await page.waitForTimeout(400);
+  const afterNav = await visible("네가 쓰는 AI의 MBTI는");
+  if (!afterNav && before.includes("MBTI")) {
+    bug(
+      "같은 모드 내비 클릭이 결과 삭제",
+      "결과 화면에서 헤더 간단 모드를 누르면 분석이 리셋됩니다.",
+    );
+  }
 }
 await shot("09-after-nav-simple");
 
@@ -189,7 +192,7 @@ if (!(await visible("지금 쓰는 AI에게"))) bug("reset failed", "처음으�
 
 // --- 3. Export / sample ---
 note("export-enter");
-await page.getByText("대화 기록 올리기", { exact: false }).first().click();
+await page.getByText("대화 내보내기", { exact: false }).first().click();
 await page.waitForTimeout(400);
 await shot("11-export-desk");
 if (!(await visible("대화 기록 JSON을 올리세요"))) {

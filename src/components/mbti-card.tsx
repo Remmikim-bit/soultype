@@ -1,21 +1,19 @@
 import { AxisStack } from "@/components/axis-stack";
 import { ArrowGlyph } from "@/components/hero-switch";
-import { TypeMark } from "@/components/type-mark";
+import { QUADRANT_TINT } from "@/lib/characters";
 import type { AnalysisResult } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 export function MbtiCard({ analysis }: { analysis: AnalysisResult }) {
   return (
-    <article className="overflow-hidden rounded-2xl bg-raised">
-      <div className="grid gap-8 p-6 md:grid-cols-[auto_1fr] md:p-8">
-        <TypeMark mbti={analysis.mbti} className="size-28 text-accent md:size-36" />
-        <div>
-          <p className="text-sm text-accent">
-            {analysis.quadrantTitle}
-          </p>
-          <h2 className="mt-3 font-serif text-4xl tracking-tight md:text-5xl">{analysis.headline}</h2>
-          <p className="mt-4 font-serif text-2xl text-fg">{analysis.characterName}</p>
-          <p className="mt-4 max-w-xl text-sm text-muted">{analysis.oneLiner}</p>
-        </div>
+    <article className={cn("overflow-hidden", QUADRANT_TINT[analysis.quadrant])}>
+      <div className="grid gap-4 p-6 md:p-8">
+        <p className="kicker">{analysis.quadrantTitle}</p>
+        <h2 className="font-serif text-3xl tracking-tight md:text-4xl">
+          네가 쓰는 AI의 MBTI는 {analysis.mbti}야
+        </h2>
+        <p className="font-serif text-xl text-muted">{analysis.characterName}</p>
+        <p className="max-w-xl text-sm leading-relaxed text-muted">{analysis.oneLiner}</p>
       </div>
       <div className="border-t border-line px-6 py-6 md:px-8">
         <AxisStack axes={analysis.axes} />
@@ -27,8 +25,8 @@ export function MbtiCard({ analysis }: { analysis: AnalysisResult }) {
       {analysis.traits.length > 0 ? (
         <ul className="grid gap-px bg-line md:grid-cols-2">
           {analysis.traits.map((t) => (
-            <li key={t.label} className="bg-raised px-6 py-5">
-              <p className="text-sm text-accent">{t.label}</p>
+            <li key={t.label} className="bg-bg/40 px-6 py-5">
+              <p className="text-sm text-fg">{t.label}</p>
               <p className="mt-2 text-sm text-muted">{t.body}</p>
             </li>
           ))}
@@ -40,8 +38,8 @@ export function MbtiCard({ analysis }: { analysis: AnalysisResult }) {
 
 function Block({ title, body }: { title: string; body: string }) {
   return (
-    <div className="bg-raised px-6 py-5">
-      <p className="text-sm text-accent">{title}</p>
+    <div className="bg-bg/40 px-6 py-5">
+      <p className="text-sm text-fg">{title}</p>
       <p className="mt-2 text-sm text-muted">{body}</p>
     </div>
   );
@@ -61,19 +59,13 @@ export function LockedPanel({
   onAction: () => void;
 }) {
   return (
-    <section className="rounded-2xl bg-raised p-6 md:p-8">
-      <p className="text-sm text-accent">{kicker}</p>
-      <h2 className="mt-3 font-serif text-4xl tracking-tight">{title}</h2>
-      <p className="mt-3 max-w-lg text-sm text-muted">{body}</p>
-      <button
-        type="button"
-        onClick={onAction}
-        className="mt-8 inline-flex min-h-11 items-center gap-3 rounded-full bg-accent py-1.5 pr-5 pl-1.5 text-sm text-accent-fg transition-opacity duration-300 hover:opacity-70 active:scale-96"
-      >
-        <span className="grid size-8 place-items-center rounded-full bg-bg text-fg">
-          <ArrowGlyph className="size-3.5" />
-        </span>
-        {action}
+    <section className="sheet p-6 md:p-8">
+      <p className="kicker">{kicker}</p>
+      <h2 className="mt-3 font-serif text-3xl tracking-tight md:text-4xl">{title}</h2>
+      <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted">{body}</p>
+      <button type="button" onClick={onAction} className="cta-row mt-4">
+        <span className="font-serif text-xl">{action}</span>
+        <ArrowGlyph className="size-5 shrink-0" />
       </button>
     </section>
   );

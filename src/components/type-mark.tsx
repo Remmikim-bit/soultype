@@ -43,11 +43,11 @@ export function TypeMark({
 export function BrandMark({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 32 32" className={cn("text-accent", className)} aria-hidden="true">
-      <circle cx="16" cy="16" r="15" fill="var(--color-raised)" />
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" strokeWidth="1.4" opacity="0.7" />
       <path
-        d="M16 6v20M6 16h20M8.8 8.8l14.4 14.4M23.2 8.8 8.8 23.2"
+        d="M16 7v18M7 16h18M9.2 9.2l13.6 13.6M22.8 9.2 9.2 22.8"
         stroke="currentColor"
-        strokeWidth="2.2"
+        strokeWidth="1.6"
         strokeLinecap="round"
       />
     </svg>

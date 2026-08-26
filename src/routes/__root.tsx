@@ -15,7 +15,7 @@ export const Route = createRootRoute({
         name: "description",
         content: "대화 내보내기로 네가 쓰는 AI의 성격을 읽습니다. 파싱은 이 기기에서만.",
       },
-      { name: "theme-color", content: "#131313" },
+      { name: "theme-color", content: "#0e0e0e" },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },

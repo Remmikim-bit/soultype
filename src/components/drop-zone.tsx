@@ -44,8 +44,8 @@ export function DropZone({
           take(e.dataTransfer.files[0]);
         }}
         className={cn(
-          "rounded-2xl px-6 py-16 text-left transition-[box-shadow,background-color,opacity] duration-300",
-          over ? "bg-raised shadow-[var(--shadow-border-hover)]" : "bg-raised",
+          "sheet px-6 py-14 text-left transition-[box-shadow,opacity] duration-300",
+          over && "shadow-[var(--shadow-border-hover)]",
         )}
       >
         <p className="font-serif text-2xl tracking-tight text-fg md:text-3xl">대화 내보내기 JSON을 놓으세요</p>
