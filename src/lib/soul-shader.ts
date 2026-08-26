@@ -12,8 +12,7 @@ uniform vec2 uOffset;
 uniform vec3 uColA;
 uniform vec3 uColB;
 uniform vec3 uBg;
-uniform vec4 uW;
-uniform float uDrop;
+uniform vec4 uForm;
 uniform float uScale;
 uniform float uWarp;
 uniform float uSteps;
@@ -25,85 +24,74 @@ float smin(float a, float b, float k) {
   return mix(b, a, h) - k * h * (1.0 - h);
 }
 
+float smax(float a, float b, float k) {
+  return -smin(-a, -b, k);
+}
+
 mat2 rot(float a) {
   float c = cos(a), s = sin(a);
   return mat2(c, -s, s, c);
 }
 
-float sdSphere(vec3 p, float r) {
-  return length(p) - r;
+vec3 vertDir(int i) {
+  if (i == 0) return vec3(0.0, -1.0, 0.0);
+  if (i == 1) return vec3(0.9428, 0.3333, 0.0);
+  if (i == 2) return vec3(-0.4714, 0.3333, 0.8165);
+  if (i == 3) return vec3(-0.4714, 0.3333, -0.8165);
+  if (i == 4) return vec3(0.0, 1.0, 0.0);
+  if (i == 5) return vec3(0.809, -0.15, 0.567);
+  if (i == 6) return vec3(-0.809, -0.15, 0.567);
+  return vec3(0.0, 0.18, -0.984);
 }
 
-float sdBox(vec3 p, vec3 b) {
-  p.yz *= rot(0.38);
-  p.xz *= rot(0.55);
-  vec3 q = abs(p) - b;
-  return length(max(q, 0.0)) + min(max(q.x, max(q.y, q.z)), 0.0);
-}
-
-float sdTorus(vec3 p, vec2 t) {
-  p.yz *= rot(0.32);
-  vec2 q = vec2(length(p.xy) - t.x, p.z);
-  return length(q) - t.y;
-}
-
-float sdOcta(vec3 p, float s) {
-  p.xz *= rot(0.2);
-  p = abs(p);
-  return (p.x + p.y + p.z - s) * 0.57735027;
-}
-
-float sdDrop(vec3 p) {
-  p.y += 0.18;
-  float k = clamp(-p.y * 1.15, 0.0, 2.0);
-  p.xz *= 1.0 + k * 1.05;
-  p.y *= 0.62;
-  return length(p) - 0.5;
+float alive(float n, float i) {
+  return smoothstep(i, i + 1.0, n);
 }
 
 float map(vec3 p) {
+  float n = clamp(uForm.x, 0.0, 8.0);
+  float sharp = clamp(uForm.y, 0.0, 1.0);
+  float hull = clamp(uForm.z, 0.0, 1.0);
+  float stretch = clamp(uForm.w, 0.0, 1.0);
+  float size = max(uScale, 0.35);
+
   p.x -= uOffset.x * 1.15;
   p.y -= uOffset.y * 0.95;
-  p.xz *= rot(0.22 + 0.1 * sin(uTime * 0.22) + uPtr.x * 0.14);
-  p /= max(uScale, 0.45);
+  p.xz *= rot(0.18 + 0.12 * sin(uTime * 0.19) + uPtr.x * 0.16);
+  p.yz *= rot(uPtr.y * 0.12);
 
-  float w = uWarp * 0.1;
+  float a0 = alive(n, 0.0);
+  float drop = a0 * (1.0 - hull) * stretch;
+  p.y *= mix(1.0, 0.7, drop);
+  p.xz *= mix(1.0, 1.0 + max(-p.y, 0.0) * 0.42, drop);
+
+  float w = uWarp * 0.11;
   p += w * vec3(
-    sin(p.y * 1.6 + uTime * 0.35),
-    sin(p.z * 1.5 + uTime * 0.32),
-    sin(p.x * 1.55 + uTime * 0.3)
+    sin(p.y * 1.7 + uTime * 0.32),
+    sin(p.z * 1.5 + uTime * 0.28),
+    sin(p.x * 1.6 + uTime * 0.3)
   );
 
-  float wSum = max(uW.x + uW.y + uW.z + uW.w + uDrop, 0.0001);
-  float wS = uW.x / wSum;
-  float wB = uW.y / wSum;
-  float wT = uW.z / wSum;
-  float wO = uW.w / wSum;
-  float wD = uDrop / wSum;
+  float rad = length(p);
+  vec3 dir = p / max(rad, 1e-4);
 
-  float dS = sdSphere(p, 0.82);
-  float dB = sdBox(p, vec3(0.66));
-  float dT = sdTorus(p, vec2(0.78, 0.17));
-  float dO = sdOcta(p, 1.12);
-  float dD = sdDrop(p);
+  float sp = 0.0;
+  float dH = rad - size * 1.04;
+  float kFace = mix(0.26, 0.03, sharp);
+  float kLobe = mix(2.4, 16.0, sharp);
+  float amp = mix(0.2, 0.52, sharp);
 
-  float dMix = dS * wS + dB * wB + dT * wT + dO * wO + dD * wD;
-  float push = 1.15;
-  float dHold = 8.0;
-  dHold = min(dHold, dS + (1.0 - wS) * push);
-  dHold = min(dHold, dB + (1.0 - wB) * push);
-  dHold = min(dHold, dT + (1.0 - wT) * push);
-  dHold = min(dHold, dO + (1.0 - wO) * push);
-  dHold = min(dHold, dD + (1.0 - wD) * push);
-  float dominate = max(wS, max(wB, max(wT, max(wO, wD))));
-  float d = mix(dMix, dHold, smoothstep(0.58, 0.9, dominate));
+  for (int i = 0; i < 8; i++) {
+    float a = alive(n, float(i));
+    vec3 v = vertDir(i);
+    float lobe = pow(max(dot(dir, v), 0.0), kLobe);
+    sp = smax(sp, a * lobe, 0.1);
+    float plane = dot(p, v) - size * mix(1.9, 0.56, a);
+    dH = smax(dH, plane, kFace);
+  }
 
-  float organic = clamp(wS + wD, 0.0, 1.0);
-  vec3 o1 = vec3(sin(uTime * 0.33) * 1.05, 0.08 + 0.4 * cos(uTime * 0.29), 0.14);
-  vec3 o2 = vec3(cos(uTime * 0.27 + 1.4) * 0.9, -0.32 * sin(uTime * 0.31), -0.08);
-  d = smin(d, sdSphere(p - o1, 0.15) + (1.0 - organic) * 2.8, 0.07);
-  d = smin(d, sdSphere(p - o2, 0.11) + (1.0 - organic) * 2.8, 0.06);
-  return d;
+  float dS = rad - size * (1.0 + amp * sp);
+  return mix(dS, dH, hull);
 }
 
 vec3 nrm(vec3 p) {
@@ -135,7 +123,7 @@ void main() {
     if (float(i) >= uSteps) break;
     float d = map(ro + rd * t);
     if (d < 0.001) { hit = 1.0; break; }
-    t += d;
+    t += d * 0.86;
     if (t > 8.0) break;
   }
 

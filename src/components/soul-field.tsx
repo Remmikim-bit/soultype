@@ -5,15 +5,15 @@ import * as THREE from "three";
 import type { QuadrantId } from "@/lib/characters";
 import { SOUL_FRAG, SOUL_VERT } from "@/lib/soul-shader";
 import {
-  dominantForm,
-  idleMorph,
-  lerpMorph,
+  idleParams,
+  lerpParams,
   mixRgb,
-  morphFromAxes,
+  paramLabel,
+  paramsFromAxes,
   QUAD_TOKEN,
   readTokenRgb,
   rgbToHex,
-  type SoulMorph,
+  type SoulParams,
   type SoulStage,
 } from "@/lib/soul-shape";
 import type { AxisScores } from "@/lib/types";
@@ -70,10 +70,9 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       uColA: { value: new THREE.Vector3(0.55, 0.87, 0.55) },
       uColB: { value: new THREE.Vector3(0.38, 0.4, 0.93) },
       uBg: { value: new THREE.Vector3(bg[0], bg[1], bg[2]) },
-      uW: { value: new THREE.Vector4(1, 0, 0, 0) },
-      uDrop: { value: 0 },
-      uScale: { value: 1 },
-      uWarp: { value: 0.3 },
+      uForm: { value: new THREE.Vector4(0.4, 0.2, 0.15, 0.3) },
+      uScale: { value: 0.66 },
+      uWarp: { value: 0.2 },
       uSteps: { value: 48 },
       uPresence: { value: 1 },
       uReduced: { value: 0 },
@@ -95,7 +94,7 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
     const soft = readTokenRgb("--color-soft");
 
     const ptr = { x: 0, y: 0, tx: 0, ty: 0 };
-    const morph: SoulMorph = idleMorph(0);
+    const params: SoulParams = idleParams(0);
     const colA: [number, number, number] = [accent[0], accent[1], accent[2]];
     const colB: [number, number, number] = [bold[0], bold[1], bold[2]];
     const offset = { x: 0, y: 0.08 };
@@ -156,16 +155,15 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       ptr.y = damp(ptr.y, ptr.ty, dt, tauPtr);
 
       const t = now * 0.001;
-      const targetMorph = p.axes ? morphFromAxes(p.axes) : idleMorph(t);
-      const tauMorph = p.axes ? (p.locked ? 0.55 : 0.8) : 0.28;
-      const blend = lerpMorph(morph, targetMorph, 1 - Math.exp(-dt / tauMorph));
-      morph.sphere = blend.sphere;
-      morph.box = blend.box;
-      morph.torus = blend.torus;
-      morph.octa = blend.octa;
-      morph.drop = blend.drop;
-      morph.scale = blend.scale;
-      morph.warp = blend.warp;
+      const target = p.axes ? paramsFromAxes(p.axes) : idleParams(t);
+      const tauMorph = p.axes ? (p.locked ? 0.7 : 0.95) : 0.4;
+      const blend = lerpParams(params, target, 1 - Math.exp(-dt / tauMorph));
+      params.verts = blend.verts;
+      params.sharp = blend.sharp;
+      params.hull = blend.hull;
+      params.size = blend.size;
+      params.warp = blend.warp;
+      params.stretch = blend.stretch;
 
       const ux = (ptr.x + 1) * 0.5;
       const uy = (ptr.y + 1) * 0.5;
@@ -197,10 +195,9 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       uniforms.uOffset.value.set(offset.x, offset.y);
       uniforms.uColA.value.set(colA[0], colA[1], colA[2]);
       uniforms.uColB.value.set(colB[0], colB[1], colB[2]);
-      uniforms.uW.value.set(morph.sphere, morph.box, morph.torus, morph.octa);
-      uniforms.uDrop.value = morph.drop;
-      uniforms.uScale.value = morph.scale * (mobile ? 1.08 : 1);
-      uniforms.uWarp.value = morph.warp;
+      uniforms.uForm.value.set(params.verts, params.sharp, params.hull, params.stretch);
+      uniforms.uScale.value = params.size * (mobile ? 1.08 : 1);
+      uniforms.uWarp.value = params.warp;
       uniforms.uPresence.value = presence;
 
       const mood = rgbToHex(colA);
@@ -209,10 +206,7 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       document.documentElement.style.setProperty("--mood-x", ptr.x.toFixed(3));
       document.documentElement.style.setProperty("--mood-y", ptr.y.toFixed(3));
 
-      if (formRef.current) {
-        const dom = dominantForm(morph);
-        if (morph[dom.key] > 0.7) formRef.current.textContent = dom.label;
-      }
+      if (formRef.current) formRef.current.textContent = paramLabel(params);
       if (captionRef.current) captionRef.current.textContent = p.caption ?? "";
 
       renderer.render(scene, camera);
