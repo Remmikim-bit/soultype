@@ -118,7 +118,8 @@ function Home() {
       />
 
       <header className="pointer-events-none fixed inset-x-0 top-0 z-50">
-        <div className="site-header mx-auto flex max-w-5xl items-center justify-between gap-3 px-5 md:px-8">
+        <div className="site-header mx-auto flex max-w-5xl px-5 md:px-8">
+          <div className="glass-bar pointer-events-auto flex w-full items-center justify-between gap-3 px-4 py-2.5">
           <button
             type="button"
             onClick={reset}
@@ -155,6 +156,7 @@ function Home() {
             )}
           </div>
         </div>
+        </div>
       </header>
 
       {mode ? (
@@ -188,7 +190,7 @@ function Home() {
 
             {mode === "export" && !parsed ? (
               <>
-                <section className="grid max-w-xl gap-3">
+                <section className="glass grid max-w-xl gap-3 p-5 md:p-6">
                   <p className="kicker">심층</p>
                   <h1 className="font-serif text-3xl tracking-tight md:text-4xl">
                     대화 기록 JSON을 올리세요

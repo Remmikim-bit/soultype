@@ -93,10 +93,88 @@
 
 @layer components {
   .sheet {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     border-radius: var(--radius-xl);
-    background: color-mix(in oklab, var(--color-bg) 58%, transparent);
-    box-shadow: var(--shadow-border);
-    backdrop-filter: blur(8px);
+    background: color-mix(in oklab, var(--color-bg) 82%, transparent);
+    box-shadow:
+      var(--shadow-border),
+      inset 0 1px 0 color-mix(in oklab, var(--color-fg) 14%, transparent);
+    backdrop-filter: blur(18px) saturate(1.35);
+    -webkit-backdrop-filter: blur(18px) saturate(1.35);
+  }
+
+  .sheet::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      125deg,
+      color-mix(in oklab, var(--mood, var(--color-accent)) 16%, transparent),
+      transparent 34%,
+      color-mix(in oklab, var(--color-bold) 10%, transparent) 55%,
+      color-mix(in oklab, var(--color-soft) 9%, transparent) 76%,
+      color-mix(in oklab, var(--color-true) 8%, transparent)
+    );
+    opacity: 0.38;
+    mix-blend-mode: screen;
+    z-index: 0;
+  }
+
+  .sheet > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .glass {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: var(--radius-2xl);
+    background: color-mix(in oklab, var(--color-bg) 86%, transparent);
+    box-shadow:
+      var(--shadow-border),
+      inset 0 1px 0 color-mix(in oklab, var(--color-fg) 16%, transparent),
+      inset 0 -1px 0 color-mix(in oklab, var(--color-bold) 12%, transparent);
+    backdrop-filter: blur(22px) saturate(1.4);
+    -webkit-backdrop-filter: blur(22px) saturate(1.4);
+  }
+
+  .glass::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      118deg,
+      color-mix(in oklab, var(--mood, var(--color-accent)) 18%, transparent),
+      transparent 30%,
+      color-mix(in oklab, var(--color-bold) 11%, transparent) 52%,
+      color-mix(in oklab, var(--color-soft) 10%, transparent) 74%,
+      color-mix(in oklab, var(--color-true) 8%, transparent)
+    );
+    opacity: 0.28;
+    mix-blend-mode: screen;
+    z-index: 0;
+  }
+
+  .glass > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .glass-bar {
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--color-bg) 68%, transparent);
+    box-shadow:
+      var(--shadow-border),
+      inset 0 1px 0 color-mix(in oklab, var(--color-fg) 14%, transparent);
+    backdrop-filter: blur(16px) saturate(1.25);
+    -webkit-backdrop-filter: blur(16px) saturate(1.25);
   }
 
   .proscenium {
@@ -194,9 +272,15 @@
     left: 50%;
     transform: translateX(-50%);
     margin: 0;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
     font-size: 0.7rem;
     letter-spacing: 0.26em;
-    color: var(--color-subtle);
+    color: var(--color-muted);
+    background: color-mix(in oklab, var(--color-bg) 62%, transparent);
+    box-shadow: var(--shadow-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
   .soul-caption {
@@ -206,11 +290,16 @@
     max-width: 24rem;
     transform: translateX(-50%);
     margin: 0;
-    padding-inline: 1rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: var(--radius-lg);
     text-align: center;
     font-family: var(--font-serif);
     font-size: 1.15rem;
     color: var(--color-fg);
+    background: color-mix(in oklab, var(--color-bg) 70%, transparent);
+    box-shadow: var(--shadow-border);
+    backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
   }
 
   .soul-caption:empty {

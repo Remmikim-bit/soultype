@@ -19,16 +19,16 @@ export function GateModal({
     >
       <div className="gate-veil" />
       <div className="flex h-full flex-col justify-end">
-        <div className="animate-fade-up relative w-full max-w-2xl pb-32 md:pb-24">
-          <h2 id="gate-title" className="font-serif text-4xl tracking-tight md:text-7xl">
+        <div className="animate-fade-up glass relative mb-32 w-full max-w-2xl p-6 md:mb-24 md:p-8">
+          <h2 id="gate-title" className="relative font-serif text-4xl tracking-tight md:text-7xl">
             네가 쓰는 AI는
             <br />
             이미 성격이 있다
           </h2>
-          <p className="mt-5 max-w-md text-sm leading-relaxed text-muted">
-            가운데 유체가 그 성격이다. 말버릇이 쌓이면 둥글어지거나, 각이 지거나, 구멍이 나거나, 흘러내린다.
+          <p className="relative mt-5 max-w-md text-sm leading-relaxed text-muted">
+            뒤에 떠 있는 유체가 그 성격이다. 말버릇이 쌓이면 갈라지고 뭉치고, 둥글거나 각이 선다.
           </p>
-          <div className="mt-8">
+          <div className="relative mt-8">
             <button type="button" onClick={() => onPick("simple")} className="cta-row">
               <span>
                 <span className="block font-serif text-2xl">간단</span>

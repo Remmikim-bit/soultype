@@ -104,7 +104,7 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
     let visible = document.visibilityState !== "hidden";
 
     const narrowMq = window.matchMedia("(max-width: 767px)");
-    uniforms.uSteps.value = narrowMq.matches ? 48 : 76;
+    uniforms.uSteps.value = narrowMq.matches ? 28 : 44;
 
     const reducedMq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const setReduced = () => {
@@ -117,7 +117,7 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       const h = host.clientHeight || window.innerHeight;
       renderer.setSize(w, h, false);
       uniforms.uRes.value.set(w, h);
-      uniforms.uSteps.value = window.matchMedia("(max-width: 767px)").matches ? 48 : 76;
+      uniforms.uSteps.value = window.matchMedia("(max-width: 767px)").matches ? 28 : 44;
     };
     resize();
 
@@ -183,11 +183,11 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       colB[1] = damp(colB[1], b[1], dt, 0.85);
       colB[2] = damp(colB[2], b[2], dt, 0.85);
 
-      const ox = p.stage === "gate" ? 0 : mobile ? 0 : 0.26;
-      const oy = p.stage === "gate" ? 0.08 : mobile ? 0.14 : 0.02;
+      const ox = p.stage === "gate" ? 0 : mobile ? 0 : 0.12;
+      const oy = p.stage === "gate" ? 0.04 : mobile ? 0.1 : 0.0;
       offset.x = damp(offset.x, ox, dt, 0.8);
       offset.y = damp(offset.y, oy, dt, 0.8);
-      const want = p.stage === "gate" ? 1 : 0.96;
+      const want = p.stage === "gate" ? 0.9 : 0.82;
       presence = damp(presence, want, dt, 0.7);
 
       uniforms.uTime.value = reduced ? 0 : t;

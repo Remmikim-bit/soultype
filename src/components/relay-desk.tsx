@@ -43,7 +43,7 @@ export function RelayDesk({
 
   return (
     <section className="grid gap-8">
-      <div className="grid max-w-xl gap-3">
+      <div className="glass grid max-w-xl gap-3 p-5 md:p-6">
         <p className="kicker">간단</p>
         <h1 className="font-serif text-3xl tracking-tight md:text-4xl">이 문장을 지금 쓰는 AI에 붙이세요</h1>
         <p className="text-sm text-muted">

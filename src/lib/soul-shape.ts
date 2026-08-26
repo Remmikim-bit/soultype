@@ -26,12 +26,12 @@ function clamp01(n: number) {
 export function idleParams(t: number): SoulParams {
   const s = (w: number, ph: number) => 0.5 + 0.5 * Math.sin(t * w + ph);
   return {
-    verts: 0.35 + 3.4 * s(0.11, 0.2) + 1.6 * s(0.063, 1.1),
-    sharp: 0.12 + 0.72 * s(0.087, 1.5),
-    hull: 0.08 + 0.78 * s(0.074, 0.4),
-    size: 0.66 + 0.05 * Math.sin(t * 0.14),
-    warp: 0.1 + 0.28 * s(0.097, 2.1),
-    stretch: 0.18 + 0.62 * s(0.12, 0.7),
+    verts: 0.15 + 3.8 * s(0.19, 0.15) + 2.1 * s(0.11, 1.3),
+    sharp: 0.06 + 0.82 * s(0.15, 1.6),
+    hull: 0.04 + 0.84 * s(0.13, 0.5),
+    size: 0.62 + 0.08 * Math.sin(t * 0.21),
+    warp: 0.16 + 0.38 * s(0.17, 2.0),
+    stretch: 0.12 + 0.78 * s(0.2, 0.8),
   };
 }
 
