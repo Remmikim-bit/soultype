@@ -10,11 +10,10 @@
 2. **심층 모드** — Grok / ChatGPT / Claude 대화 내보내기 JSON을 이 기기에 올립니다.
 3. 광고를 보면 유형이 열리고, 한 번 더 보면 이미지 프롬프트 3개를 복사할 수 있습니다.
 
-## 실행
+## 배포
 
-```bash
-npm install
-sh startup.sh
-```
+GitHub 저장소는 [Remmikim-bit/soultype](https://github.com/Remmikim-bit/soultype)입니다. Vercel에 연결하면 `npm run build`로 올라갑니다.
 
-분석 API는 `XAI_API_KEY`가 있을 때만 문장을 다듬습니다. 키가 없어도 로컬 분류로 유형은 나옵니다.
+- 인증과 데이터베이스는 꺼져 있습니다.
+- `VITE_AUTH_ENABLED=false`는 프로덕션 기본값입니다.
+- `XAI_API_KEY`가 있으면 결과 문장을 다듬습니다. 없어도 유형은 나옵니다.
