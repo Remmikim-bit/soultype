@@ -105,7 +105,7 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
     let visible = document.visibilityState !== "hidden";
 
     const narrowMq = window.matchMedia("(max-width: 767px)");
-    uniforms.uSteps.value = narrowMq.matches ? 32 : 56;
+    uniforms.uSteps.value = narrowMq.matches ? 48 : 76;
 
     const reducedMq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const setReduced = () => {
@@ -118,7 +118,7 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       const h = host.clientHeight || window.innerHeight;
       renderer.setSize(w, h, false);
       uniforms.uRes.value.set(w, h);
-      uniforms.uSteps.value = window.matchMedia("(max-width: 767px)").matches ? 32 : 56;
+      uniforms.uSteps.value = window.matchMedia("(max-width: 767px)").matches ? 48 : 76;
     };
     resize();
 
@@ -157,7 +157,8 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
 
       const t = now * 0.001;
       const targetMorph = p.axes ? morphFromAxes(p.axes) : idleMorph(t);
-      const blend = lerpMorph(morph, targetMorph, 1 - Math.exp(-dt / (p.locked ? 0.7 : 1.15)));
+      const tauMorph = p.axes ? (p.locked ? 0.55 : 0.8) : 0.28;
+      const blend = lerpMorph(morph, targetMorph, 1 - Math.exp(-dt / tauMorph));
       morph.sphere = blend.sphere;
       morph.box = blend.box;
       morph.torus = blend.torus;
@@ -198,7 +199,7 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       uniforms.uColB.value.set(colB[0], colB[1], colB[2]);
       uniforms.uW.value.set(morph.sphere, morph.box, morph.torus, morph.octa);
       uniforms.uDrop.value = morph.drop;
-      uniforms.uScale.value = morph.scale * (mobile ? 1.32 : 1);
+      uniforms.uScale.value = morph.scale * (mobile ? 1.08 : 1);
       uniforms.uWarp.value = morph.warp;
       uniforms.uPresence.value = presence;
 
@@ -208,7 +209,10 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       document.documentElement.style.setProperty("--mood-x", ptr.x.toFixed(3));
       document.documentElement.style.setProperty("--mood-y", ptr.y.toFixed(3));
 
-      if (formRef.current) formRef.current.textContent = dominantForm(morph).label;
+      if (formRef.current) {
+        const dom = dominantForm(morph);
+        if (morph[dom.key] > 0.7) formRef.current.textContent = dom.label;
+      }
       if (captionRef.current) captionRef.current.textContent = p.caption ?? "";
 
       renderer.render(scene, camera);

@@ -13,6 +13,9 @@ export type SoulMorph = {
   warp: number;
 };
 
+export const FORM_KEYS = ["sphere", "box", "torus", "octa", "drop"] as const;
+export type FormKey = (typeof FORM_KEYS)[number];
+
 export const QUAD_TOKEN: Record<QuadrantId, "--color-accent" | "--color-true" | "--color-bold" | "--color-soft"> = {
   in: "--color-bold",
   is: "--color-true",
@@ -20,13 +23,17 @@ export const QUAD_TOKEN: Record<QuadrantId, "--color-accent" | "--color-true" | 
   es: "--color-soft",
 };
 
-export const FORM_LABEL: Record<keyof Omit<SoulMorph, "scale" | "warp">, string> = {
+export const FORM_LABEL: Record<FormKey, string> = {
   sphere: "둥근 방울",
   box: "네모",
   torus: "도넛",
   octa: "가시",
   drop: "물방울",
 };
+
+const HOLD = 3.0;
+const FADE = 2.2;
+const SPAN = HOLD + FADE;
 
 function nrm(m: SoulMorph): SoulMorph {
   const s = m.sphere + m.box + m.torus + m.octa + m.drop || 1;
@@ -40,20 +47,40 @@ function nrm(m: SoulMorph): SoulMorph {
   };
 }
 
-function lobe(t: number, phase: number) {
-  return Math.pow(Math.max(0, Math.sin(t * 0.26 + phase)), 1.8);
+function emptyWeights(): Record<FormKey, number> {
+  return { sphere: 0, box: 0, torus: 0, octa: 0, drop: 0 };
+}
+
+function withWeights(w: Record<FormKey, number>, scale: number, warp: number): SoulMorph {
+  return nrm({
+    sphere: w.sphere,
+    box: w.box,
+    torus: w.torus,
+    octa: w.octa,
+    drop: w.drop,
+    scale,
+    warp,
+  });
+}
+
+function organicWarp(w: Record<FormKey, number>) {
+  return 0.04 + 0.5 * (w.sphere + w.drop);
 }
 
 export function idleMorph(t: number): SoulMorph {
-  return nrm({
-    sphere: 0.16 + lobe(t, 0.1),
-    box: 0.07 + lobe(t, 1.35),
-    torus: 0.08 + lobe(t, 2.55),
-    octa: 0.07 + lobe(t, 3.9),
-    drop: 0.1 + lobe(t, 5.15),
-    scale: 1.08 + 0.08 * Math.sin(t * 0.15),
-    warp: 0.32 + 0.28 * Math.sin(t * 0.19 + 0.8),
-  });
+  const cycle = SPAN * FORM_KEYS.length;
+  const x = ((t % cycle) + cycle) % cycle;
+  const i = Math.floor(x / SPAN) % FORM_KEYS.length;
+  const local = (x - i * SPAN) / SPAN;
+  const fadeStart = HOLD / SPAN;
+  const k = local < fadeStart ? 0 : (local - fadeStart) / (1 - fadeStart);
+  const s = k * k * k * (k * (k * 6 - 15) + 10);
+  const from = FORM_KEYS[i];
+  const to = FORM_KEYS[(i + 1) % FORM_KEYS.length];
+  const w = emptyWeights();
+  w[from] += 1 - s;
+  w[to] += s;
+  return withWeights(w, 0.72, organicWarp(w));
 }
 
 export function morphFromAxes(axes: AxisScores): SoulMorph {
@@ -63,22 +90,26 @@ export function morphFromAxes(axes: AxisScores): SoulMorph {
   const dream = Math.max(0, -axes.ns);
   const judge = Math.max(0, -axes.jp);
   const play = Math.max(0, axes.jp);
-  return nrm({
-    sphere: 0.1 + feel * 1.15 + dream * 0.28,
-    box: 0.05 + sense * 1.25,
-    torus: 0.05 + judge * 1.2,
-    octa: 0.05 + think * 1.3,
-    drop: 0.05 + play * 1.22,
-    scale: 0.76 + ((axes.ie + 1) / 2) * 0.36,
-    warp: 0.1 + dream * 0.9,
+  const raw = nrm({
+    sphere: 0.08 + feel * 1.2 + dream * 0.22,
+    box: 0.04 + sense * 1.35,
+    torus: 0.04 + judge * 1.3,
+    octa: 0.04 + think * 1.4,
+    drop: 0.04 + play * 1.32,
+    scale: 0.62 + ((axes.ie + 1) / 2) * 0.2,
+    warp: 0,
   });
+  const ranked = [...FORM_KEYS].sort((a, b) => raw[b] - raw[a]);
+  const w = emptyWeights();
+  w[ranked[0]] = 0.9;
+  w[ranked[1]] = 0.1;
+  return withWeights(w, raw.scale, 0.04 + dream * 0.5);
 }
 
-export function dominantForm(m: SoulMorph): { key: keyof typeof FORM_LABEL; label: string } {
-  const keys = ["sphere", "box", "torus", "octa", "drop"] as const;
-  let key: (typeof keys)[number] = "sphere";
+export function dominantForm(m: SoulMorph): { key: FormKey; label: string } {
+  let key: FormKey = "sphere";
   let max = -1;
-  for (const k of keys) {
+  for (const k of FORM_KEYS) {
     if (m[k] > max) {
       max = m[k];
       key = k;
