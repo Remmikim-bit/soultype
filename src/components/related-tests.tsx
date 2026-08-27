@@ -5,7 +5,7 @@ export function RelatedTests({ current }: { current: TestId }) {
   const items = relatedOf(current);
   return (
     <section className="grid gap-2">
-      <p className="kicker">다음</p>
+      <p className="kicker">이런 것도 들킨다</p>
       {items.map((t) => (
         <a key={t.id} href={TEST_PATH[t.id]} className="cta-row">
           <span>

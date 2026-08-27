@@ -16,11 +16,14 @@ export function MbtiCard({ analysis }: { analysis: AnalysisResult }) {
         <p className="max-w-xl text-sm leading-relaxed text-muted">{analysis.oneLiner}</p>
       </div>
       <div className="border-t border-line px-6 py-6 md:px-8">
-        <AxisStack axes={analysis.axes} />
+        <p className="kicker">스타일 축</p>
+        <div className="mt-4">
+          <AxisStack axes={analysis.axes} />
+        </div>
       </div>
       <div className="grid gap-px bg-line md:grid-cols-2">
-        <Block title="이렇게 됩니다" body={analysis.howYouUse} />
-        <Block title="당신의 말버릇" body={analysis.ritual} />
+        <Block title="이렇게 굴러간다" body={analysis.howYouUse} />
+        <Block title="네 말버릇" body={analysis.ritual} />
       </div>
       {analysis.traits.length > 0 ? (
         <ul className="grid gap-px bg-line md:grid-cols-2">

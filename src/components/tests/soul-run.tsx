@@ -61,9 +61,9 @@ export function SoulRun() {
   return (
     <div className="grid gap-10" data-phase={phase} data-qa="soul-run">
       <section className="glass grid max-w-xl gap-3 p-5 md:p-6">
-        <p className="kicker">{META.no}</p>
+        <p className="kicker">{META.no} · {META.name}</p>
         <h1 className="font-serif text-4xl tracking-tight md:text-6xl">한 장만 뽑는다</h1>
-        <p className="text-sm text-muted">맞는지 네가 알아.</p>
+        <p className="text-sm text-muted">키운 건 너야. 맞는지 네가 알아.</p>
       </section>
 
       {phase === "in" && !digest ? <SessionIntake /> : null}
@@ -73,7 +73,7 @@ export function SoulRun() {
           <span>
             <span className="block font-serif text-2xl">뜯기</span>
             <span className="mt-1 block text-sm text-muted">
-              {intake === "simple" ? "문장으로" : "올린 기록으로"}
+              {intake === "simple" ? "문장으로" : "올린 대화록으로"}
             </span>
           </span>
           <ArrowGlyph className="size-5 shrink-0" />
@@ -97,6 +97,10 @@ export function SoulRun() {
 
       {phase === "result" && unlocked && shown ? (
         <>
+          <div>
+            <p className="kicker">페르소나 도감</p>
+            <p className="mt-2 font-serif text-2xl">내가 만난 얼굴들</p>
+          </div>
           <CharacterParade winner={winner} dim={false} compact />
           <MbtiCard analysis={shown} />
           {parsed ? <StatsPanel stats={parsed.stats} /> : stats ? <StatsPanel stats={stats} /> : null}

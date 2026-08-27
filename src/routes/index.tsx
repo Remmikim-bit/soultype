@@ -16,16 +16,16 @@ function Home() {
   return (
     <SiteShell stage="gate" home>
       <section className="grid max-w-xl gap-4">
-        <p className="kicker">소울타입 · 2026.08 호</p>
+        <p className="kicker">소울타입 · 내 AI의 MBTI</p>
         <h1 id="hub-title" className="font-serif text-5xl tracking-tight md:text-7xl">
           뭐부터 들킬까
         </h1>
         <p className="max-w-sm text-sm leading-relaxed text-muted">
-          한 번 올리면 여러 번 뜯는다. 원문은 안 나간다.
+          쓰는 습관이 얼굴을 만든다. 한 번 올리면 여러 번 뜯는다.
         </p>
         {digest ? (
           <p className="text-sm text-fg">
-            기록 있음{fileLabel ? ` · ${fileLabel}` : ""}. 바로 뜯어도 된다.
+            대화록 있음{fileLabel ? ` · ${fileLabel}` : ""}. 바로 뜯어도 된다.
           </p>
         ) : null}
       </section>
@@ -50,7 +50,7 @@ function Home() {
         ))}
       </nav>
 
-      <p className="text-xs text-subtle">문장 하나거나 대화 JSON. 이 기기에서만 읽는다.</p>
+      <p className="text-xs text-subtle">문장 하나거나 대화록 JSON. 이 기기에서만 읽는다.</p>
     </SiteShell>
   );
 }

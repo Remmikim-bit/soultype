@@ -16,7 +16,7 @@ const STEPS = [
 export function HowExport() {
   return (
     <section className="grid gap-4">
-      <h2 className="font-serif text-2xl tracking-tight">파일은 여기서 받는다</h2>
+      <h2 className="font-serif text-2xl tracking-tight">대화록 받는 법</h2>
       <ol className="grid gap-3">
         {STEPS.map((s) => (
           <li key={s.who} className="sheet p-5">

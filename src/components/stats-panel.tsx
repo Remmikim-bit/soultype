@@ -41,8 +41,8 @@ export function StatsPanel({ stats }: { stats: ParsedStats }) {
     <section className="grid gap-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="kicker">{SOURCE[stats.source]} 사용 기록</p>
-          <h2 className="mt-2 font-serif text-4xl tracking-tight">이 기기에서 읽은 기록</h2>
+          <p className="kicker">{SOURCE[stats.source]} · 대화 스타일 지도</p>
+          <h2 className="mt-2 font-serif text-4xl tracking-tight">한눈에 보는 패턴</h2>
         </div>
         <p className="text-sm text-muted">
           {kstDate(stats.firstDate)} – {kstDate(stats.lastDate)}
@@ -57,7 +57,7 @@ export function StatsPanel({ stats }: { stats: ParsedStats }) {
       </dl>
 
       <div className="sheet p-5 md:p-6">
-        <p className="kicker">일별 메시지</p>
+        <p className="kicker">대화 히트맵</p>
         <div className="mt-4">
           <Heatmap byDay={stats.byDay} />
         </div>

@@ -11,7 +11,7 @@ export function PromptList({ prompts }: { prompts: ImagePrompt[] }) {
         <p className="kicker">이미지</p>
         <h2 className="mt-2 font-serif text-4xl tracking-tight">이미지 프롬프트</h2>
         <p className="mt-2 max-w-lg text-sm text-muted">
-          이미지 생성기에 그대로 붙여 넣으세요. 로고와 네온은 빼 두었습니다.
+          그대로 붙여. 로고랑 네온은 뺐다.
         </p>
       </div>
       <ol className="grid gap-3">

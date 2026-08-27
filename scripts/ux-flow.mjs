@@ -133,9 +133,9 @@ async function waitAndOpenResult(timeout = 20000) {
 note("hub");
 await shot("01-hub");
 if (!(await visible("뭐부터 들킬까"))) bug("hub title missing", "허브 제목이 안 보임");
-if (!(await visible("네가 키운 거"))) bug("soul card missing", "성격 항목 없음");
-if (!(await visible("반말부터 세본다"))) bug("abuse card missing", "학대 항목 없음");
-if (!(await visible("90초"))) bug("duel card missing", "한판 항목 없음");
+if (!(await visible("자아 스캔"))) bug("soul card missing", "성격 항목 없음");
+if (!(await visible("학대 지수"))) bug("abuse card missing", "학대 항목 없음");
+if (!(await visible("프롬프트 배틀"))) bug("duel card missing", "한판 항목 없음");
 
 note("soul-enter");
 await go("/soul");
@@ -192,7 +192,7 @@ await go("/");
 await page.waitForTimeout(400);
 await shot("08-back-hub");
 if (!(await visible("뭐부터 들킬까"))) bug("list nav failed", "목록이 허브로 안 감");
-if (!(await visible("기록 있음"))) bug("session lost", "허브로 돌아오니 기록이 사라짐");
+if (!(await visible("대화록 있음"))) bug("session lost", "허브로 돌아오니 기록이 사라짐");
 
 note("reuse-session-abuse");
 await go("/abuse");
@@ -228,13 +228,13 @@ await page.waitForTimeout(300);
 await tap("기록 지우기");
 await page.waitForTimeout(300);
 await shot("11-cleared");
-if (await visible("기록 있음")) bug("clear failed", "기록 지우기가 안 됨");
+if (await visible("대화록 있음")) bug("clear failed", "기록 지우기가 안 됨");
 
 note("export-path");
 await go("/soul");
 await tapQa("way-export");
 await shot("12-export-desk");
-if (!(await visible("대화 파일 여기"))) bug("dropzone missing", "파일 드롭존 없음");
+if (!(await visible("대화록 여기"))) bug("dropzone missing", "파일 드롭존 없음");
 await tapQa("sample-export");
 await page.waitForTimeout(800);
 if (!(await visible("뜯기"))) bug("sample export failed", "샘플 후 뜯기가 안 보임");
@@ -248,7 +248,7 @@ await shot("13-export-result");
 if (!(await visible("네가 쓰는 AI의 MBTI는"))) {
   bug("export result missing", "심층 광고 후 결과가 안 보임");
 }
-if (!(await visible("이 기기에서 읽은 기록"))) {
+if (!(await visible("한눈에 보는 패턴"))) {
   bug("stats missing", "샘플 파싱 후 통계가 안 보임");
 }
 

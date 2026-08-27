@@ -14,9 +14,9 @@ import { gradeById } from "@/lib/scores";
 import { useAppStore } from "@/lib/store";
 
 const INTRO: Record<GradeId, { title: string; body: string }> = {
-  abuse: { title: "반말부터 센다", body: "네가 AI한테 어떻게 말했는지." },
-  love: { title: "그 얘기가 얼마나 나오나", body: "결론은 나중에." },
-  skill: { title: "짧게 시키나, 제대로 시키나", body: "등급은 숨긴다." },
+  abuse: { title: "반말부터 센다", body: "AI 입장에서 고소감 있는지." },
+  love: { title: "연애, 몇 점이야", body: "AI가 본 네 연애. 결론은 나중에." },
+  skill: { title: "만렙인지 복붙인지", body: "초보 챗봇부터 조련사까지. 렙은 숨긴다." },
 };
 
 export function GradeRun({ id }: { id: GradeId }) {
@@ -42,7 +42,9 @@ export function GradeRun({ id }: { id: GradeId }) {
   return (
     <div className="grid gap-10" data-phase={phase} data-qa={`${id}-run`}>
       <section className="glass grid max-w-xl gap-3 p-5 md:p-6">
-        <p className="kicker">{meta.no}</p>
+        <p className="kicker">
+          {meta.no} · {meta.name}
+        </p>
         <h1 className="font-serif text-4xl tracking-tight md:text-6xl">{copy.title}</h1>
         <p className="text-sm text-muted">{copy.body}</p>
       </section>
@@ -54,7 +56,7 @@ export function GradeRun({ id }: { id: GradeId }) {
           <span>
             <span className="block font-serif text-2xl">뜯기</span>
             <span className="mt-1 block text-sm text-muted">
-              {intake === "simple" ? "문장으로" : "올린 기록으로"}
+              {intake === "simple" ? "문장으로" : "올린 대화록으로"}
             </span>
           </span>
           <ArrowGlyph className="size-5 shrink-0" />

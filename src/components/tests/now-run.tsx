@@ -20,9 +20,11 @@ export function NowRun() {
   return (
     <div className="grid gap-10" data-phase={open ? "result" : "teaser"} data-qa="now-run">
       <section className="glass grid max-w-xl gap-3 p-5 md:p-6">
-        <p className="kicker">{META.no}</p>
-        <h1 className="font-serif text-4xl tracking-tight md:text-6xl">살아 있는 랭킹은 없다</h1>
-        <p className="text-sm text-muted">남들 데이터를 안 모은다. 관찰만 적는다.</p>
+        <p className="kicker">
+          {META.no} · {META.name}
+        </p>
+        <h1 className="font-serif text-4xl tracking-tight md:text-6xl">실시간은 거짓말이다</h1>
+        <p className="text-sm text-muted">남들 서버를 안 단다. 이번 주 텐션만 적는다.</p>
       </section>
 
       <AdSlot place="inline" />

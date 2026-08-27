@@ -47,7 +47,7 @@ export function RelayDesk({
         <p className="kicker">문장 하나</p>
         <h1 className="font-serif text-3xl tracking-tight md:text-4xl">이 문장 넣고, 돌아온 거 붙여</h1>
         <p className="text-sm text-muted">
-          Grok, ChatGPT, Claude 어디든. JSON만 다시 가져오면 된다.
+          어디든 넣고, JSON만 다시 가져오면 끝.
         </p>
       </div>
       <div className="sheet p-4 md:p-5">

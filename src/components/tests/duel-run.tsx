@@ -60,10 +60,10 @@ export function DuelRun() {
     <div className="grid gap-10" data-phase={view} data-qa="duel-run">
       <section className="glass grid max-w-xl gap-3 p-5 md:p-6">
         <p className="kicker">
-          {META.no} · {LIMIT}초
+          {META.no} · {META.name} · {LIMIT}초
         </p>
         <h1 className="font-serif text-4xl tracking-tight md:text-6xl">같은 과제. 프롬프트만.</h1>
-        <p className="text-sm text-muted">답을 쓰지 마라. AI에게 시킬 문장만.</p>
+        <p className="text-sm text-muted">답을 쓰지 마. 시킬 문장만. 승자는 대화가 아니라 지시야.</p>
       </section>
 
       {view === "write" ? (
@@ -101,7 +101,7 @@ export function DuelRun() {
       {view === "teaser" ? (
         <>
           <LockedPanel
-            kicker="한판"
+            kicker={META.name}
             title={META.teaser}
             body="광고 보면 점수랑 빈칸을 연다."
             action="광고 보고 결과 보기"
@@ -117,7 +117,7 @@ export function DuelRun() {
             <div className="grid gap-3 p-6 md:p-8">
               <p className="kicker">{duel.rank}</p>
               <p className="font-mono text-5xl tabular-nums">{duel.score}</p>
-              <h2 className="font-serif text-3xl">이 기기에서 네가 받은 점수</h2>
+              <h2 className="font-serif text-3xl">이 한판에서 네가 받은 점수</h2>
             </div>
             <ul className="grid gap-px bg-line md:grid-cols-2">
               {duel.notes.map((n) => (
