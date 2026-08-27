@@ -534,8 +534,8 @@ html[data-theme="light"] {
   }
 
   .overlay-col {
-    margin-inline: clamp(1.25rem, 4vw, 4.5rem) auto;
-    width: min(26.5rem, 36vw);
+    margin-inline: auto;
+    width: min(26.5rem, 92vw);
     padding-inline: 0;
     padding-bottom: 5rem;
     gap: 1.35rem;
@@ -543,10 +543,10 @@ html[data-theme="light"] {
 
   .overlay-veil {
     background: linear-gradient(
-      to right,
-      color-mix(in oklab, var(--color-bg) 72%, transparent) 0%,
-      color-mix(in oklab, var(--color-bg) 38%, transparent) min(28rem, 38vw),
-      transparent min(40rem, 54vw)
+      to top,
+      var(--color-bg) 0%,
+      color-mix(in oklab, var(--color-bg) 38%, transparent) 42%,
+      transparent 72%
     );
   }
 
@@ -560,12 +560,12 @@ html[data-theme="light"] {
   }
 
   .soul-field[data-stage="result"] .soul-caption {
-    top: 38%;
-    right: 7%;
-    bottom: auto;
-    left: auto;
-    transform: none;
-    text-align: right;
+    top: auto;
+    right: auto;
+    bottom: 16%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
     font-size: 1.35rem;
   }
 

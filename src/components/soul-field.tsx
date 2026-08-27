@@ -36,7 +36,7 @@ function layoutOffset() {
   const aspect = w / h;
   const mobile = w < 768;
   if (aspect >= 1.35 && w >= 960) {
-    return { x: Math.min(0.42, aspect * 0.26), y: 0.0, scale: 0.98 };
+    return { x: 0, y: 0.04, scale: 1.08 };
   }
   if (mobile) {
     return { x: 0.0, y: 0.22, scale: 1.02 };

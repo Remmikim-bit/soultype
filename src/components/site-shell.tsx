@@ -50,7 +50,7 @@ export function SiteShell({
       />
 
       <header className="pointer-events-none fixed inset-x-0 top-0 z-50">
-        <div className="site-header mx-auto flex w-full max-w-[26.5rem] px-5 md:mx-0 md:max-w-none md:px-[clamp(1.25rem,4vw,4.5rem)]">
+        <div className="site-header mx-auto flex w-full max-w-[26.5rem] justify-center px-5">
           <div className="glass-bar pointer-events-auto flex w-full max-w-[26.5rem] items-center justify-between gap-3 px-3 py-1.5">
             <a href="/" className="flex min-h-11 items-center gap-2.5 text-left">
               <BrandMark className="size-7" />
