@@ -78,14 +78,14 @@ export function SessionIntake() {
       <button type="button" onClick={() => setWay("simple")} className="cta-row" data-qa="way-simple">
         <span>
           <span className="block font-serif text-2xl">문장 하나</span>
-          <span className="mt-1 block text-sm text-muted">복잡한 입력 없이 대화 내역 한 줄로 끝!</span>
+          <span className="mt-1 block text-sm text-muted">지금 쓰는 AI한테 넣고, 나온 거 붙여</span>
         </span>
         <ArrowGlyph className="size-5 shrink-0" />
       </button>
       <button type="button" onClick={() => setWay("export")} className="cta-row" data-qa="way-export">
         <span>
-          <span className="block font-serif text-2xl">대화록 3초 만에 불러오기</span>
-          <span className="mt-1 block text-sm text-muted">복잡한 입력 없이 대화 내역 한 줄로 끝!</span>
+          <span className="block font-serif text-2xl">대화록 불러오기</span>
+          <span className="mt-1 block text-sm text-muted">JSON만 올리면 된다. 원문은 안 나간다</span>
         </span>
         <ArrowGlyph className="size-5 shrink-0" />
       </button>

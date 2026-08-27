@@ -13,7 +13,7 @@ export const Route = createRootRoute({
       { title: APP_NAME },
       {
         name: "description",
-        content: "내가 쓰는 AI의 MBTI. 한 번 올리면 여러 번 뜯는다.",
+        content: "내 AI 성격 분석. 한 번 올리면 여러 번 뜯는다.",
       },
       { name: "theme-color", content: "#0e0e0e" },
     ],

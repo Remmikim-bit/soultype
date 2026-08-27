@@ -18,13 +18,10 @@ function Home() {
       <section className="grid max-w-xl gap-4">
         <p className="kicker">소울타입 · 내 AI의 MBTI</p>
         <h1 id="hub-title" className="font-serif text-5xl tracking-tight md:text-7xl">
-          나의 AI 성격 분석기
+          내 AI 성격 분석
         </h1>
-        <p className="max-w-lg text-sm leading-relaxed text-muted">
-          내가 AI를 쓰는 습관, AI는 어떻게 닮아갔을까?
-        </p>
-        <p className="max-w-lg text-sm leading-relaxed text-muted">
-          화면 너머 숨겨진 AI의 진짜 성격
+        <p className="max-w-sm text-sm leading-relaxed text-muted">
+          쓰는 습관이 쌓이면, AI도 그걸 닮는다.
         </p>
         {digest ? (
           <p className="text-sm text-fg">

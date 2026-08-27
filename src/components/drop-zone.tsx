@@ -48,9 +48,9 @@ export function DropZone({
           over && "shadow-[var(--shadow-border-hover)]",
         )}
       >
-        <p className="font-serif text-2xl tracking-tight text-fg md:text-3xl">대화록 3초 만에 불러오기</p>
+        <p className="font-serif text-2xl tracking-tight text-fg md:text-3xl">대화록 여기</p>
         <p className="mt-3 max-w-md text-sm text-muted">
-          복잡한 입력 없이 대화 내역 한 줄로 끝!
+          JSON만 올리면 된다. 원문은 안 나간다.
         </p>
         <p className="mt-6 text-sm text-accent">conversations.json</p>
       </button>

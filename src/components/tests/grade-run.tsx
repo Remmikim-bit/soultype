@@ -14,9 +14,9 @@ import { gradeById } from "@/lib/scores";
 import { useAppStore } from "@/lib/store";
 
 const INTRO: Record<GradeId, { title: string; body: string }> = {
-  abuse: { title: "학대 지수", body: "반말부터 세본다" },
-  love: { title: "AI 궁합 테스트", body: "나랑 AI, 연애 상대로는 몇 점일까?" },
-  skill: { title: "AI 조련 만렙 측정기", body: "초보 챗봇부터 능숙한 파트너까지, 내 활용 등급은?" },
+  abuse: { title: "학대 지수", body: "반말부터 세본다." },
+  love: { title: "AI 궁합 테스트", body: "나랑 AI, 연애로 보면 몇 점일까." },
+  skill: { title: "AI 조련 만렙", body: "초보부터 파트너까지, 너는 몇 렙이야." },
 };
 
 export function GradeRun({ id }: { id: GradeId }) {

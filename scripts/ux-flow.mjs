@@ -132,7 +132,7 @@ async function waitAndOpenResult(timeout = 20000) {
 
 note("hub");
 await shot("01-hub");
-if (!(await visible("나의 AI 성격 분석기"))) bug("hub title missing", "허브 제목이 안 보임");
+if (!(await visible("내 AI 성격 분석"))) bug("hub title missing", "허브 제목이 안 보임");
 if (!(await visible("AI 자아 스캔"))) bug("soul card missing", "성격 항목 없음");
 if (!(await visible("학대 지수"))) bug("abuse card missing", "학대 항목 없음");
 if (!(await visible("AI 티키타카 배틀"))) bug("duel card missing", "한판 항목 없음");
@@ -191,7 +191,7 @@ note("ad-close-without-unlock");
 await go("/");
 await page.waitForTimeout(400);
 await shot("08-back-hub");
-if (!(await visible("나의 AI 성격 분석기"))) bug("list nav failed", "목록이 허브로 안 감");
+if (!(await visible("내 AI 성격 분석"))) bug("list nav failed", "목록이 허브로 안 감");
 if (!(await visible("대화록 있음"))) bug("session lost", "허브로 돌아오니 기록이 사라짐");
 
 note("reuse-session-abuse");
@@ -234,7 +234,7 @@ note("export-path");
 await go("/soul");
 await tapQa("way-export");
 await shot("12-export-desk");
-if (!(await visible("대화록 3초 만에 불러오기"))) bug("dropzone missing", "파일 드롭존 없음");
+if (!(await visible("대화록 여기"))) bug("dropzone missing", "파일 드롭존 없음");
 await tapQa("sample-export");
 await page.waitForTimeout(800);
 if (!(await visible("뜯기"))) bug("sample export failed", "샘플 후 뜯기가 안 보임");
@@ -248,7 +248,7 @@ await shot("13-export-result");
 if (!(await visible("네가 쓰는 AI의 MBTI는"))) {
   bug("export result missing", "심층 광고 후 결과가 안 보임");
 }
-if (!(await visible("한눈에 보는 나의 AI 활용 패턴 지도"))) {
+if (!(await visible("한눈에 보는 내 사용 버릇"))) {
   bug("stats missing", "샘플 파싱 후 통계가 안 보임");
 }
 
