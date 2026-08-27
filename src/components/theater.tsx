@@ -22,12 +22,12 @@ export function Theater({
   }, [n, ms]);
 
   return (
-    <section className="grid gap-6" data-phase="theater" data-qa="theater">
-      <p key={i} className="theater-line font-serif text-4xl tracking-tight md:text-6xl">
-        {lines[i] ?? "잠깐."}
+    <section className="grid gap-5" data-phase="theater" data-qa="theater">
+      <p key={i} className="theater-line text-[1.85rem] font-semibold tracking-tight md:text-4xl">
+        {lines[i] ?? "잠시만요."}
       </p>
-      <div className="h-px bg-line">
-        <div className="theater-bar h-px bg-accent" />
+      <div className="progress-track">
+        <div className="theater-bar h-full bg-accent" />
       </div>
       <AdSlot place="theater" />
     </section>

@@ -17,12 +17,12 @@ export function parseFileInWorker(file: File): Promise<ParsedExport> {
         worker.terminate();
         resolve(event.data.parsed);
       } else {
-        fail(event.data.error || "파싱에 실패했습니다.");
+        fail(event.data.error || "파일을 읽지 못했어요.");
       }
     };
-    worker.onerror = () => fail("워커에서 오류가 났습니다.");
+    worker.onerror = () => fail("파일을 읽는 중에 문제가 생겼어요.");
     const reader = new FileReader();
-    reader.onerror = () => fail("파일을 열 수 없습니다.");
+    reader.onerror = () => fail("파일을 열지 못했어요. 다시 선택해 주세요.");
     reader.onload = () => {
       worker.postMessage({ text: String(reader.result ?? "") });
     };
@@ -36,12 +36,12 @@ export function parseObject(raw: unknown): ParsedExport {
 
 export async function parseFile(file: File): Promise<ParsedExport> {
   if (file.size > MAX_BYTES) {
-    throw new Error("파일이 너무 큽니다. 40MB 이하 JSON만 읽습니다.");
+    throw new Error("파일이 너무 커요. 40MB 이하 JSON만 읽을 수 있어요.");
   }
   try {
     return await parseFileInWorker(file);
   } catch (err) {
-    if (err instanceof Error && err.message.includes("너무 큽니다")) throw err;
+    if (err instanceof Error && err.message.includes("너무 커요")) throw err;
     const text = await file.text();
     return parseExport(JSON.parse(text) as unknown);
   }

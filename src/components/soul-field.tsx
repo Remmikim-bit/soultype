@@ -30,6 +30,20 @@ const damp = (cur: number, tgt: number, dt: number, tau: number) => {
   return cur + (tgt - cur) * k;
 };
 
+function layoutOffset() {
+  const w = window.innerWidth || 1;
+  const h = window.innerHeight || 1;
+  const aspect = w / h;
+  const mobile = w < 768;
+  if (aspect >= 1.35 && w >= 960) {
+    return { x: Math.min(0.42, aspect * 0.26), y: 0.0, scale: 0.98 };
+  }
+  if (mobile) {
+    return { x: 0.0, y: 0.22, scale: 1.02 };
+  }
+  return { x: 0.1, y: 0.06, scale: 0.96 };
+}
+
 export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
   const hostRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -55,9 +69,12 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       return;
     }
 
-    const bg = readTokenRgb("--color-bg");
-    renderer.setClearColor(new THREE.Color(bg[0], bg[1], bg[2]), 1);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
+    const applyBg = () => {
+      const bg = readTokenRgb("--color-bg");
+      renderer.setClearColor(new THREE.Color(bg[0], bg[1], bg[2]), 1);
+      uniforms.uBg.value.set(bg[0], bg[1], bg[2]);
+      return bg;
+    };
 
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     const scene = new THREE.Scene();
@@ -66,9 +83,9 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       uTime: { value: 0 },
       uPtr: { value: new THREE.Vector2(0, 0) },
       uOffset: { value: new THREE.Vector2(0, 0.08) },
-      uColA: { value: new THREE.Vector3(0.55, 0.87, 0.55) },
-      uColB: { value: new THREE.Vector3(0.38, 0.4, 0.93) },
-      uBg: { value: new THREE.Vector3(bg[0], bg[1], bg[2]) },
+      uColA: { value: new THREE.Vector3(0.24, 0.8, 0.43) },
+      uColB: { value: new THREE.Vector3(0.36, 0.39, 0.91) },
+      uBg: { value: new THREE.Vector3(0.055, 0.055, 0.055) },
       uForm: { value: new THREE.Vector4(0.4, 0.2, 0.15, 0.3) },
       uScale: { value: 0.66 },
       uWarp: { value: 0.2 },
@@ -76,6 +93,9 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       uPresence: { value: 1 },
       uReduced: { value: 0 },
     };
+    applyBg();
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+
     const material = new THREE.ShaderMaterial({
       uniforms,
       vertexShader: SOUL_VERT,
@@ -87,23 +107,30 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
     mesh.frustumCulled = false;
     scene.add(mesh);
 
-    const accent = readTokenRgb("--color-accent");
-    const truth = readTokenRgb("--color-true");
-    const bold = readTokenRgb("--color-bold");
-    const soft = readTokenRgb("--color-soft");
-
     const ptr = { x: 0, y: 0, tx: 0, ty: 0 };
     const params: SoulParams = idleParams(0);
-    const colA: [number, number, number] = [accent[0], accent[1], accent[2]];
-    const colB: [number, number, number] = [bold[0], bold[1], bold[2]];
+    const colA: [number, number, number] = [0.24, 0.8, 0.43];
+    const colB: [number, number, number] = [0.36, 0.39, 0.91];
     const offset = { x: 0, y: 0.08 };
     let presence = 1;
     let running = true;
     let last = performance.now();
     let visible = document.visibilityState !== "hidden";
 
-    const narrowMq = window.matchMedia("(max-width: 767px)");
-    uniforms.uSteps.value = narrowMq.matches ? 28 : 44;
+    const pal = {
+      accent: readTokenRgb("--color-accent"),
+      truth: readTokenRgb("--color-true"),
+      bold: readTokenRgb("--color-bold"),
+      soft: readTokenRgb("--color-soft"),
+    };
+
+    const refreshPalette = () => {
+      applyBg();
+      pal.accent = readTokenRgb("--color-accent");
+      pal.truth = readTokenRgb("--color-true");
+      pal.bold = readTokenRgb("--color-bold");
+      pal.soft = readTokenRgb("--color-soft");
+    };
 
     const reducedMq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const setReduced = () => {
@@ -116,7 +143,7 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       const h = host.clientHeight || window.innerHeight;
       renderer.setSize(w, h, false);
       uniforms.uRes.value.set(w, h);
-      uniforms.uSteps.value = window.matchMedia("(max-width: 767px)").matches ? 28 : 44;
+      uniforms.uSteps.value = w < 768 ? 26 : 42;
     };
     resize();
 
@@ -134,10 +161,13 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
 
     window.addEventListener("pointermove", onPtr, { passive: true });
     window.addEventListener("resize", resize);
+    window.addEventListener("st-theme", refreshPalette);
     document.addEventListener("visibilitychange", onVis);
     reducedMq.addEventListener("change", setReduced);
     const ro = new ResizeObserver(resize);
     ro.observe(host);
+    const mo = new MutationObserver(refreshPalette);
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
     const tick = (now: number) => {
       if (!running) return;
@@ -148,7 +178,6 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
 
       const p = propsRef.current;
       const reduced = reducedMq.matches;
-      const mobile = window.matchMedia("(max-width: 767px)").matches;
       const tauPtr = reduced ? 0.08 : 0.55;
       ptr.x = damp(ptr.x, ptr.tx, dt, tauPtr);
       ptr.y = damp(ptr.y, ptr.ty, dt, tauPtr);
@@ -166,10 +195,10 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
 
       const ux = (ptr.x + 1) * 0.5;
       const uy = (ptr.y + 1) * 0.5;
-      const top = mixRgb(bold, truth, ux);
-      const bot = mixRgb(accent, soft, ux);
+      const top = mixRgb(pal.bold, pal.truth, ux);
+      const bot = mixRgb(pal.accent, pal.soft, ux);
       let a = mixRgb(bot, top, uy);
-      let b = mixRgb(accent, truth, 0.35 + 0.3 * ux);
+      let b = mixRgb(pal.accent, pal.truth, 0.35 + 0.3 * ux);
       if (p.quadrant && p.locked) {
         const q = readTokenRgb(QUAD_TOKEN[p.quadrant]);
         a = mixRgb(a, q, 0.62);
@@ -182,11 +211,12 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       colB[1] = damp(colB[1], b[1], dt, 0.85);
       colB[2] = damp(colB[2], b[2], dt, 0.85);
 
-      const ox = p.stage === "gate" ? 0 : mobile ? 0 : 0.12;
-      const oy = p.stage === "gate" ? 0.04 : mobile ? 0.1 : 0.0;
+      const lay = layoutOffset();
+      const ox = p.stage === "gate" ? lay.x : lay.x * 0.92;
+      const oy = p.stage === "gate" ? lay.y : lay.y * 0.85;
       offset.x = damp(offset.x, ox, dt, 0.8);
       offset.y = damp(offset.y, oy, dt, 0.8);
-      const want = p.stage === "gate" ? 0.9 : 0.82;
+      const want = p.stage === "gate" ? 0.94 : 0.84;
       presence = damp(presence, want, dt, 0.7);
 
       uniforms.uTime.value = reduced ? 0 : t;
@@ -195,7 +225,7 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       uniforms.uColA.value.set(colA[0], colA[1], colA[2]);
       uniforms.uColB.value.set(colB[0], colB[1], colB[2]);
       uniforms.uForm.value.set(params.verts, params.sharp, params.hull, params.stretch);
-      uniforms.uScale.value = params.size * (mobile ? 1.08 : 1);
+      uniforms.uScale.value = params.size * lay.scale;
       uniforms.uWarp.value = params.warp;
       uniforms.uPresence.value = presence;
 
@@ -215,9 +245,11 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       running = false;
       window.removeEventListener("pointermove", onPtr);
       window.removeEventListener("resize", resize);
+      window.removeEventListener("st-theme", refreshPalette);
       document.removeEventListener("visibilitychange", onVis);
       reducedMq.removeEventListener("change", setReduced);
       ro.disconnect();
+      mo.disconnect();
       mesh.geometry.dispose();
       material.dispose();
       renderer.dispose();

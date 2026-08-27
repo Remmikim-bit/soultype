@@ -48,11 +48,11 @@ export function DropZone({
           over && "shadow-[var(--shadow-border-hover)]",
         )}
       >
-        <p className="font-serif text-2xl tracking-tight text-fg md:text-3xl">대화록 여기</p>
-        <p className="mt-3 max-w-md text-sm text-muted">
-          JSON만 올리면 된다. 원문은 안 나간다.
+        <p className="text-[22px] font-semibold tracking-tight text-fg">대화록 여기</p>
+        <p className="mt-3 max-w-md text-[15px] leading-relaxed text-muted">
+          JSON만 올리면 돼요. 원문은 이 기기에만 남아요.
         </p>
-        <p className="mt-6 text-sm text-accent">conversations.json</p>
+        <p className="mt-6 text-[15px] text-accent">conversations.json</p>
       </button>
       {mounted ? (
         <input
@@ -63,9 +63,9 @@ export function DropZone({
           onChange={(e) => take(e.target.files?.[0])}
         />
       ) : null}
-      <div className="flex flex-wrap gap-2">
-        <Button arrow onClick={() => inputRef.current?.click()} disabled={busy}>
-          JSON 선택
+      <div className="grid grid-cols-2 gap-2">
+        <Button onClick={() => inputRef.current?.click()} disabled={busy}>
+          JSON 선택하기
         </Button>
         <Button variant="ghost" onClick={onSample} disabled={busy} data-qa="sample-export">
           샘플로 보기

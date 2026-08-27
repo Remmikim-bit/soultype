@@ -41,10 +41,10 @@ export function StatsPanel({ stats }: { stats: ParsedStats }) {
     <section className="grid gap-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="kicker">대화 히트맵</p>
-          <h2 className="mt-2 font-serif text-4xl tracking-tight">한눈에 보는 내 사용 버릇</h2>
+          <p className="kicker">{SOURCE[stats.source]} 대화 히트맵</p>
+          <h2 className="mt-2 text-2xl font-semibold tracking-tight">한눈에 보는 내 사용 버릇</h2>
         </div>
-        <p className="text-sm text-muted">
+        <p className="text-[15px] text-muted">
           {kstDate(stats.firstDate)} – {kstDate(stats.lastDate)}
         </p>
       </div>
@@ -67,7 +67,7 @@ export function StatsPanel({ stats }: { stats: ParsedStats }) {
         <div className="sheet p-5">
           <div className="flex items-baseline justify-between">
             <p className="kicker">시간대 · 한국</p>
-            <p className="font-mono text-sm tabular-nums text-muted">{peakHour}시에 가장 많음</p>
+            <p className="text-[15px] tabular-nums text-muted">{peakHour}시에 가장 많아요</p>
           </div>
           <div className="mt-4">
             <HourBars values={stats.hourHistogram} />
@@ -76,7 +76,7 @@ export function StatsPanel({ stats }: { stats: ParsedStats }) {
         <div className="sheet p-5">
           <div className="flex items-baseline justify-between">
             <p className="kicker">요일</p>
-            <p className="text-sm text-muted">{peakDay}요일에 가장 많음</p>
+            <p className="text-[15px] text-muted">{peakDay}요일에 가장 많아요</p>
           </div>
           <div className="mt-6 flex h-24 items-end gap-2">
             {stats.weekdayHistogram.map((v, i) => (
@@ -115,8 +115,8 @@ export function StatsPanel({ stats }: { stats: ParsedStats }) {
 function Stat({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
     <div className="sheet px-4 py-5">
-      <dt className="text-sm text-muted">{label}</dt>
-      <dd className="mt-2 font-serif text-4xl tabular-nums tracking-tight text-fg">{value}</dd>
+      <dt className="text-[15px] text-muted">{label}</dt>
+      <dd className="mt-2 text-4xl font-semibold tabular-nums tracking-tight text-fg">{value}</dd>
       {hint ? <p className="mt-1 text-xs text-subtle">{hint}</p> : null}
     </div>
   );

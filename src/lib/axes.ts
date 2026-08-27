@@ -5,25 +5,25 @@ export const AXIS_META = [
     key: "ie" as const,
     left: { letter: "I", label: "상전" },
     right: { letter: "E", label: "하인" },
-    hint: "저자세로 물으면 위를 차지하고, 시키면 하수인이 된다",
+    hint: "낮게 물으면 위를 차지하고, 시키면 하수인이 돼요",
   },
   {
     key: "ns" as const,
     left: { letter: "N", label: "몽상" },
     right: { letter: "S", label: "팩트" },
-    hint: "의미·가정이 쌓이면 몽상, 오류·절차가 쌓이면 팩트",
+    hint: "의미·가정이 쌓이면 몽상, 오류·절차가 쌓이면 팩트예요",
   },
   {
     key: "tf" as const,
     left: { letter: "T", label: "반골" },
     right: { letter: "F", label: "세뇌" },
-    hint: "반박을 시키면 반골, 위로·설득을 시키면 세뇌",
+    hint: "반박을 시키면 반골, 위로·설득을 시키면 세뇌예요",
   },
   {
     key: "jp" as const,
     left: { letter: "J", label: "음모" },
     right: { letter: "P", label: "ADHD" },
-    hint: "계획·시스템을 맡기면 음모, 주제를 건너뛰면 ADHD",
+    hint: "계획·시스템을 맡기면 음모, 주제를 건너뛰면 ADHD예요",
   },
 ];
 

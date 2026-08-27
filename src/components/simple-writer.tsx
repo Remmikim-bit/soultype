@@ -78,10 +78,10 @@ export function SimpleWriter({ onDone }: { onDone: (analysis: AnalysisResult) =>
       <section className="grid gap-5">
         <div>
           <p className="text-xs tracking-widest text-subtle uppercase">심플</p>
-          <h2 className="mt-1 font-serif text-3xl tracking-tight">평소 던지는 말을 적으세요</h2>
+          <h2 className="mt-1 text-3xl font-semibold tracking-tight">평소 던지는 말을 적어 주세요</h2>
           <p className="mt-2 max-w-lg text-sm text-muted">
-            주제를 고르면 초안을 대신 써 줍니다. 그 문장의 버릇이 4축에 쌓이고, 쓰는 AI가
-            16 지형 중 하나로 변합니다.
+            주제를 고르면 초안을 대신 써 드려요. 그 문장의 버릇이 4축에 쌓이고, 쓰는 AI가
+            16 지형 중 하나로 변해요.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -126,7 +126,7 @@ export function SimpleWriter({ onDone }: { onDone: (analysis: AnalysisResult) =>
                 placeholder={
                   i === 0
                     ? "예: 이 에러 왜 나는지 모르겠어. 어떻게 해야 해?"
-                    : "한 줄 더. 주제가 달라도 됩니다."
+                    : "한 줄 더. 주제가 달라도 돼요."
                 }
                 className="w-full resize-y rounded-xl bg-surface px-4 py-3 text-sm text-fg shadow-[var(--shadow-border)] outline-none placeholder:text-subtle"
               />
@@ -135,17 +135,17 @@ export function SimpleWriter({ onDone }: { onDone: (analysis: AnalysisResult) =>
         </ol>
         <div className="flex flex-wrap items-center gap-3">
           <Button disabled={!ready} onClick={() => onDone(classifyFromAxes(axes, { shallow: !ready }))}>
-            이 AI가 된 얼굴 보기
+            이 AI의 얼굴 보기
           </Button>
           <p className="text-xs text-subtle">
-            {ready ? "작성만으로 분석합니다. 원문은 이 탭에만 있습니다." : "조금만 더 적으면 지형이 움직입니다."}
+            {ready ? "작성만으로 분석해요. 원문은 이 탭에만 남아요." : "조금만 더 적으면 지형이 움직여요."}
           </p>
         </div>
       </section>
       <aside className="grid gap-6">
         <div className="rounded-2xl bg-surface p-5 shadow-[var(--shadow-border)] md:p-6">
           <p className="text-xs tracking-widest text-subtle uppercase">쌓이는 4축</p>
-          <p className="mt-2 font-serif text-2xl">{leaning ?? "아직 얇음"}</p>
+          <p className="mt-2 text-2xl font-semibold">{leaning ?? "아직 얇아요"}</p>
           <div className="mt-6">
             <AxisStack axes={axes} live />
           </div>

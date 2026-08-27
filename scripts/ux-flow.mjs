@@ -159,7 +159,7 @@ if (!pasted) bug("sample json paste failed", "예시 JSON이 textarea에 안 들
 await tapQa("paste-relay");
 await page.waitForTimeout(400);
 await shot("04-ready-to-tear");
-if (!(await visible("뜯기"))) bug("tear cta missing", "뜯기 버튼 없음");
+if (!(await visible("분석 시작하기"))) bug("tear cta missing", "분석 시작하기 버튼 없음");
 
 note("theater");
 await tapQa("tear");
@@ -200,7 +200,7 @@ await shot("09-abuse");
 if (await visible("문장 하나")) {
   bug("session not reused", "학대 시험이 기록을 다시 받으려 함");
 }
-if (!(await visible("뜯기"))) bug("abuse tear missing", "학대 뜯기 없음");
+if (!(await visible("분석 시작하기"))) bug("abuse tear missing", "학대 분석 시작하기 없음");
 await tapQa("tear");
 await waitPhase("teaser", 10000);
 await tapQa("lock-cta");
@@ -237,7 +237,7 @@ await shot("12-export-desk");
 if (!(await visible("대화록 여기"))) bug("dropzone missing", "파일 드롭존 없음");
 await tapQa("sample-export");
 await page.waitForTimeout(800);
-if (!(await visible("뜯기"))) bug("sample export failed", "샘플 후 뜯기가 안 보임");
+if (!(await visible("분석 시작하기"))) bug("sample export failed", "샘플 후 분석 시작하기가 안 보임");
 await tapQa("tear");
 await waitPhase("teaser", 10000);
 await tapQa("lock-cta");

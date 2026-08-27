@@ -15,8 +15,8 @@ export function TerrainMap({
   return (
     <section className="grid gap-4">
       <div>
-        <p className="kicker">페르소나 도감</p>
-        <h2 className="mt-2 font-serif text-4xl tracking-tight">내가 만난 유형들</h2>
+        <p className="kicker">내가 만난 유형</p>
+        <h2 className="mt-2 text-2xl font-semibold tracking-tight">내가 만난 유형들이에요</h2>
       </div>
       <div className={cn("relative", locked && "select-none")}>
         <div
@@ -31,7 +31,7 @@ export function TerrainMap({
             return (
               <div key={id} className={cn("rounded-2xl p-4", QUADRANT_TINT[id])}>
                 <p className="text-xs tabular-nums opacity-70">{q.letters}</p>
-                <p className="mt-1 font-serif text-xl">{q.title}</p>
+                <p className="mt-1 text-xl font-semibold">{q.title}</p>
                 <div className="mt-4 grid grid-cols-2 gap-2">
                   {cells.map((c) => {
                     const on = Boolean(active) && c.mbti === active;

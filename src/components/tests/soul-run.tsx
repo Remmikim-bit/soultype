@@ -3,14 +3,14 @@
 import { AdGate } from "@/components/ad-gate";
 import { AdSlot } from "@/components/ad-slot";
 import { CharacterParade } from "@/components/character-parade";
+import { ContinueStrip } from "@/components/continue-strip";
 import { LockedPanel, MbtiCard } from "@/components/mbti-card";
 import { PromptList } from "@/components/prompt-list";
-import { RelatedTests } from "@/components/related-tests";
 import { SessionIntake } from "@/components/session-intake";
 import { StatsPanel } from "@/components/stats-panel";
 import { TerrainMap } from "@/components/terrain-map";
 import { Theater } from "@/components/theater";
-import { ArrowGlyph } from "@/components/hero-switch";
+import { Button } from "@/components/ui/button";
 import { analyzeUsage } from "@/lib/analyze";
 import { testOf } from "@/lib/catalog";
 import { classifyLocal, resultFromMbti } from "@/lib/mbti-local";
@@ -59,25 +59,26 @@ export function SoulRun() {
   };
 
   return (
-    <div className="grid gap-10" data-phase={phase} data-qa="soul-run">
-      <section className="glass grid max-w-xl gap-3 p-5 md:p-6">
+    <div className="grid gap-5" data-phase={phase} data-qa="soul-run">
+      <section className="glass grid gap-2 p-5">
         <p className="kicker">{META.no}</p>
-        <h1 className="font-serif text-4xl tracking-tight md:text-6xl">{META.name}</h1>
-        <p className="text-sm text-muted">{META.hook}</p>
+        <h1 className="hero-title tracking-tight">{META.name}</h1>
+        <p className="text-[15px] leading-relaxed text-muted">{META.hook}</p>
       </section>
 
       {phase === "in" && !digest ? <SessionIntake /> : null}
 
       {phase === "in" && digest ? (
-        <button type="button" onClick={start} className="cta-row" data-qa="tear">
-          <span>
-            <span className="block font-serif text-2xl">뜯기</span>
-            <span className="mt-1 block text-sm text-muted">
-              {intake === "simple" ? "문장으로" : "올린 대화록으로"}
-            </span>
-          </span>
-          <ArrowGlyph className="size-5 shrink-0" />
-        </button>
+        <div className="grid gap-2">
+          <Button className="w-full" onClick={start} data-qa="tear">
+            분석 시작하기
+          </Button>
+          <p className="text-[14px] text-muted">
+            {intake === "simple"
+              ? "붙여 넣은 문장으로 성격을 분석해요."
+              : "올린 대화록으로 성격을 분석해요."}
+          </p>
+        </div>
       ) : null}
 
       {phase === "theater" ? <Theater lines={META.theater} /> : null}
@@ -87,7 +88,7 @@ export function SoulRun() {
           <LockedPanel
             kicker={META.name}
             title={META.teaser}
-            body="광고 보면 글자 네 개랑 이름을 열어줄게."
+            body="유형 글자 네 개와 이름까지 한 번에 보여 드려요."
             action="광고 보고 결과 보기"
             onAction={() => setAdKey("soul:mbti")}
           />
@@ -98,8 +99,8 @@ export function SoulRun() {
       {phase === "result" && unlocked && shown ? (
         <>
           <div>
-            <p className="kicker">페르소나 도감</p>
-            <p className="mt-2 font-serif text-2xl">내가 만난 유형들</p>
+            <p className="kicker">내가 만난 유형</p>
+            <p className="mt-1 text-[20px] font-semibold">내가 만난 유형들이에요</p>
           </div>
           <CharacterParade winner={winner} dim={false} compact />
           <MbtiCard analysis={shown} />
@@ -111,13 +112,13 @@ export function SoulRun() {
             <LockedPanel
               kicker="이미지"
               title="이미지 프롬프트 3개"
-              body="이 얼굴로 그릴 때 쓰는 영어 문장. 광고 보면 복사."
-              action="광고 보고 받기"
+              body="이 얼굴로 그릴 때 쓰는 영어 문장이에요. 광고를 보면 복사할 수 있어요."
+              action="광고 보고 프롬프트 보기"
               onAction={() => setAdKey("soul:prompts")}
             />
           )}
           <AdSlot place="inline" />
-          <RelatedTests current="soul" />
+          <ContinueStrip current="soul" />
         </>
       ) : null}
 

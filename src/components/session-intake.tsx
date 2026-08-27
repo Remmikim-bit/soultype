@@ -26,12 +26,12 @@ export function SessionIntake() {
     try {
       const next = await parseFile(file);
       if (next.stats.totalConversations === 0) {
-        setError("대화가 안 보인다. Grok · ChatGPT · Claude JSON인지 봐.");
+        setError("대화를 찾지 못했어요. Grok, ChatGPT, Claude JSON인지 한 번만 확인해 주세요.");
         return;
       }
       setExport(next, file.name);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "파일을 못 읽었다.");
+      setError(err instanceof Error ? err.message : "파일을 읽지 못했어요. 다시 선택해 주세요.");
     }
   };
 
@@ -40,7 +40,7 @@ export function SessionIntake() {
     try {
       setExport(parseObject(buildDemoExport()), "샘플 내보내기");
     } catch {
-      setError("샘플을 못 열었다.");
+      setError("샘플을 열지 못했어요. 잠시 후 다시 시도해 주세요.");
     }
   };
 
@@ -51,8 +51,8 @@ export function SessionIntake() {
   if (way === "simple") {
     return (
       <div className="grid gap-6">
-        <button type="button" onClick={() => setWay("pick")} className="text-left text-sm text-muted">
-          뒤로
+        <button type="button" onClick={() => setWay("pick")} className="text-left text-[15px] text-muted">
+          이전으로
         </button>
         <RelayDesk busy={busy} error={error} onSubmit={onRelay} />
       </div>
@@ -62,12 +62,12 @@ export function SessionIntake() {
   if (way === "export") {
     return (
       <div className="grid gap-6">
-        <button type="button" onClick={() => setWay("pick")} className="text-left text-sm text-muted">
-          뒤로
+        <button type="button" onClick={() => setWay("pick")} className="text-left text-[15px] text-muted">
+          이전으로
         </button>
         <DropZone busy={busy} onFile={(f) => void onFile(f)} onSample={onSample} />
-        {status === "parsing" ? <p className="text-sm text-muted">읽는 중</p> : null}
-        {status === "error" && error ? <p className="text-sm text-muted">{error}</p> : null}
+        {status === "parsing" ? <p className="text-[15px] text-muted">파일을 읽고 있어요.</p> : null}
+        {status === "error" && error ? <p className="text-[15px] text-muted">{error}</p> : null}
         <HowExport />
       </div>
     );
@@ -77,17 +77,17 @@ export function SessionIntake() {
     <div>
       <button type="button" onClick={() => setWay("simple")} className="cta-row" data-qa="way-simple">
         <span>
-          <span className="block font-serif text-2xl">문장 하나</span>
-          <span className="mt-1 block text-sm text-muted">지금 쓰는 AI한테 넣고, 나온 거 붙여</span>
+          <span className="block text-[20px] font-semibold">문장 하나</span>
+          <span className="mt-1 block text-[15px] text-muted">지금 쓰는 AI에 넣고, 돌아온 답을 붙여 주세요</span>
         </span>
-        <ArrowGlyph className="size-5 shrink-0" />
+        <ArrowGlyph className="size-5 shrink-0 text-subtle" />
       </button>
       <button type="button" onClick={() => setWay("export")} className="cta-row" data-qa="way-export">
         <span>
-          <span className="block font-serif text-2xl">대화록 불러오기</span>
-          <span className="mt-1 block text-sm text-muted">JSON만 올리면 된다. 원문은 안 나간다</span>
+          <span className="block text-[20px] font-semibold">대화록 불러오기</span>
+          <span className="mt-1 block text-[15px] text-muted">JSON만 올리면 돼요. 원문은 이 기기에만 남아요</span>
         </span>
-        <ArrowGlyph className="size-5 shrink-0" />
+        <ArrowGlyph className="size-5 shrink-0 text-subtle" />
       </button>
     </div>
   );

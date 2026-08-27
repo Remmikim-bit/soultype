@@ -100,7 +100,7 @@ function ParadeRow({
               )}
             >
               <div className="min-w-0 flex-1">
-                <p className="truncate font-serif text-sm leading-tight">{c.name}</p>
+                <p className="truncate text-sm font-semibold leading-tight">{c.name}</p>
                 <p className={cn("font-mono text-xs tabular-nums", on ? "text-accent" : "text-subtle")}>
                   {c.mbti}
                 </p>

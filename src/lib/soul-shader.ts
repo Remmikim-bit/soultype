@@ -47,16 +47,34 @@ float alive(float n, float i) {
 }
 
 vec3 blobCenter(int i, float t) {
+  float aspect = uRes.x / max(uRes.y, 1.0);
+  float xs = clamp(aspect * 0.52, 0.20, 0.78);
   if (i == 0) {
-    return vec3(0.1 * sin(t * 0.23), 0.22 * sin(t * 0.16) + 0.06, 0.04 * cos(t * 0.19));
+    float rise = sin(t * 0.27);
+    return vec3(
+      xs * sin(t * 0.13) * cos(t * 0.09),
+      0.46 * rise,
+      0.78 * sin(t * 0.21 + 0.3)
+    );
   }
   if (i == 1) {
-    return vec3(-0.7 + 0.08 * sin(t * 0.19 + 1.3), -0.16 + 0.4 * sin(t * 0.13 + 0.6), 0.08);
+    float rise = sin(t * 0.22 + 2.15);
+    return vec3(
+      xs * 0.92 * cos(t * 0.16 + 1.1),
+      0.50 * rise + 0.02,
+      0.70 * cos(t * 0.18 + 0.9)
+    );
   }
-  if (i == 2) {
-    return vec3(0.66 + 0.08 * cos(t * 0.17 + 2.0), 0.26 * sin(t * 0.12 + 1.8) + 0.12, -0.05);
-  }
-  return vec3(0.0);
+  float rise = sin(t * 0.31 + 4.05);
+  return vec3(
+    xs * 0.7 * sin(t * 0.19 + 2.4),
+    0.42 * rise - 0.04,
+    0.74 * sin(t * 0.15 + 1.6)
+  );
+}
+
+float depthScale(float z) {
+  return mix(0.42, 1.12, clamp(0.5 + 0.5 * z, 0.0, 1.0));
 }
 
 float field(vec3 p, vec4 form, float size) {
@@ -93,10 +111,11 @@ float field(vec3 p, vec4 form, float size) {
 }
 
 float map(vec3 p) {
-  p.x -= uOffset.x * 0.7;
-  p.y -= uOffset.y * 0.45;
+  p.x -= uOffset.x;
+  p.y -= uOffset.y;
   float t = uReduced > 0.5 ? 0.0 : uTime;
-  p.xz *= rot(0.12 + 0.08 * sin(t * 0.14) + uPtr.x * 0.1);
+  p.xz *= rot(0.10 + 0.10 * sin(t * 0.12) + uPtr.x * 0.08);
+  p.xy *= rot(0.05 * sin(t * 0.09) + uPtr.y * 0.04);
 
   float w = uWarp * 0.13;
   p += w * vec3(
@@ -107,10 +126,16 @@ float map(vec3 p) {
 
   float s = max(uScale, 0.28);
   vec4 f = uForm;
+  float merge = mix(0.22, 0.4, 0.5 + 0.5 * sin(t * 0.29));
+
+  vec3 c0 = blobCenter(0, t);
+  vec3 c1 = blobCenter(1, t);
+  vec3 c2 = blobCenter(2, t);
+
   float d = 8.0;
-  d = smin(d, field(p - blobCenter(0, t), f, s * 0.7), 0.32);
-  d = smin(d, field(p - blobCenter(1, t), f + vec4(1.25, -0.18, 0.2, 0.25), s * 0.48), 0.3);
-  d = smin(d, field(p - blobCenter(2, t), f + vec4(-0.9, 0.22, -0.18, 0.35), s * 0.36), 0.28);
+  d = smin(d, field(p - c0, f, s * 0.62 * depthScale(c0.z)), merge);
+  d = smin(d, field(p - c1, f + vec4(1.25, -0.18, 0.2, 0.25), s * 0.46 * depthScale(c1.z)), merge);
+  d = smin(d, field(p - c2, f + vec4(-0.9, 0.22, -0.18, 0.35), s * 0.34 * depthScale(c2.z)), merge * 0.92);
   return d;
 }
 

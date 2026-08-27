@@ -6,22 +6,22 @@ import { Button } from "@/components/ui/button";
 const ADS = {
   mbti: {
     brand: "한낮노트",
-    line: "기록은 이 기기에만 남는다.",
+    line: "기록은 이 기기에만 남아요.",
     hold: 7,
   },
   prompts: {
     brand: "잉크랩",
-    line: "같은 얼굴로 그리는 영어 문장.",
+    line: "같은 얼굴로 그리는 영어 문장을 받을 수 있어요.",
     hold: 8,
   },
   grade: {
     brand: "늦은우체국",
-    line: "점수는 광고 뒤에.",
+    line: "광고가 끝나면 점수를 바로 열어드려요.",
     hold: 6,
   },
   extra: {
     brand: "잉크랩",
-    line: "한 줄 더.",
+    line: "한 줄을 더 열어볼 수 있어요.",
     hold: 6,
   },
 } as const;
@@ -65,37 +65,31 @@ export function AdGate({
   const progress = Math.min(100, (elapsed / ad.hold) * 100);
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-bg/85 p-4 md:items-center"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="ad-title"
-      data-qa="ad-gate"
-    >
-      <div className="sheet w-full max-w-lg p-6 md:p-8">
-        <p className="kicker">광고</p>
-        <div className="mt-6 aspect-video rounded-xl bg-surface p-6">
-          <p className="font-serif text-4xl text-fg">{ad.brand}</p>
-          <p className="mt-3 max-w-sm text-sm text-muted">{ad.line}</p>
-          <div className="relative mt-10 h-px bg-line">
-            <span className="absolute inset-y-0 left-0 bg-accent" style={{ width: `${progress}%` }} />
+    <div className="ad-overlay" role="dialog" aria-modal="true" aria-labelledby="ad-title" data-qa="ad-gate">
+      <div className="ad-sheet sheet">
+        <p className="ad-badge">AD</p>
+        <div className="ad-frame mt-4">
+          <p className="text-[28px] font-semibold tracking-tight text-fg">{ad.brand}</p>
+          <p className="mt-2 max-w-sm text-[15px] leading-relaxed text-muted">{ad.line}</p>
+          <div className="relative mt-8 h-1.5 overflow-hidden rounded-full bg-line">
+            <span className="absolute inset-y-0 left-0 rounded-full bg-accent" style={{ width: `${progress}%` }} />
           </div>
         </div>
-        <div className="mt-6 flex items-center justify-between gap-3">
-          <p id="ad-title" className="text-sm text-muted">
+        <div className="mt-5 grid gap-3">
+          <p id="ad-title" className="text-[15px] text-muted">
             {left > 0 ? (
               <>
-                <span className="tabular-nums text-fg">{left}</span>초 후 열립니다
+                <span className="tabular-nums text-fg">{left}</span>초 후에 열 수 있어요
               </>
             ) : (
-              "광고가 끝났습니다"
+              "광고가 끝났어요. 결과를 열 수 있어요"
             )}
           </p>
-          <div className="flex gap-2">
-            <Button variant="ghost" size="sm" onClick={onClose} data-qa="ad-close">
+          <div className="grid grid-cols-2 gap-2">
+            <Button variant="ghost" onClick={onClose} data-qa="ad-close">
               닫기
             </Button>
-            <Button size="sm" disabled={left > 0} onClick={onComplete} data-qa="ad-unlock">
+            <Button disabled={left > 0} onClick={onComplete} data-qa="ad-unlock">
               결과 열기
             </Button>
           </div>

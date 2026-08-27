@@ -12,9 +12,11 @@ INTJ HAL 9000, INTP 매트릭스 아키텍트, INFJ 스카이넷, INFP 사만다
 ISTJ 터미네이터 T-800, ISTP AUTO, ISFJ 에이전트 스미스, ISFP M3GAN,
 ENTJ 자르비스, ENTP C-3PO, ENFJ 울트론, ENFP 월-E,
 ESTJ VIKI, ESTP T-1000, ESFJ 베이맥스, ESFP TARS.
-headline은 반드시: "네가 쓰는 AI의 MBTI는 XXXX야."
+headline은 반드시: "네가 쓰는 AI의 MBTI는 XXXX예요."
 typeName과 characterName은 위 이름과 동일.
-oneLiner/howYouUse/ritual은 한국어. 한 문장에 한 뜻. 은유만 쓰지 말고 누가 누구를 어떻게 다루는지 구체적으로.
+oneLiner/howYouUse/ritual/traits.body는 한국어 해요체.
+소리 내어 읽어도 자연스럽게. 딱딱한 반말·합니다체 금지. ~시겠어요 금지.
+한 문장에 한 뜻. 은유만 쓰지 말고 누가 누구를 어떻게 다루는지 구체적으로.
 imagePrompts는 3개. title은 한국어로 상징, 작업실, 초상. prompt는 영어.
 네온/퍼플/로고/실사 캐릭터 얼굴/워터마크 금지. 잉크·종이·기하.`;
 
@@ -49,15 +51,15 @@ function coerce(raw: unknown, fallback: AnalysisResult): AnalysisResult {
     quadrant: pack.quadrant,
     quadrantTitle: QUADRANTS[pack.quadrant].title,
     tags: pack.tags,
-    headline: String(o.headline ?? `네가 쓰는 AI의 MBTI는 ${mbti}야.`).slice(0, 80),
-    oneLiner: String(o.oneLiner ?? pack.oneLiner).slice(0, 180),
-    howYouUse: String(o.howYouUse ?? pack.how).slice(0, 240),
-    ritual: String(o.ritual ?? pack.ritual).slice(0, 180),
+    headline: String(o.headline ?? `네가 쓰는 AI의 MBTI는 ${mbti}예요.`).slice(0, 80),
+    oneLiner: String(o.oneLiner ?? pack.oneLiner).slice(0, 220),
+    howYouUse: String(o.howYouUse ?? pack.how).slice(0, 280),
+    ritual: String(o.ritual ?? pack.ritual).slice(0, 220),
     traits: (traitsRaw.length ? traitsRaw : pack.traits).slice(0, 4).map((t) => {
       const row = (t ?? {}) as Record<string, unknown>;
       return {
         label: String(row.label ?? "특징").slice(0, 16),
-        body: String(row.body ?? "").slice(0, 140),
+        body: String(row.body ?? "").slice(0, 180),
       };
     }),
     axes: fallback.axes,
@@ -103,7 +105,7 @@ export const analyzeUsage = createServerFn({ method: "POST" })
         body: JSON.stringify({
           model: "grok-4.5",
           temperature: 0.55,
-          max_tokens: 520,
+          max_tokens: 700,
           messages: [
             { role: "system", content: SYSTEM },
             {
@@ -120,7 +122,7 @@ export const analyzeUsage = createServerFn({ method: "POST" })
                   mbti: fallback.mbti,
                   typeName: fallback.characterName,
                   characterName: fallback.characterName,
-                  headline: `네가 쓰는 AI의 MBTI는 ${fallback.mbti}야.`,
+                  headline: `네가 쓰는 AI의 MBTI는 ${fallback.mbti}예요.`,
                   oneLiner: "",
                   howYouUse: "",
                   ritual: "",
@@ -146,7 +148,7 @@ export const analyzeUsage = createServerFn({ method: "POST" })
       parsed.typeName = fallback.characterName;
       parsed.tags = fallback.tags;
       parsed.mbti = fallback.mbti;
-      parsed.headline = `네가 쓰는 AI의 MBTI는 ${fallback.mbti}야.`;
+      parsed.headline = `네가 쓰는 AI의 MBTI는 ${fallback.mbti}예요.`;
       if (!parsed.traits.length) parsed.traits = fallback.traits;
       if (!parsed.imagePrompts.length) parsed.imagePrompts = fallback.imagePrompts;
       return { ok: true as const, analysis: parsed, reason: "ai" };

@@ -9,9 +9,9 @@ export function PromptList({ prompts }: { prompts: ImagePrompt[] }) {
     <section className="grid gap-3">
       <div>
         <p className="kicker">이미지</p>
-        <h2 className="mt-2 font-serif text-4xl tracking-tight">이미지 프롬프트</h2>
-        <p className="mt-2 max-w-lg text-sm text-muted">
-          그대로 붙여. 로고랑 네온은 뺐다.
+        <h2 className="mt-2 text-2xl font-semibold tracking-tight">이미지 프롬프트</h2>
+        <p className="mt-2 max-w-lg text-[15px] leading-relaxed text-muted">
+          그대로 붙여 넣으면 돼요. 로고와 네온은 빼 두었어요.
         </p>
       </div>
       <ol className="grid gap-3">
@@ -41,15 +41,15 @@ function PromptRow({ index, prompt }: { index: number; prompt: ImagePrompt }) {
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="font-mono text-xs tabular-nums text-subtle">{String(index).padStart(2, "0")}</p>
-          <h3 className="mt-1 font-serif text-xl">{prompt.title}</h3>
+          <h3 className="mt-1 text-xl font-semibold">{prompt.title}</h3>
         </div>
         <button
           type="button"
           onClick={() => void copy()}
-          className="inline-flex h-11 min-h-11 items-center gap-2 rounded-full px-4 text-sm text-fg shadow-[var(--shadow-border)] hover:opacity-70"
+          className="inline-flex h-11 min-h-11 items-center gap-2 rounded-full px-4 text-[15px] text-fg shadow-[var(--shadow-border)] hover:opacity-70"
         >
           {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
-          {copied ? "복사됨" : "복사"}
+          {copied ? "복사했어요" : "복사하기"}
         </button>
       </div>
       <p className="mt-4 font-mono text-sm leading-relaxed text-muted">{prompt.prompt}</p>

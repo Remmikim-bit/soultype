@@ -19,9 +19,10 @@ export function TestPage({ slug }: { slug: TestId }) {
     return (
       <SiteShell stage="gate" home={false}>
         <section className="glass p-6">
-          <p className="font-serif text-3xl">없는 페이지다</p>
-          <a href="/" className="mt-4 inline-block text-sm text-accent">
-            목록
+          <p className="text-3xl font-semibold tracking-tight">없는 페이지예요</p>
+          <p className="mt-2 text-[15px] text-muted">홈에서 분석을 다시 골라 볼 수 있어요.</p>
+          <a href="/" className="mt-4 inline-block min-h-11 text-[15px] text-accent">
+            홈으로
           </a>
         </section>
       </SiteShell>

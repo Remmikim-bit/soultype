@@ -42,13 +42,11 @@ export function RelayDesk({
   const parsedOk = Boolean(parseRelay(paste));
 
   return (
-    <section className="grid gap-8">
-      <div className="glass grid max-w-xl gap-3 p-5 md:p-6">
+    <section className="grid gap-6">
+      <div className="glass grid gap-2 p-5">
         <p className="kicker">문장 하나</p>
-        <h1 className="font-serif text-3xl tracking-tight md:text-4xl">이 문장 넣고, 돌아온 거 붙여</h1>
-        <p className="text-sm text-muted">
-          어디든 넣고, JSON만 다시 가져오면 끝.
-        </p>
+        <h1 className="text-[22px] font-semibold tracking-tight">이 문장 넣고, 돌아온 답을 붙여 주세요</h1>
+        <p className="text-[15px] leading-relaxed text-muted">지금 쓰는 AI에 넣고, JSON만 다시 가져오면 돼요.</p>
       </div>
       <div className="sheet p-4 md:p-5">
         <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -66,7 +64,7 @@ export function RelayDesk({
               예시 JSON
             </Button>
             <Button size="sm" onClick={() => void copy()}>
-              {copied ? "복사됨" : "복사하기"}
+              {copied ? "복사했어요" : "복사하기"}
             </Button>
           </div>
         </div>
@@ -76,7 +74,7 @@ export function RelayDesk({
       </div>
       {openPaste || paste ? (
         <div className="grid gap-3">
-          <p className="font-serif text-2xl">AI가 준 JSON</p>
+          <p className="text-[20px] font-semibold">AI가 준 JSON</p>
           <textarea
             suppressHydrationWarning
             value={paste}
@@ -85,18 +83,16 @@ export function RelayDesk({
             placeholder='{"schema":"st.v1","vec":[...]}'
             className="w-full resize-y rounded-xl bg-surface px-4 py-3 font-mono text-xs text-fg shadow-[var(--shadow-border)] outline-none placeholder:text-subtle"
           />
-          <div className="flex flex-wrap items-center gap-2">
-            <Button disabled={!parsedOk || busy} arrow onClick={run} data-qa="paste-relay">
-              {busy ? "읽는 중" : "붙이기"}
-            </Button>
-          </div>
+          <Button className="w-full" disabled={!parsedOk || busy} onClick={run} data-qa="paste-relay">
+            {busy ? "읽고 있어요" : "붙여서 계속하기"}
+          </Button>
           {paste && !parsedOk ? (
-            <p className="text-sm text-muted">JSON 형식이 아닙니다. AI가 보낸 답을 통째로 붙여 주세요.</p>
+            <p className="text-[15px] text-muted">JSON 형식이 아니에요. AI가 보낸 답을 통째로 붙여 주세요.</p>
           ) : null}
-          {error ? <p className="text-sm text-muted">{error}</p> : null}
+          {error ? <p className="text-[15px] text-muted">{error}</p> : null}
         </div>
       ) : (
-        <p className="text-sm text-muted">복사해서 넣고, 돌아온 답을 가져오면 칸이 열린다.</p>
+        <p className="text-[15px] text-muted">복사해서 넣고, 돌아온 답을 가져오면 붙여넣을 칸이 열려요.</p>
       )}
     </section>
   );

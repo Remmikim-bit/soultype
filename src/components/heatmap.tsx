@@ -14,7 +14,7 @@ function heatClass(value: number, max: number): string {
 export function Heatmap({ byDay }: { byDay: Record<string, DayBucket> }) {
   const dates = Object.keys(byDay).sort();
   if (dates.length === 0) {
-    return <p className="text-sm text-muted">날짜 데이터가 없습니다.</p>;
+    return <p className="text-sm text-muted">날짜 기록이 아직 없어요.</p>;
   }
   const start = new Date(`${dates[0]}T00:00:00Z`);
   const end = new Date(`${dates[dates.length - 1]}T00:00:00Z`);
