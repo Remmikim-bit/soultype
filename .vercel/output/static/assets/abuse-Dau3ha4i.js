@@ -1,0 +1,1 @@
+import{t as e}from"./test-page-CKTgHLmS.js";import{s as t}from"./index-CPDbtEbM.js";var n=t(),r=()=>(0,n.jsx)(e,{slug:`abuse`});export{r as component};
