@@ -61,9 +61,9 @@ export function SoulRun() {
   return (
     <div className="grid gap-10" data-phase={phase} data-qa="soul-run">
       <section className="glass grid max-w-xl gap-3 p-5 md:p-6">
-        <p className="kicker">{META.no} · {META.name}</p>
-        <h1 className="font-serif text-4xl tracking-tight md:text-6xl">한 장만 뽑는다</h1>
-        <p className="text-sm text-muted">키운 건 너야. 맞는지 네가 알아.</p>
+        <p className="kicker">{META.no}</p>
+        <h1 className="font-serif text-4xl tracking-tight md:text-6xl">{META.name}</h1>
+        <p className="text-sm text-muted">{META.hook}</p>
       </section>
 
       {phase === "in" && !digest ? <SessionIntake /> : null}
@@ -98,8 +98,8 @@ export function SoulRun() {
       {phase === "result" && unlocked && shown ? (
         <>
           <div>
-            <p className="kicker">페르소나 도감</p>
-            <p className="mt-2 font-serif text-2xl">내가 만난 얼굴들</p>
+            <p className="kicker">AI 페르소나 도감</p>
+            <p className="mt-2 font-serif text-2xl">내가 만난 AI 유형들 모아보기</p>
           </div>
           <CharacterParade winner={winner} dim={false} compact />
           <MbtiCard analysis={shown} />

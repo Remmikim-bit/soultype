@@ -62,8 +62,8 @@ export function DuelRun() {
         <p className="kicker">
           {META.no} · {META.name} · {LIMIT}초
         </p>
-        <h1 className="font-serif text-4xl tracking-tight md:text-6xl">같은 과제. 프롬프트만.</h1>
-        <p className="text-sm text-muted">답을 쓰지 마. 시킬 문장만. 승자는 대화가 아니라 지시야.</p>
+        <h1 className="font-serif text-4xl tracking-tight md:text-6xl">{META.name}</h1>
+        <p className="text-sm text-muted">{META.hook}</p>
       </section>
 
       {view === "write" ? (

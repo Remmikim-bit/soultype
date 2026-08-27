@@ -16,7 +16,7 @@ export function TerrainMap({
     <section className="grid gap-4">
       <div>
         <p className="kicker">AI 페르소나 도감</p>
-        <h2 className="mt-2 font-serif text-4xl tracking-tight">이 중에 하나</h2>
+        <h2 className="mt-2 font-serif text-4xl tracking-tight">내가 만난 AI 유형들 모아보기</h2>
       </div>
       <div className={cn("relative", locked && "select-none")}>
         <div
