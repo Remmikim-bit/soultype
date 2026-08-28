@@ -19,7 +19,7 @@ function Home() {
 
   return (
     <SiteShell stage="gate" home>
-      <section className="grid gap-2">
+      <section className="glass grid gap-2 p-5">
         <p className="kicker">소울타입 · 내 AI의 MBTI</p>
         <h1 id="hub-title" className="hero-title tracking-tight">
           내 AI 성격 분석
@@ -92,7 +92,7 @@ function Home() {
         ))}
       </nav>
 
-      <p className="text-[13px] text-subtle">문장 하나, 또는 대화록 JSON이면 충분해요. 원문은 이 기기에서만 읽어요.</p>
+      <p className="sheet px-5 py-3 text-[13px] text-subtle">문장 하나, 또는 대화록 JSON이면 충분해요. 원문은 이 기기에서만 읽어요.</p>
     </SiteShell>
   );
 }

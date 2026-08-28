@@ -69,7 +69,7 @@ export function SoulRun() {
       {phase === "in" && !digest ? <SessionIntake /> : null}
 
       {phase === "in" && digest ? (
-        <div className="grid gap-2">
+        <div className="sheet grid gap-2 p-4">
           <Button className="w-full" onClick={start} data-qa="tear">
             분석 시작하기
           </Button>

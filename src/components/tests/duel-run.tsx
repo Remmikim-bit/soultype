@@ -79,7 +79,7 @@ export function DuelRun() {
             placeholder="너는 … 하지 마 … 형식은 …"
             className="w-full resize-y rounded-xl bg-surface px-4 py-3 text-[15px] text-fg shadow-[var(--shadow-border)] outline-none placeholder:text-subtle"
           />
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="sheet flex flex-wrap items-center gap-3 p-4">
             <Button
               disabled={running ? prompt.trim().length < 8 : false}
               onClick={() => {

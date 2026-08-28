@@ -63,7 +63,7 @@ export function DropZone({
           onChange={(e) => take(e.target.files?.[0])}
         />
       ) : null}
-      <div className="grid grid-cols-2 gap-2">
+      <div className="sheet grid grid-cols-2 gap-2 p-3">
         <Button onClick={() => inputRef.current?.click()} disabled={busy}>
           JSON 선택하기
         </Button>

@@ -235,7 +235,7 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       const oy = p.stage === "gate" ? lay.y : lay.y * 0.85;
       offset.x = damp(offset.x, ox, dt, 0.8);
       offset.y = damp(offset.y, oy, dt, 0.8);
-      const want = p.stage === "gate" ? 0.96 : p.stage === "result" ? 0.9 : 0.86;
+      const want = p.stage === "gate" ? 0.62 : p.stage === "result" ? 0.54 : 0.5;
       presence = damp(presence, want, dt, 0.85);
       const stageTgt = p.stage === "result" ? 1 : p.stage === "work" ? 0.45 : 0;
       stageMix = damp(stageMix, stageTgt, dt, 1.1);
@@ -246,7 +246,7 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       uniforms.uColA.value.set(colA[0], colA[1], colA[2]);
       uniforms.uColB.value.set(colB[0], colB[1], colB[2]);
       uniforms.uForm.value.set(params.verts, params.sharp, params.hull, params.stretch);
-      uniforms.uScale.value = params.size * lay.scale * (1 + 0.035 * Math.sin(t * 0.37));
+      uniforms.uScale.value = params.size * lay.scale * (1 + 0.028 * Math.sin(t * 0.37));
       uniforms.uWarp.value = params.warp;
       uniforms.uPresence.value = presence;
       uniforms.uStage.value = stageMix;
@@ -282,6 +282,7 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
   return (
     <div ref={hostRef} className="soul-field" data-stage={stage} aria-hidden="true">
       <canvas ref={canvasRef} className="soul-field-canvas" />
+      <div className="soul-frost" />
       <div className="soul-scrim" />
       <p ref={formRef} className="soul-form-label" />
       <p ref={captionRef} className="soul-caption" />

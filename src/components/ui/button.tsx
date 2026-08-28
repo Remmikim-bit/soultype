@@ -9,8 +9,8 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary: "bg-accent text-accent-fg hover:opacity-85",
-        ghost: "bg-transparent text-fg shadow-[var(--shadow-border)] hover:shadow-[var(--shadow-border-hover)] hover:opacity-80",
-        quiet: "bg-surface text-fg hover:opacity-80",
+        ghost: "btn-glass text-fg hover:opacity-80",
+        quiet: "btn-glass text-fg hover:opacity-80",
       },
       size: {
         default: "h-12",

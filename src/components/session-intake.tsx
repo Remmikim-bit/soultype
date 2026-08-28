@@ -51,7 +51,7 @@ export function SessionIntake() {
   if (way === "simple") {
     return (
       <div className="grid gap-6">
-        <button type="button" onClick={() => setWay("pick")} className="text-left text-[15px] text-muted">
+        <button type="button" onClick={() => setWay("pick")} className="btn-glass inline-flex min-h-11 items-center rounded-[14px] px-3 text-left text-[15px] text-muted">
           이전으로
         </button>
         <RelayDesk busy={busy} error={error} onSubmit={onRelay} />
@@ -62,7 +62,7 @@ export function SessionIntake() {
   if (way === "export") {
     return (
       <div className="grid gap-6">
-        <button type="button" onClick={() => setWay("pick")} className="text-left text-[15px] text-muted">
+        <button type="button" onClick={() => setWay("pick")} className="btn-glass inline-flex min-h-11 items-center rounded-[14px] px-3 text-left text-[15px] text-muted">
           이전으로
         </button>
         <DropZone busy={busy} onFile={(f) => void onFile(f)} onSample={onSample} />
@@ -74,7 +74,7 @@ export function SessionIntake() {
   }
 
   return (
-    <div>
+    <div className="sheet overflow-hidden px-5">
       <button type="button" onClick={() => setWay("simple")} className="cta-row" data-qa="way-simple">
         <span>
           <span className="block text-[20px] font-semibold">문장 하나</span>
