@@ -186,8 +186,8 @@ void main() {
   float aura = exp(-max(minD, 0.0) * 9.2) * uPresence;
   col += mix(uColA, uColB, 0.5) * aura * mix(0.08, 0.14, uStage);
 
-  float farFog = smoothstep(1.65, 4.55, tHit);
-  float closeSoft = 1.0 - smoothstep(1.45, 2.45, tHit);
+  float farFog = smoothstep(1.35, 3.9, tHit);
+  float closeSoft = 1.0 - smoothstep(1.28, 2.55, tHit);
 
   if (hit > 0.5) {
     vec3 p = ro + rd * tHit;
@@ -207,7 +207,7 @@ void main() {
     vec3 ir = 0.5 + 0.5 * cos(6.2831 * (vec3(0.0, 0.33, 0.67) + fres * 0.7 + uTime * 0.01));
     float sss = pow(1.0 - ndv, 1.15) * (0.42 + 0.28 * (1.0 - uStage));
     col = mix(body, glass, mix(0.28, 0.4, uStage));
-    col = mix(col, mix(uBg, tint, 0.32), closeSoft * 0.52);
+    col = mix(col, mix(uBg, tint, 0.26), closeSoft * 0.68);
     col += spec * mix(tint, vec3(1.0), 0.5) * mix(0.35, 0.55, uStage);
     col += fres * mix(tint, ir, 0.45) * mix(0.22, 0.38, uStage);
     col += uColB * sss * 0.32;
@@ -215,9 +215,9 @@ void main() {
     col *= ao;
   }
 
-  float vis = mix(0.05, 0.62, 1.0 - farFog) * uPresence;
-  col = mix(uBg, col, mix(0.06 + 0.1 * uPresence + aura * 0.18, vis, hit));
-  col = mix(col, uBg, farFog * 0.78);
+  float vis = mix(0.04, 0.48, 1.0 - farFog) * uPresence;
+  col = mix(uBg, col, mix(0.05 + 0.08 * uPresence + aura * 0.16, vis, hit));
+  col = mix(col, uBg, farFog * 0.88);
   col *= 0.98;
   col = col * (0.94 + col) / (0.94 + col * col * 0.22 + col);
   if (uReduced > 0.5) col = mix(uBg, col, 0.72);

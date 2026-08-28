@@ -220,7 +220,7 @@ export function SoulField({ stage }: Props) {
       const oy = p.stage === "gate" ? lay.y : lay.y * 0.85;
       offset.x = damp(offset.x, ox, dt, 0.8);
       offset.y = damp(offset.y, oy, dt, 0.8);
-      const want = p.stage === "gate" ? 0.62 : p.stage === "result" ? 0.54 : 0.5;
+      const want = p.stage === "gate" ? 0.55 : p.stage === "result" ? 0.46 : 0.42;
       presence = damp(presence, want, dt, 0.85);
       const stageTgt = p.stage === "result" ? 1 : p.stage === "work" ? 0.45 : 0;
       stageMix = damp(stageMix, stageTgt, dt, 1.1);
