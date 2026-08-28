@@ -1,5 +1,6 @@
 "use client";
 
+import { Link } from "@tanstack/react-router";
 import { SiteShell } from "@/components/site-shell";
 import { DuelRun } from "@/components/tests/duel-run";
 import { GradeRun } from "@/components/tests/grade-run";
@@ -21,9 +22,9 @@ export function TestPage({ slug }: { slug: TestId }) {
         <section className="glass p-6">
           <p className="text-3xl font-semibold tracking-tight">없는 페이지예요</p>
           <p className="mt-2 text-[15px] text-muted">홈에서 분석을 다시 골라 볼 수 있어요.</p>
-          <a href="/" className="mt-4 inline-block min-h-11 text-[15px] text-accent">
+          <Link to="/" className="mt-4 inline-block min-h-11 text-[15px] text-accent">
             홈으로
-          </a>
+          </Link>
         </section>
       </SiteShell>
     );

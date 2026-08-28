@@ -1,5 +1,6 @@
 "use client";
 
+import { Link } from "@tanstack/react-router";
 import { ArrowGlyph } from "@/components/hero-switch";
 import { RelatedTests } from "@/components/related-tests";
 import { TEST_IDS, TEST_PATH, TESTS, testOf, type TestId } from "@/lib/catalog";
@@ -14,7 +15,7 @@ export function ContinueStrip({ current }: { current: TestId }) {
   return (
     <section className="grid gap-4" data-qa="continue-strip">
       {next && next.id !== current ? (
-        <a href={TEST_PATH[next.id]} className="continue-card">
+        <Link to={TEST_PATH[next.id]} className="continue-card">
           <div className="min-w-0">
             <p className="kicker">다음에 볼 분석 · {done}/6</p>
             <p className="mt-1 text-[20px] font-semibold tracking-tight">{next.name}</p>
@@ -24,7 +25,7 @@ export function ContinueStrip({ current }: { current: TestId }) {
             </p>
           </div>
           <ArrowGlyph className="size-5 shrink-0 text-subtle" />
-        </a>
+        </Link>
       ) : (
         <div className="continue-card">
           <div>

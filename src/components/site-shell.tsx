@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, type ReactNode } from "react";
-import { SoulFieldHost } from "@/components/soul-field-host";
+import { useEffect, useLayoutEffect, type ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { BrandMark } from "@/components/type-mark";
 import type { QuadrantId } from "@/lib/characters";
@@ -30,7 +30,18 @@ export function SiteShell({
   const digest = useAppStore((s) => s.digest);
   const clearRecord = useAppStore((s) => s.clearRecord);
   const rehydrate = useAppStore((s) => s.rehydrate);
+  const setFieldView = useAppStore((s) => s.setFieldView);
   const hasSession = Boolean(digest);
+
+  useLayoutEffect(() => {
+    setFieldView({
+      stage,
+      axes: axes ?? null,
+      locked: Boolean(locked),
+      quadrant: quadrant ?? null,
+      caption: caption ?? null,
+    });
+  }, [stage, axes, locked, quadrant, caption, setFieldView]);
 
   useEffect(() => {
     bootTheme();
@@ -41,21 +52,13 @@ export function SiteShell({
 
   return (
     <div className="relative min-h-dvh overflow-x-hidden bg-transparent text-fg">
-      <SoulFieldHost
-        stage={stage}
-        axes={axes ?? null}
-        locked={Boolean(locked)}
-        quadrant={quadrant ?? null}
-        caption={caption ?? null}
-      />
-
       <header className="pointer-events-none fixed inset-x-0 top-0 z-50">
         <div className="site-header mx-auto flex w-full max-w-[26.5rem] justify-center px-5">
           <div className="glass-bar pointer-events-auto flex w-full max-w-[26.5rem] items-center justify-between gap-3 px-3 py-1.5">
-            <a href="/" className="flex min-h-11 items-center gap-2.5 text-left">
+            <Link to="/" className="flex min-h-11 items-center gap-2.5 text-left">
               <BrandMark className="size-7" />
               <span className="font-serif text-base leading-none">소울타입</span>
-            </a>
+            </Link>
             <div className="flex items-center gap-1 text-[15px] text-muted">
               {hasSession ? (
                 <button
@@ -67,9 +70,9 @@ export function SiteShell({
                 </button>
               ) : null}
               {home ? null : (
-                <a href="/" className="min-h-11 px-2 text-fg transition-opacity duration-300 hover:opacity-70">
+                <Link to="/" className="min-h-11 px-2 text-fg transition-opacity duration-300 hover:opacity-70">
                   홈
-                </a>
+                </Link>
               )}
               <ThemeToggle />
             </div>

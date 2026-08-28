@@ -1,17 +1,7 @@
 "use client";
 
 import { lazy, Suspense, useSyncExternalStore } from "react";
-import type { QuadrantId } from "@/lib/characters";
-import type { SoulStage } from "@/lib/soul-shape";
-import type { AxisScores } from "@/lib/types";
-
-type Props = {
-  stage: SoulStage;
-  axes: AxisScores | null;
-  locked: boolean;
-  quadrant: QuadrantId | null;
-  caption?: string | null;
-};
+import { useAppStore } from "@/lib/store";
 
 const SoulField = lazy(() =>
   import("@/components/soul-field").then((mod) => ({ default: mod.SoulField })),
@@ -19,8 +9,9 @@ const SoulField = lazy(() =>
 
 const empty = () => () => {};
 
-export function SoulFieldHost(props: Props) {
+export function SoulFieldHost() {
   const live = useSyncExternalStore(empty, () => true, () => false);
+  const view = useAppStore((s) => s.fieldView);
   if (!live) {
     return <div className="soul-field" aria-hidden="true" />;
   }
@@ -29,7 +20,13 @@ export function SoulFieldHost(props: Props) {
   }
   return (
     <Suspense fallback={<div className="soul-field" aria-hidden="true" />}>
-      <SoulField {...props} />
+      <SoulField
+        stage={view.stage}
+        axes={view.axes}
+        locked={view.locked}
+        quadrant={view.quadrant}
+        caption={view.caption}
+      />
     </Suspense>
   );
 }

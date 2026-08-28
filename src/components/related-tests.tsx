@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { ArrowGlyph } from "@/components/hero-switch";
 import { relatedOf, TEST_PATH, type TestId } from "@/lib/catalog";
 
@@ -7,7 +8,7 @@ export function RelatedTests({ current }: { current: TestId }) {
     <section className="sheet overflow-hidden px-5">
       <p className="kicker pt-5">이런 분석도 있어요</p>
       {items.map((t) => (
-        <a key={t.id} href={TEST_PATH[t.id]} className="cta-row">
+        <Link key={t.id} to={TEST_PATH[t.id]} className="cta-row">
           <span>
             <span className="block font-mono text-xs tabular-nums text-subtle">{t.no}</span>
             <span className="block text-[17px] font-semibold leading-tight">
@@ -16,7 +17,7 @@ export function RelatedTests({ current }: { current: TestId }) {
             </span>
           </span>
           <ArrowGlyph className="size-5 shrink-0 text-subtle" />
-        </a>
+        </Link>
       ))}
     </section>
   );

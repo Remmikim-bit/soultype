@@ -1,6 +1,6 @@
 "use client";
 
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { AdSlot } from "@/components/ad-slot";
 import { SiteShell } from "@/components/site-shell";
 import { ArrowGlyph } from "@/components/hero-switch";
@@ -54,14 +54,14 @@ function Home() {
       ) : null}
 
       {next ? (
-        <a href={TEST_PATH[next.id]} className="feature-card">
+        <Link to={TEST_PATH[next.id]} className="feature-card">
           <span className="min-w-0">
             <span className="kicker">{digest ? "이어서 볼게요" : "먼저 이걸로 시작해 봐요"}</span>
             <span className="mt-1 block text-[20px] font-semibold tracking-tight">{next.name}</span>
             <span className="mt-1 block text-[15px] text-muted">{next.hook}</span>
           </span>
           <ArrowGlyph className="size-5 shrink-0" />
-        </a>
+        </Link>
       ) : null}
 
       <AdSlot place="hub" />
@@ -75,7 +75,7 @@ function Home() {
                 <AdSlot place="inline" />
               </div>
             ) : null}
-            <a href={TEST_PATH[t.id]} className="cta-row">
+            <Link to={TEST_PATH[t.id]} className="cta-row">
               <span className="flex min-w-0 items-baseline gap-4">
                 <span className="font-mono text-xs tabular-nums text-subtle">{t.no}</span>
                 <span>
@@ -87,7 +87,7 @@ function Home() {
                 </span>
               </span>
               <ArrowGlyph className="size-5 shrink-0 text-subtle" />
-            </a>
+            </Link>
           </div>
         ))}
       </nav>

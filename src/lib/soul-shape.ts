@@ -26,12 +26,12 @@ function clamp01(n: number) {
 export function idleParams(t: number): SoulParams {
   const s = (w: number, ph: number) => 0.5 + 0.5 * Math.sin(t * w + ph);
   return {
-    verts: 0.15 + 3.8 * s(0.19, 0.15) + 2.1 * s(0.11, 1.3),
-    sharp: 0.06 + 0.82 * s(0.15, 1.6),
-    hull: 0.04 + 0.84 * s(0.13, 0.5),
-    size: 0.62 + 0.08 * Math.sin(t * 0.21),
-    warp: 0.16 + 0.38 * s(0.17, 2.0),
-    stretch: 0.12 + 0.78 * s(0.2, 0.8),
+    verts: 1.15 + 2.05 * s(0.09, 0.2) + 0.7 * s(0.05, 1.8),
+    sharp: 0.07 + 0.28 * s(0.07, 1.4),
+    hull: 0.06 + 0.22 * s(0.06, 0.55),
+    size: 0.74 + 0.05 * Math.sin(t * 0.13),
+    warp: 0.32 + 0.28 * s(0.11, 1.7),
+    stretch: 0.28 + 0.42 * s(0.1, 0.7),
   };
 }
 
@@ -46,8 +46,8 @@ export function paramsFromAxes(axes: AxisScores): SoulParams {
     verts: 0.8 + play * 4.2 + dream * 1.4 + think * 0.6,
     sharp: 0.1 + think * 0.82 + judge * 0.12,
     hull: 0.06 + sense * 0.72 + judge * 0.28,
-    size: 0.58 + ((axes.ie + 1) / 2) * 0.18,
-    warp: 0.06 + dream * 0.5 + feel * 0.12,
+    size: 0.64 + ((axes.ie + 1) / 2) * 0.16,
+    warp: 0.12 + dream * 0.48 + feel * 0.14,
     stretch: 0.15 + feel * 0.7 + play * 0.15,
   };
 }

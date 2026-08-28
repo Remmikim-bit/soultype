@@ -1,8 +1,11 @@
 import { create } from "zustand";
 import { TEST_IDS, type GradeId } from "./catalog";
+import type { QuadrantId } from "./characters";
 import { collectHumanTexts, toDigest } from "./parse-export";
+import type { SoulStage } from "./soul-shape";
 import type {
   AnalysisResult,
+  AxisScores,
   DuelResult,
   GradeCard,
   ParsedExport,
@@ -13,6 +16,14 @@ import type {
 type Status = "idle" | "parsing" | "ready" | "analyzing" | "error";
 type Intake = "simple" | "export" | null;
 export type RunPhase = "in" | "theater" | "teaser" | "result";
+
+export type FieldView = {
+  stage: SoulStage;
+  axes: AxisScores | null;
+  locked: boolean;
+  quadrant: QuadrantId | null;
+  caption: string | null;
+};
 
 const KEY = "st-session-v1";
 const PRIMARY = new Set<string>(TEST_IDS);
@@ -36,6 +47,7 @@ type AppState = PersistSlice & {
   runPhase: Record<string, RunPhase>;
   theaterAt: Record<string, number>;
   adKey: string | null;
+  fieldView: FieldView;
   setParsing: (label: string) => void;
   setExport: (parsed: ParsedExport, label: string) => void;
   setRelay: (digest: UsageDigest, texts: string[]) => void;
@@ -46,6 +58,7 @@ type AppState = PersistSlice & {
   setDuel: (duel: DuelResult) => void;
   setRunPhase: (id: string, phase: RunPhase, at?: number) => void;
   setAdKey: (key: string | null) => void;
+  setFieldView: (view: FieldView) => void;
   unlock: (key: string) => void;
   clearRecord: () => void;
   rehydrate: () => void;
@@ -70,6 +83,13 @@ const emptyEphemeral = {
   runPhase: {} as Record<string, RunPhase>,
   theaterAt: {} as Record<string, number>,
   adKey: null as string | null,
+  fieldView: {
+    stage: "gate" as SoulStage,
+    axes: null as AxisScores | null,
+    locked: false,
+    quadrant: null as QuadrantId | null,
+    caption: null as string | null,
+  },
 };
 
 let persistReady = false;
@@ -170,6 +190,7 @@ export const useAppStore = create<AppState>((set) => ({
           : s.theaterAt,
     })),
   setAdKey: (adKey) => set({ adKey }),
+  setFieldView: (fieldView) => set({ fieldView }),
   unlock: (key) =>
     set((s) => ({
       unlocks: { ...s.unlocks, [key]: true },

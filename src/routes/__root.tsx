@@ -1,6 +1,7 @@
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
+import { SoulFieldHost } from "@/components/soul-field-host";
 import { THEME_BOOT } from "@/lib/theme";
 import appCss from "../styles.css?url";
 
@@ -40,6 +41,7 @@ export const Route = createRootRoute({
       </head>
       <body>
         <PreviewHostBridge />
+        <SoulFieldHost />
         <AuthProvider>
           <Outlet />
         </AuthProvider>

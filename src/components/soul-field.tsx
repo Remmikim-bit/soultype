@@ -30,6 +30,23 @@ const damp = (cur: number, tgt: number, dt: number, tau: number) => {
   return cur + (tgt - cur) * k;
 };
 
+let clockOrigin = 0;
+let holdStart = 0;
+let holdMs = 0;
+
+function originTime(now: number, visible: boolean) {
+  if (!clockOrigin) clockOrigin = now;
+  if (!visible) {
+    if (!holdStart) holdStart = now;
+    return (holdStart - clockOrigin - holdMs) * 0.001;
+  }
+  if (holdStart) {
+    holdMs += now - holdStart;
+    holdStart = 0;
+  }
+  return (now - clockOrigin - holdMs) * 0.001;
+}
+
 function layoutOffset() {
   const w = window.innerWidth || 1;
   const h = window.innerHeight || 1;
@@ -63,6 +80,7 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
         canvas,
         antialias: false,
         alpha: false,
+        preserveDrawingBuffer: true,
         powerPreference: "high-performance",
       });
     } catch {
@@ -92,6 +110,7 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       uSteps: { value: 48 },
       uPresence: { value: 1 },
       uReduced: { value: 0 },
+      uStage: { value: 0 },
     };
     applyBg();
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
@@ -113,6 +132,7 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
     const colB: [number, number, number] = [0.36, 0.39, 0.91];
     const offset = { x: 0, y: 0.08 };
     let presence = 1;
+    let stageMix = 0;
     let running = true;
     let last = performance.now();
     let visible = document.visibilityState !== "hidden";
@@ -171,7 +191,7 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
 
     const tick = (now: number) => {
       if (!running) return;
-      requestAnimationFrame(tick);
+      const t = originTime(now, visible);
       if (!visible) return;
       const dt = Math.min(0.1, (now - last) / 1000);
       last = now;
@@ -182,7 +202,6 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       ptr.x = damp(ptr.x, ptr.tx, dt, tauPtr);
       ptr.y = damp(ptr.y, ptr.ty, dt, tauPtr);
 
-      const t = now * 0.001;
       const target = p.axes ? paramsFromAxes(p.axes) : idleParams(t);
       const tauMorph = p.axes ? (p.locked ? 0.7 : 0.95) : 0.4;
       const blend = lerpParams(params, target, 1 - Math.exp(-dt / tauMorph));
@@ -216,18 +235,21 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       const oy = p.stage === "gate" ? lay.y : lay.y * 0.85;
       offset.x = damp(offset.x, ox, dt, 0.8);
       offset.y = damp(offset.y, oy, dt, 0.8);
-      const want = p.stage === "gate" ? 0.94 : 0.84;
-      presence = damp(presence, want, dt, 0.7);
+      const want = p.stage === "gate" ? 0.96 : p.stage === "result" ? 0.9 : 0.86;
+      presence = damp(presence, want, dt, 0.85);
+      const stageTgt = p.stage === "result" ? 1 : p.stage === "work" ? 0.45 : 0;
+      stageMix = damp(stageMix, stageTgt, dt, 1.1);
 
-      uniforms.uTime.value = reduced ? 0 : t;
+      uniforms.uTime.value = reduced ? uniforms.uTime.value : t;
       uniforms.uPtr.value.set(ptr.x, ptr.y);
       uniforms.uOffset.value.set(offset.x, offset.y);
       uniforms.uColA.value.set(colA[0], colA[1], colA[2]);
       uniforms.uColB.value.set(colB[0], colB[1], colB[2]);
       uniforms.uForm.value.set(params.verts, params.sharp, params.hull, params.stretch);
-      uniforms.uScale.value = params.size * lay.scale;
+      uniforms.uScale.value = params.size * lay.scale * (1 + 0.035 * Math.sin(t * 0.37));
       uniforms.uWarp.value = params.warp;
       uniforms.uPresence.value = presence;
+      uniforms.uStage.value = stageMix;
 
       const mood = rgbToHex(colA);
       host.style.setProperty("--mood", mood);
@@ -239,10 +261,11 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
 
       renderer.render(scene, camera);
     };
-    requestAnimationFrame(tick);
+    renderer.setAnimationLoop(tick);
 
     return () => {
       running = false;
+      renderer.setAnimationLoop(null);
       window.removeEventListener("pointermove", onPtr);
       window.removeEventListener("resize", resize);
       window.removeEventListener("st-theme", refreshPalette);
