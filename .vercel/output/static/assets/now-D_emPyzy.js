@@ -1,1 +1,0 @@
-import{t as e}from"./test-page-CrzJMtUC.js";import{m as t}from"./index-BmGB5awv.js";var n=t(),r=()=>(0,n.jsx)(e,{slug:`now`});export{r as component};

@@ -1,7 +1,7 @@
 import { _ as Link, y as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
-import { c as TESTS, l as TEST_IDS, o as useAppStore, u as TEST_PATH } from "./router-kirSlODT.mjs";
-import { n as ArrowGlyph, r as SiteShell, t as AdSlot } from "./ad-slot-Dg6SMEEA.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-BFd3SZ93.js
+import { c as TESTS, l as TEST_IDS, o as useAppStore, u as TEST_PATH } from "./router-DuJ7K2QW.mjs";
+import { n as ArrowGlyph, r as SiteShell, t as AdSlot } from "./ad-slot-sC1cFCbP.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-7Age6V30.js
 var import_jsx_runtime = require_jsx_runtime();
 function Home() {
 	const digest = useAppStore((s) => s.digest);
@@ -15,7 +15,7 @@ function Home() {
 		home: true,
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
-				className: "grid gap-2",
+				className: "glass grid gap-2 p-5",
 				children: [
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 						className: "kicker",
@@ -117,7 +117,7 @@ function Home() {
 				})] }, t.id))]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-				className: "text-[13px] text-subtle",
+				className: "sheet px-5 py-3 text-[13px] text-subtle",
 				children: "문장 하나, 또는 대화록 JSON이면 충분해요. 원문은 이 기기에서만 읽어요."
 			})
 		]

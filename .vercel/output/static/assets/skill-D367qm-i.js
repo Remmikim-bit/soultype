@@ -1,0 +1,1 @@
+import{t as e}from"./test-page-BDKIBLSg.js";import{m as t}from"./index-v0Cmz8kV.js";var n=t(),r=()=>(0,n.jsx)(e,{slug:`skill`});export{r as component};

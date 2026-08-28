@@ -3,18 +3,18 @@ import { _ as Link, y as require_jsx_runtime, z as require_react } from "../_lib
 import { n as TSS_SERVER_FUNCTION, r as getServerFnById, t as createServerFn } from "./ssr.mjs";
 import { a as TERRAIN_ORDER, c as classifyLocal, i as QUADRANT_TINT, l as resultFromMbti, n as CHARACTERS, r as QUADRANTS, s as charactersIn, t as AXIS_META } from "./mbti-local-Di_mXfG-.mjs";
 import { a as Check, i as Copy } from "../_libs/lucide-react.mjs";
-import { c as TESTS, d as relatedOf, f as testOf, l as TEST_IDS, o as useAppStore, s as parseExport, u as TEST_PATH } from "./router-kirSlODT.mjs";
+import { c as TESTS, d as relatedOf, f as testOf, l as TEST_IDS, o as useAppStore, s as parseExport, u as TEST_PATH } from "./router-DuJ7K2QW.mjs";
 import { t as cva } from "../_libs/class-variance-authority+clsx.mjs";
-import { i as cn, n as ArrowGlyph, r as SiteShell, t as AdSlot } from "./ad-slot-Dg6SMEEA.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/test-page-BWU0CsHe.js
+import { i as cn, n as ArrowGlyph, r as SiteShell, t as AdSlot } from "./ad-slot-sC1cFCbP.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/test-page-B0r2bhXZ.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var buttonVariants = cva("inline-flex items-center justify-center gap-2 min-h-12 px-4 text-[15px] font-medium transition-[color,background-color,opacity,box-shadow,transform] duration-200 ease-out active:scale-96 disabled:opacity-40 disabled:pointer-events-none disabled:active:scale-100 rounded-[14px]", {
 	variants: {
 		variant: {
 			primary: "bg-accent text-accent-fg hover:opacity-85",
-			ghost: "bg-transparent text-fg shadow-[var(--shadow-border)] hover:shadow-[var(--shadow-border-hover)] hover:opacity-80",
-			quiet: "bg-surface text-fg hover:opacity-80"
+			ghost: "btn-glass text-fg hover:opacity-80",
+			quiet: "btn-glass text-fg hover:opacity-80"
 		},
 		size: {
 			default: "h-12",
@@ -777,7 +777,7 @@ function DuelRun() {
 						className: "w-full resize-y rounded-xl bg-surface px-4 py-3 text-[15px] text-fg shadow-[var(--shadow-border)] outline-none placeholder:text-subtle"
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex flex-wrap items-center gap-3",
+						className: "sheet flex flex-wrap items-center gap-3 p-4",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 							disabled: running ? prompt.trim().length < 8 : false,
 							onClick: () => {
@@ -954,7 +954,7 @@ function DropZone({ busy, onFile, onSample }) {
 				onChange: (e) => take(e.target.files?.[0])
 			}) : null,
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "grid grid-cols-2 gap-2",
+				className: "sheet grid grid-cols-2 gap-2 p-3",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 					onClick: () => inputRef.current?.click(),
 					disabled: busy,
@@ -1538,7 +1538,7 @@ function SessionIntake() {
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
 			type: "button",
 			onClick: () => setWay("pick"),
-			className: "text-left text-[15px] text-muted",
+			className: "btn-glass inline-flex min-h-11 items-center rounded-[14px] px-3 text-left text-[15px] text-muted",
 			children: "이전으로"
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RelayDesk, {
 			busy,
@@ -1552,7 +1552,7 @@ function SessionIntake() {
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
 				type: "button",
 				onClick: () => setWay("pick"),
-				className: "text-left text-[15px] text-muted",
+				className: "btn-glass inline-flex min-h-11 items-center rounded-[14px] px-3 text-left text-[15px] text-muted",
 				children: "이전으로"
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DropZone, {
@@ -1571,31 +1571,34 @@ function SessionIntake() {
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(HowExport, {})
 		]
 	});
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
-		type: "button",
-		onClick: () => setWay("simple"),
-		className: "cta-row",
-		"data-qa": "way-simple",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-			className: "block text-[20px] font-semibold",
-			children: "문장 하나"
-		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-			className: "mt-1 block text-[15px] text-muted",
-			children: "지금 쓰는 AI에 넣고, 돌아온 답을 붙여 주세요"
-		})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowGlyph, { className: "size-5 shrink-0 text-subtle" })]
-	}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
-		type: "button",
-		onClick: () => setWay("export"),
-		className: "cta-row",
-		"data-qa": "way-export",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-			className: "block text-[20px] font-semibold",
-			children: "대화록 불러오기"
-		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-			className: "mt-1 block text-[15px] text-muted",
-			children: "JSON만 올리면 돼요. 원문은 이 기기에만 남아요"
-		})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowGlyph, { className: "size-5 shrink-0 text-subtle" })]
-	})] });
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		className: "sheet overflow-hidden px-5",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+			type: "button",
+			onClick: () => setWay("simple"),
+			className: "cta-row",
+			"data-qa": "way-simple",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: "block text-[20px] font-semibold",
+				children: "문장 하나"
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: "mt-1 block text-[15px] text-muted",
+				children: "지금 쓰는 AI에 넣고, 돌아온 답을 붙여 주세요"
+			})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowGlyph, { className: "size-5 shrink-0 text-subtle" })]
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+			type: "button",
+			onClick: () => setWay("export"),
+			className: "cta-row",
+			"data-qa": "way-export",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: "block text-[20px] font-semibold",
+				children: "대화록 불러오기"
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: "mt-1 block text-[15px] text-muted",
+				children: "JSON만 올리면 돼요. 원문은 이 기기에만 남아요"
+			})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowGlyph, { className: "size-5 shrink-0 text-subtle" })]
+		})]
+	});
 }
 function GradeRun({ id }) {
 	const meta = testOf(id);
@@ -1642,7 +1645,7 @@ function GradeRun({ id }) {
 			}),
 			phase === "in" && !digest ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SessionIntake, {}) : null,
 			phase === "in" && digest ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "grid gap-2",
+				className: "sheet grid gap-2 p-4",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 					className: "w-full",
 					onClick: start,
@@ -2332,7 +2335,7 @@ function SoulRun() {
 			}),
 			phase === "in" && !digest ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SessionIntake, {}) : null,
 			phase === "in" && digest ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "grid gap-2",
+				className: "sheet grid gap-2 p-4",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 					className: "w-full",
 					onClick: start,

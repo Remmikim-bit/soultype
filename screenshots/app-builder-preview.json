@@ -1,36 +1,5 @@
 {
+  "ok": false,
   "url": "http://127.0.0.1:8080/",
-  "viewports": {
-    "desktop": {
-      "width": 1280,
-      "height": 800,
-      "status": 200,
-      "title": "소울타입",
-      "hasCanvas": false,
-      "bodyTextLen": 453,
-      "bodyTextHash": "46ddacb804c931bdb0bd0d64fe7013d1bc5d19111b29989f7900d991d5e25938",
-      "bodyTextPrefix": "소울타입 소울타입 · 내 AI의 MBTI 내 AI 성격 분석 매일 붙인 말투가 쌓이면, 쓰는 AI도 그 말투를 닮아",
-      "horizontalOverflow": false,
-      "consoleErrors": [],
-      "pageErrors": [],
-      "screenshot": "/workspace/screenshots/app-builder-preview.png"
-    },
-    "mobile": {
-      "width": 390,
-      "height": 844,
-      "status": 200,
-      "title": "소울타입",
-      "hasCanvas": false,
-      "bodyTextLen": 453,
-      "bodyTextHash": "46ddacb804c931bdb0bd0d64fe7013d1bc5d19111b29989f7900d991d5e25938",
-      "bodyTextPrefix": "소울타입 소울타입 · 내 AI의 MBTI 내 AI 성격 분석 매일 붙인 말투가 쌓이면, 쓰는 AI도 그 말투를 닮아",
-      "horizontalOverflow": false,
-      "consoleErrors": [],
-      "pageErrors": [],
-      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
-    }
-  },
-  "brandWarnings": [],
-  "authWarnings": [],
-  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+  "error": "page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n"
 }

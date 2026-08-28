@@ -3,7 +3,7 @@ import { f as createRouter, g as createRootRoute, h as createFileRoute, l as Scr
 import { t as TriangleAlert } from "../_libs/lucide-react.mjs";
 import { a as union, i as string, n as number, r as object, t as literal } from "../_libs/zod.mjs";
 import { t as create } from "../_libs/zustand.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-kirSlODT.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-DuJ7K2QW.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var __defProp = Object.defineProperty;
@@ -906,7 +906,7 @@ var useAppStore = create((set) => ({
 	}
 }));
 if (typeof window !== "undefined") useAppStore.subscribe((s) => writePersist(s));
-var SoulField = (0, import_react.lazy)(() => import("./soul-field-BWTBlofC.mjs").then((mod) => ({ default: mod.SoulField })));
+var SoulField = (0, import_react.lazy)(() => import("./soul-field-C9Gc3zSs.mjs").then((mod) => ({ default: mod.SoulField })));
 var empty = () => () => {};
 function SoulFieldHost() {
 	const live = (0, import_react.useSyncExternalStore)(empty, () => true, () => false);
@@ -981,7 +981,7 @@ function bootTheme() {
 }
 if (typeof window !== "undefined") current = detectTheme();
 var THEME_BOOT = `(function(){try{var k='st-theme';var t=localStorage.getItem(k);if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}var r=document.documentElement;r.dataset.theme=t;r.style.colorScheme=t}catch(e){document.documentElement.dataset.theme='dark'}})();`;
-var styles_default = "/assets/styles-DNrW1AoB.css";
+var styles_default = "/assets/styles-DqebwRwO.css";
 var APP_NAME = "소울타입";
 var Route$7 = createRootRoute({
 	head: () => ({
@@ -1048,19 +1048,19 @@ var Route$7 = createRootRoute({
 		] })]
 	})
 });
-var $$splitComponentImporter$6 = () => import("./routes-BFd3SZ93.mjs");
+var $$splitComponentImporter$6 = () => import("./routes-7Age6V30.mjs");
 var Route$6 = createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter$6, "component") });
-var $$splitComponentImporter$5 = () => import("./abuse-BjYl-gcD.mjs");
+var $$splitComponentImporter$5 = () => import("./abuse-CoRfDJoR.mjs");
 var Route$5 = createFileRoute("/abuse")({ component: lazyRouteComponent($$splitComponentImporter$5, "component") });
-var $$splitComponentImporter$4 = () => import("./duel-DFlRULhr.mjs");
+var $$splitComponentImporter$4 = () => import("./duel-CedSIG20.mjs");
 var Route$4 = createFileRoute("/duel")({ component: lazyRouteComponent($$splitComponentImporter$4, "component") });
-var $$splitComponentImporter$3 = () => import("./love-DmG53h9m.mjs");
+var $$splitComponentImporter$3 = () => import("./love-rFfg1zzM.mjs");
 var Route$3 = createFileRoute("/love")({ component: lazyRouteComponent($$splitComponentImporter$3, "component") });
-var $$splitComponentImporter$2 = () => import("./now-MYhObe7Q.mjs");
+var $$splitComponentImporter$2 = () => import("./now-DmrhjrI8.mjs");
 var Route$2 = createFileRoute("/now")({ component: lazyRouteComponent($$splitComponentImporter$2, "component") });
-var $$splitComponentImporter$1 = () => import("./skill-wzu2KNxY.mjs");
+var $$splitComponentImporter$1 = () => import("./skill-CuDueHWo.mjs");
 var Route$1 = createFileRoute("/skill")({ component: lazyRouteComponent($$splitComponentImporter$1, "component") });
-var $$splitComponentImporter = () => import("./soul-CnciIW-Q.mjs");
+var $$splitComponentImporter = () => import("./soul-DndxLJOO.mjs");
 var Route = createFileRoute("/soul")({ component: lazyRouteComponent($$splitComponentImporter, "component") });
 var rootRouteChildren = {
 	IndexRoute: Route$6.update({
