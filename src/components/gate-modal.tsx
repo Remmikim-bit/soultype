@@ -21,10 +21,10 @@ export function GateModal({
       <div className="relative mx-auto w-full max-w-[26.5rem]">
         <div className="animate-fade-up sheet relative p-6">
           <h2 id="gate-title" className="relative text-[26px] font-semibold tracking-tight">
-            쓰는 AI의 성격을 알아봐요
+            내가 쓰는 AI의 성격을 알아봐요
           </h2>
           <p className="relative mt-3 max-w-md text-[15px] leading-relaxed text-muted">
-            말버릇이 쌓이면 AI도 그 말투를 닮아요. 문장 하나, 또는 대화록이면 충분해요.
+            매일 나눈 대화가 AI를 어떻게 바꿨는지 1분만에 알아봐요.
           </p>
           <div className="relative mt-6">
             <button type="button" onClick={() => onPick("simple")} className="cta-row">
@@ -37,7 +37,7 @@ export function GateModal({
             <button type="button" onClick={() => onPick("export")} className="cta-row">
               <span>
                 <span className="block text-[20px] font-semibold">대화록 불러오기</span>
-                <span className="mt-1 block text-[15px] text-muted">JSON만 올리면 돼요. 원문은 이 기기에만 남아요</span>
+                <span className="mt-1 block text-[15px] text-muted">다운 받은 파일을 올려 주세요. 데이터는 서버로 전송되지 않아요</span>
               </span>
               <ArrowGlyph className="size-5 shrink-0" />
             </button>
