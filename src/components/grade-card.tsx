@@ -9,7 +9,7 @@ export function GradeView({ card }: { card: Grade }) {
         <h2 className="text-2xl font-semibold tracking-tight">{card.headline}</h2>
         <p className="max-w-xl text-[15px] leading-relaxed text-muted">{card.oneLiner}</p>
         {card.shallow ? (
-          <p className="text-[15px] text-subtle">문장이 짧아요. 파일을 올리면 더 또렷해져요.</p>
+          <p className="text-[15px] text-subtle">문장이 너무 짧아요. 파일을 올리면 더 정확한 결과를 볼 수 있어요.</p>
         ) : null}
       </div>
       <p className="border-t border-line px-6 py-5 text-[15px] leading-relaxed text-muted md:px-8">
