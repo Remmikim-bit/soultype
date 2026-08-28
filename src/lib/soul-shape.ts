@@ -1,6 +1,3 @@
-import type { QuadrantId } from "./characters";
-import type { AxisScores } from "./types";
-
 export type SoulStage = "gate" | "work" | "result";
 
 export type SoulParams = {
@@ -11,17 +8,6 @@ export type SoulParams = {
   warp: number;
   stretch: number;
 };
-
-export const QUAD_TOKEN: Record<QuadrantId, "--color-accent" | "--color-true" | "--color-bold" | "--color-soft"> = {
-  in: "--color-bold",
-  is: "--color-true",
-  en: "--color-accent",
-  es: "--color-soft",
-};
-
-function clamp01(n: number) {
-  return Math.min(1, Math.max(0, n));
-}
 
 export function idleParams(t: number): SoulParams {
   const s = (w: number, ph: number) => 0.5 + 0.5 * Math.sin(t * w + ph);
@@ -35,28 +21,8 @@ export function idleParams(t: number): SoulParams {
   };
 }
 
-export function paramsFromAxes(axes: AxisScores): SoulParams {
-  const feel = Math.max(0, axes.tf);
-  const think = Math.max(0, -axes.tf);
-  const sense = Math.max(0, axes.ns);
-  const dream = Math.max(0, -axes.ns);
-  const judge = Math.max(0, -axes.jp);
-  const play = Math.max(0, axes.jp);
-  return {
-    verts: 0.8 + play * 4.2 + dream * 1.4 + think * 0.6,
-    sharp: 0.1 + think * 0.82 + judge * 0.12,
-    hull: 0.06 + sense * 0.72 + judge * 0.28,
-    size: 0.64 + ((axes.ie + 1) / 2) * 0.16,
-    warp: 0.12 + dream * 0.48 + feel * 0.14,
-    stretch: 0.15 + feel * 0.7 + play * 0.15,
-  };
-}
-
-export function paramLabel(p: SoulParams): string {
-  if (p.verts < 0.8 && p.sharp < 0.38) return "곡면";
-  if (p.verts < 1.7) return "물방울";
-  if (p.hull > 0.52 && p.sharp > 0.4) return "결정";
-  return "유체";
+function clamp01(n: number) {
+  return Math.min(1, Math.max(0, n));
 }
 
 export function lerpParams(a: SoulParams, b: SoulParams, t: number): SoulParams {

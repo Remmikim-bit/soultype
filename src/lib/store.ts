@@ -1,11 +1,9 @@
 import { create } from "zustand";
 import { TEST_IDS, type GradeId } from "./catalog";
-import type { QuadrantId } from "./characters";
 import { collectHumanTexts, toDigest } from "./parse-export";
 import type { SoulStage } from "./soul-shape";
 import type {
   AnalysisResult,
-  AxisScores,
   DuelResult,
   GradeCard,
   ParsedExport,
@@ -19,10 +17,6 @@ export type RunPhase = "in" | "theater" | "teaser" | "result";
 
 export type FieldView = {
   stage: SoulStage;
-  axes: AxisScores | null;
-  locked: boolean;
-  quadrant: QuadrantId | null;
-  caption: string | null;
 };
 
 const KEY = "st-session-v1";
@@ -85,10 +79,6 @@ const emptyEphemeral = {
   adKey: null as string | null,
   fieldView: {
     stage: "gate" as SoulStage,
-    axes: null as AxisScores | null,
-    locked: false,
-    quadrant: null as QuadrantId | null,
-    caption: null as string | null,
   },
 };
 
@@ -166,7 +156,7 @@ export const useAppStore = create<AppState>((set) => ({
       stats: null,
       digest,
       humanTexts: texts,
-      fileLabel: "문장 하나",
+      fileLabel: "간단한 답변",
       error: null,
       soul: null,
       grades: {},

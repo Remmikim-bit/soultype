@@ -134,8 +134,12 @@ note("hub");
 await shot("01-hub");
 if (!(await visible("내 AI 성격 분석"))) bug("hub title missing", "허브 제목이 안 보임");
 if (!(await visible("AI 자아 스캔"))) bug("soul card missing", "성격 항목 없음");
-if (!(await visible("학대 지수"))) bug("abuse card missing", "학대 항목 없음");
+if (!(await visible("AI의 스트레스 지수"))) bug("abuse card missing", "학대 항목 없음");
 if (!(await visible("AI 티키타카 배틀"))) bug("duel card missing", "한판 항목 없음");
+const homeOnHub = await page.evaluate(() =>
+  [...document.querySelectorAll("header a")].some((a) => (a.textContent || "").trim() === "홈"),
+);
+if (homeOnHub) bug("home on hub", "홈에서 홈 버튼이 보입니다.");
 
 note("soul-enter");
 await go("/soul");
@@ -148,7 +152,7 @@ if (await visible("뒤에 떠 있는 유체")) bug("fluid spoiler", "유체를 �
 
 note("simple-enter");
 await tapQa("way-simple");
-if (!(await visible("이 문장 넣고"))) bug("relay desk missing", "문장 데스크 없음");
+if (!(await visible("이 질문을 넣고"))) bug("relay desk missing", "문장 데스크 없음");
 await shot("03-simple-desk");
 
 note("sample-json");
@@ -180,7 +184,7 @@ note("ad-unlocked", { waitedMs: waited });
 await waitPhase("result", 8000);
 await page.waitForTimeout(400);
 await shot("07-result");
-if (!(await visible("네가 쓰는 AI의 MBTI는"))) {
+if (!(await visible("지금 쓰는 AI의 MBTI는"))) {
   bug("result headline missing", "결과 헤드라인이 안 보임");
 }
 if (!(await visible("이미지 프롬프트 3개"))) {
@@ -197,7 +201,7 @@ if (!(await visible("대화록 있음"))) bug("session lost", "허브로 돌아�
 note("reuse-session-abuse");
 await go("/abuse");
 await shot("09-abuse");
-if (await visible("문장 하나")) {
+if (await visible("간단하게 알아보기")) {
   bug("session not reused", "학대 시험이 기록을 다시 받으려 함");
 }
 if (!(await visible("분석 시작하기"))) bug("abuse tear missing", "학대 분석 시작하기 없음");
@@ -235,6 +239,10 @@ await go("/soul");
 await tapQa("way-export");
 await shot("12-export-desk");
 if (!(await visible("대화록 여기"))) bug("dropzone missing", "파일 드롭존 없음");
+if (!(await visible("대화록은 이렇게 받아요"))) bug("how export missing", "내보내기 안내가 없음");
+if (!(await visible("Grok") && await visible("Gemini") && await visible("Claude"))) {
+  bug("export chips missing", "Grok/Gemini/Claude 선택이 없음");
+}
 await tapQa("sample-export");
 await page.waitForTimeout(800);
 if (!(await visible("분석 시작하기"))) bug("sample export failed", "샘플 후 분석 시작하기가 안 보임");
@@ -245,7 +253,7 @@ await waitAndOpenResult(20000);
 await waitPhase("result", 8000);
 await page.waitForTimeout(400);
 await shot("13-export-result");
-if (!(await visible("네가 쓰는 AI의 MBTI는"))) {
+if (!(await visible("지금 쓰는 AI의 MBTI는"))) {
   bug("export result missing", "심층 광고 후 결과가 안 보임");
 }
 if (!(await visible("한눈에 보는 내 사용 버릇"))) {
@@ -269,7 +277,7 @@ await page.waitForTimeout(400);
 await tapQa("ad-close");
 await page.waitForTimeout(300);
 const lockedAgain = await visible("광고 보고 결과 보기");
-const leaked = await visible("네가 쓰는 AI의 MBTI는");
+const leaked = await visible("지금 쓰는 AI의 MBTI는");
 if (leaked) bug("ad close leaks result", "광고를 닫아도 결과가 보입니다.");
 if (!lockedAgain) bug("cannot reopen teaser", "광고를 닫으면 티저가 사라집니다.");
 await shot("14-ad-closed");

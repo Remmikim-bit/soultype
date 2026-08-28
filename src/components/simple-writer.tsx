@@ -138,7 +138,7 @@ export function SimpleWriter({ onDone }: { onDone: (analysis: AnalysisResult) =>
             이 AI의 얼굴 보기
           </Button>
           <p className="text-xs text-subtle">
-            {ready ? "작성만으로 분석해요. 원문은 이 탭에만 남아요." : "조금만 더 적으면 지형이 움직여요."}
+            {ready ? "작성만으로 분석해요. 적은 내용은 이 탭에만 남아요." : "조금만 더 적으면 지형이 움직여요."}
           </p>
         </div>
       </section>

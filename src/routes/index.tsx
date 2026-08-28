@@ -18,7 +18,7 @@ function Home() {
   const remain = 6 - done;
 
   return (
-    <SiteShell stage="gate" home>
+    <SiteShell stage="gate">
       <section className="glass grid gap-2 p-5">
         <p className="kicker">소울타입 · 내 AI의 MBTI</p>
         <h1 id="hub-title" className="hero-title tracking-tight">
@@ -37,7 +37,7 @@ function Home() {
       {digest ? (
         <section className="sheet grid gap-3 p-5">
           <div className="flex items-end justify-between">
-            <p className="kicker">어디까지 봤어요</p>
+            <p className="kicker">다른 테스트도 해 보세요.</p>
             <p className="text-[28px] font-semibold tabular-nums leading-none">{done}/6</p>
           </div>
           <div className="progress-track" aria-hidden="true">
@@ -92,7 +92,7 @@ function Home() {
         ))}
       </nav>
 
-      <p className="sheet px-5 py-3 text-[13px] text-subtle">문장 하나, 또는 대화록 JSON이면 충분해요. 원문은 이 기기에서만 읽어요.</p>
+      <p className="sheet px-5 py-3 text-[13px] text-subtle">간단한 답변, 또는 대화록 JSON이면 충분해요. 대화 내용은 이 기기 밖으로 나가지 않아요.</p>
     </SiteShell>
   );
 }

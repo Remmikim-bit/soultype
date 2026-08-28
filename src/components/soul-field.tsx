@@ -2,27 +2,19 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import type { QuadrantId } from "@/lib/characters";
 import { SOUL_FRAG, SOUL_VERT } from "@/lib/soul-shader";
 import {
   idleParams,
   lerpParams,
   mixRgb,
-  paramsFromAxes,
-  QUAD_TOKEN,
   readTokenRgb,
   rgbToHex,
   type SoulParams,
   type SoulStage,
 } from "@/lib/soul-shape";
-import type { AxisScores } from "@/lib/types";
 
 type Props = {
   stage: SoulStage;
-  axes: AxisScores | null;
-  locked: boolean;
-  quadrant: QuadrantId | null;
-  caption?: string | null;
 };
 
 const damp = (cur: number, tgt: number, dt: number, tau: number) => {
@@ -61,13 +53,11 @@ function layoutOffset() {
   return { x: 0.1, y: 0.06, scale: 0.96 };
 }
 
-export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
+export function SoulField({ stage }: Props) {
   const hostRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const captionRef = useRef<HTMLParagraphElement>(null);
-  const formRef = useRef<HTMLParagraphElement>(null);
-  const propsRef = useRef({ stage, axes, locked, quadrant, caption });
-  propsRef.current = { stage, axes, locked, quadrant, caption };
+  const propsRef = useRef({ stage });
+  propsRef.current = { stage };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -202,8 +192,8 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       ptr.x = damp(ptr.x, ptr.tx, dt, tauPtr);
       ptr.y = damp(ptr.y, ptr.ty, dt, tauPtr);
 
-      const target = p.axes ? paramsFromAxes(p.axes) : idleParams(t);
-      const tauMorph = p.axes ? (p.locked ? 0.7 : 0.95) : 0.4;
+      const target = idleParams(t);
+      const tauMorph = 0.4;
       const blend = lerpParams(params, target, 1 - Math.exp(-dt / tauMorph));
       params.verts = blend.verts;
       params.sharp = blend.sharp;
@@ -216,13 +206,8 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       const uy = (ptr.y + 1) * 0.5;
       const top = mixRgb(pal.bold, pal.truth, ux);
       const bot = mixRgb(pal.accent, pal.soft, ux);
-      let a = mixRgb(bot, top, uy);
-      let b = mixRgb(pal.accent, pal.truth, 0.35 + 0.3 * ux);
-      if (p.quadrant && p.locked) {
-        const q = readTokenRgb(QUAD_TOKEN[p.quadrant]);
-        a = mixRgb(a, q, 0.62);
-        b = mixRgb(b, q, 0.4);
-      }
+      const a = mixRgb(bot, top, uy);
+      const b = mixRgb(pal.accent, pal.truth, 0.35 + 0.3 * ux);
       colA[0] = damp(colA[0], a[0], dt, 0.7);
       colA[1] = damp(colA[1], a[1], dt, 0.7);
       colA[2] = damp(colA[2], a[2], dt, 0.7);
@@ -257,8 +242,6 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
       document.documentElement.style.setProperty("--mood-x", ptr.x.toFixed(3));
       document.documentElement.style.setProperty("--mood-y", ptr.y.toFixed(3));
 
-      if (captionRef.current) captionRef.current.textContent = p.caption ?? "";
-
       renderer.render(scene, camera);
     };
     renderer.setAnimationLoop(tick);
@@ -283,9 +266,6 @@ export function SoulField({ stage, axes, locked, quadrant, caption }: Props) {
     <div ref={hostRef} className="soul-field" data-stage={stage} aria-hidden="true">
       <canvas ref={canvasRef} className="soul-field-canvas" />
       <div className="soul-frost" />
-      <div className="soul-scrim" />
-      <p ref={formRef} className="soul-form-label" />
-      <p ref={captionRef} className="soul-caption" />
     </div>
   );
 }

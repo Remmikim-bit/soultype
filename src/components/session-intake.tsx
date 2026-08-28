@@ -77,15 +77,15 @@ export function SessionIntake() {
     <div className="sheet overflow-hidden px-5">
       <button type="button" onClick={() => setWay("simple")} className="cta-row" data-qa="way-simple">
         <span>
-          <span className="block text-[20px] font-semibold">문장 하나</span>
-          <span className="mt-1 block text-[15px] text-muted">지금 쓰는 AI에 넣고, 돌아온 답을 붙여 주세요</span>
+          <span className="block text-[20px] font-semibold">간단하게 알아보기</span>
+          <span className="mt-1 block text-[15px] text-muted">30초 만에 답변을 받을 수 있어요</span>
         </span>
         <ArrowGlyph className="size-5 shrink-0 text-subtle" />
       </button>
       <button type="button" onClick={() => setWay("export")} className="cta-row" data-qa="way-export">
         <span>
-          <span className="block text-[20px] font-semibold">대화록 불러오기</span>
-          <span className="mt-1 block text-[15px] text-muted">JSON만 올리면 돼요. 원문은 이 기기에만 남아요</span>
+          <span className="block text-[20px] font-semibold">자세히 알아보기</span>
+          <span className="mt-1 block text-[15px] text-muted">다른 사람들과 내 AI를 비교할 수 있어요</span>
         </span>
         <ArrowGlyph className="size-5 shrink-0 text-subtle" />
       </button>

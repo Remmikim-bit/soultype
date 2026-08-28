@@ -90,7 +90,7 @@ export function DuelRun() {
               {running ? "제출하기" : "시작하기"}
             </Button>
             <p className="text-[15px] tabular-nums text-muted">
-              {running ? `${left}초 남았어요` : "시작하기를 누르면 초를 세기 시작해요."}
+              {running ? `${left}초 남았어요` : "시작하기를 누르면 시간을 재기 시작해요."}
             </p>
           </div>
         </section>

@@ -30,7 +30,7 @@ export function classifyFromAxes(
     quadrant: pack.quadrant,
     quadrantTitle: quadrant.title,
     tags: pack.tags,
-    headline: `네가 쓰는 AI의 MBTI는 ${mbti}예요.`,
+    headline: `지금 쓰는 AI의 MBTI는 ${mbti}이에요.`,
     oneLiner: pack.oneLiner,
     howYouUse: pack.how,
     ritual: pack.ritual,

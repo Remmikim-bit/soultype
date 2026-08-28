@@ -20,13 +20,7 @@ export function SoulFieldHost() {
   }
   return (
     <Suspense fallback={<div className="soul-field" aria-hidden="true" />}>
-      <SoulField
-        stage={view.stage}
-        axes={view.axes}
-        locked={view.locked}
-        quadrant={view.quadrant}
-        caption={view.caption}
-      />
+      <SoulField stage={view.stage} />
     </Suspense>
   );
 }

@@ -10,13 +10,13 @@ export function MbtiCard({ analysis }: { analysis: AnalysisResult }) {
       <div className="grid gap-3 p-5 md:p-6">
         <p className="kicker">{analysis.quadrantTitle}</p>
         <h2 className="text-[22px] font-semibold tracking-tight md:text-[26px]">
-          네가 쓰는 AI의 MBTI는 {analysis.mbti}예요
+          지금 쓰는 AI의 MBTI는 {analysis.mbti}이에요
         </h2>
         <p className="text-[17px] font-medium text-muted">{analysis.characterName}</p>
         <p className="max-w-xl text-[15px] leading-relaxed text-muted">{analysis.oneLiner}</p>
       </div>
       <div className="border-t border-line px-5 py-5 md:px-6">
-        <p className="kicker">말투가 기운 쪽</p>
+        <p className="kicker">말투가 기울어진 쪽</p>
         <div className="mt-4">
           <AxisStack axes={analysis.axes} />
         </div>

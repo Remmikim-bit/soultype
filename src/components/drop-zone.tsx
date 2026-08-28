@@ -50,7 +50,7 @@ export function DropZone({
       >
         <p className="text-[22px] font-semibold tracking-tight text-fg">대화록 여기</p>
         <p className="mt-3 max-w-md text-[15px] leading-relaxed text-muted">
-          JSON만 올리면 돼요. 원문은 이 기기에만 남아요.
+          JSON만 올리면 돼요. 대화 내용은 이 기기에만 남아요.
         </p>
         <p className="mt-6 text-[15px] text-accent">conversations.json</p>
       </button>

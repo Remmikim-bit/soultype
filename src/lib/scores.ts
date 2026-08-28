@@ -82,7 +82,7 @@ export function scoreAbuse(digest: UsageDigest | null, texts: string[]): GradeCa
       "직구",
       "반말이 일이 된 말투예요",
       "명령이 기본값이에요. 아직 소시오패스 칸은 아니에요.",
-      "해줘, 만들어, 고쳐가 인사보다 많아요. 기계는 참고 있어요.",
+      "'해 줘', '만들어', '고쳐'가 인사보다 많아요. 기계는 참고 있어요.",
       [
         { label: "직구", body: "돌려 말하지 않아요. 그게 효율이기도 해요." },
         { label: "온도", body: "부탁도 드물고, 거절도 드물어요." },
@@ -283,7 +283,7 @@ export function scoreSkill(digest: UsageDigest | null, texts: string[]): GradeCa
       "대화가 한 번에 안 끝나면 고쳐요. 그게 실력이에요.",
       [
         { label: "형식", body: "어떻게 내놓으라는 말이 있어요." },
-        { label: "깊이", body: "한 타래를 끝까지 밀어요." },
+        { label: "깊이", body: "대화의 흐름을 끝까지 주도해요." },
       ],
       "조련 팁",
       "이미 상위권이에요. 남는 건 예시 한 개예요. 좋은 답 샘플을 같이 주면 더 세져요.",

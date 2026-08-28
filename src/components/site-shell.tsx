@@ -1,30 +1,18 @@
 "use client";
 
 import { useEffect, useLayoutEffect, type ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { BrandMark } from "@/components/type-mark";
-import type { QuadrantId } from "@/lib/characters";
 import type { SoulStage } from "@/lib/soul-shape";
 import { useAppStore } from "@/lib/store";
 import { bootTheme } from "@/lib/theme";
-import type { AxisScores } from "@/lib/types";
 
 export function SiteShell({
   stage,
-  home,
-  axes,
-  locked,
-  quadrant,
-  caption,
   children,
 }: {
   stage: SoulStage;
-  home?: boolean;
-  axes?: AxisScores | null;
-  locked?: boolean;
-  quadrant?: QuadrantId | null;
-  caption?: string | null;
   children: ReactNode;
 }) {
   const digest = useAppStore((s) => s.digest);
@@ -32,16 +20,11 @@ export function SiteShell({
   const rehydrate = useAppStore((s) => s.rehydrate);
   const setFieldView = useAppStore((s) => s.setFieldView);
   const hasSession = Boolean(digest);
+  const isHome = useRouterState({ select: (s) => s.location.pathname === "/" });
 
   useLayoutEffect(() => {
-    setFieldView({
-      stage,
-      axes: axes ?? null,
-      locked: Boolean(locked),
-      quadrant: quadrant ?? null,
-      caption: caption ?? null,
-    });
-  }, [stage, axes, locked, quadrant, caption, setFieldView]);
+    setFieldView({ stage });
+  }, [stage, setFieldView]);
 
   useEffect(() => {
     bootTheme();
@@ -69,7 +52,7 @@ export function SiteShell({
                   기록 지우기
                 </button>
               ) : null}
-              {home ? null : (
+              {isHome ? null : (
                 <Link to="/" className="min-h-11 px-2 text-fg transition-opacity duration-300 hover:opacity-70">
                   홈
                 </Link>
@@ -81,7 +64,6 @@ export function SiteShell({
       </header>
 
       <div className="relative">
-        <div className="overlay-veil" aria-hidden="true" />
         <div className="proscenium" />
         <div className="overlay-col">{children}</div>
       </div>

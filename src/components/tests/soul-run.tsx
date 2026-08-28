@@ -99,8 +99,8 @@ export function SoulRun() {
       {phase === "result" && unlocked && shown ? (
         <>
           <div>
-            <p className="kicker">내가 만난 유형</p>
-            <p className="mt-1 text-[20px] font-semibold">내가 만난 유형들이에요</p>
+            <p className="kicker">다른 사람들의 AI</p>
+            <p className="mt-1 text-[20px] font-semibold">다른 사람들의 AI 유형이에요</p>
           </div>
           <CharacterParade winner={winner} dim={false} compact />
           <MbtiCard analysis={shown} />

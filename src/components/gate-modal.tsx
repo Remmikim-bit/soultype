@@ -29,15 +29,15 @@ export function GateModal({
           <div className="relative mt-6">
             <button type="button" onClick={() => onPick("simple")} className="cta-row">
               <span>
-                <span className="block text-[20px] font-semibold">문장 하나</span>
-                <span className="mt-1 block text-[15px] text-muted">지금 쓰는 AI에 넣고, 돌아온 답을 붙여 주세요</span>
+                <span className="block text-[20px] font-semibold">간단하게 알아보기</span>
+                <span className="mt-1 block text-[15px] text-muted">30초 만에 답변을 받을 수 있어요</span>
               </span>
               <ArrowGlyph className="size-5 shrink-0" />
             </button>
             <button type="button" onClick={() => onPick("export")} className="cta-row">
               <span>
-                <span className="block text-[20px] font-semibold">대화록 불러오기</span>
-                <span className="mt-1 block text-[15px] text-muted">다운 받은 파일을 올려 주세요. 데이터는 서버로 전송되지 않아요</span>
+                <span className="block text-[20px] font-semibold">자세히 알아보기</span>
+                <span className="mt-1 block text-[15px] text-muted">다른 사람들과 내 AI를 비교할 수 있어요</span>
               </span>
               <ArrowGlyph className="size-5 shrink-0" />
             </button>

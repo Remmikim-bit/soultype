@@ -15,8 +15,8 @@ export function TerrainMap({
   return (
     <section className="grid gap-4">
       <div>
-        <p className="kicker">내가 만난 유형</p>
-        <h2 className="mt-2 text-2xl font-semibold tracking-tight">내가 만난 유형들이에요</h2>
+        <p className="kicker">다른 사람들의 AI</p>
+        <h2 className="mt-2 text-2xl font-semibold tracking-tight">다른 사람들의 AI 유형이에요</h2>
       </div>
       <div className={cn("relative", locked && "select-none")}>
         <div

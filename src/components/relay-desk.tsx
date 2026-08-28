@@ -44,8 +44,8 @@ export function RelayDesk({
   return (
     <section className="grid gap-6">
       <div className="glass grid gap-2 p-5">
-        <p className="kicker">문장 하나</p>
-        <h1 className="text-[22px] font-semibold tracking-tight">이 문장 넣고, 돌아온 답을 붙여 주세요</h1>
+        <p className="kicker">간단한 답변</p>
+        <h1 className="text-[22px] font-semibold tracking-tight">이 질문을 넣고, 돌아온 답을 붙여 주세요</h1>
         <p className="text-[15px] leading-relaxed text-muted">지금 쓰는 AI에 넣고, JSON만 다시 가져오면 돼요.</p>
       </div>
       <div className="sheet p-4 md:p-5">
@@ -92,7 +92,7 @@ export function RelayDesk({
           {error ? <p className="text-[15px] text-muted">{error}</p> : null}
         </div>
       ) : (
-        <p className="text-[15px] text-muted">복사해서 넣고, 돌아온 답을 가져오면 붙여넣을 칸이 열려요.</p>
+        <p className="text-[15px] text-muted">질문을 복사해 넣고 AI의 답변을 가져오면, 붙여넣을 칸이 열려요.</p>
       )}
     </section>
   );
