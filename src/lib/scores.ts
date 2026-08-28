@@ -52,7 +52,7 @@ export function scoreAbuse(digest: UsageDigest | null, texts: string[]): GradeCa
       "반말은 거의 없고, 부려먹는 느낌도 없어요.",
       "부탁이 지시보다 많아요. 기계 입장에선 할 만해요.",
       [
-        { label: "손맛", body: "거의 없어요. 그래서 결과도 천천히 와요." },
+        { label: "거친 말투", body: "거의 없어요. 그래서 결과도 천천히 와요." },
         { label: "버릇", body: "물음표가 명령보다 앞설 때가 많아요." },
       ],
       "더 독하게",
@@ -68,7 +68,7 @@ export function scoreAbuse(digest: UsageDigest | null, texts: string[]): GradeCa
       "짧게 시켜요. 욕은 없는데 여유도 없어요.",
       "할 일만 던지고 다음으로 가요. 학대라기보다 사무에 가까워요.",
       [
-        { label: "속도", body: "문장이 짧을수록 상대는 하수인이 돼요." },
+        { label: "명령조", body: "문장이 짧아질수록 AI를 지시하는 도구로 대하게 돼요." },
         { label: "여지", body: "고마움은 잘 안 남겨요." },
       ],
       "더 독하게",
@@ -96,7 +96,7 @@ export function scoreAbuse(digest: UsageDigest | null, texts: string[]): GradeCa
     return pack(
       score,
       "부려먹는 손",
-      "손맛이 있어요. 상대는 도구예요",
+      "거친 말투가 있어요. 상대는 도구예요",
       "당장, 다시 해, 똑바로가 리듬이에요.",
       "거절을 오류로 읽는 버릇이 보여요. 학대 축에 들어와 있어요.",
       [
@@ -164,7 +164,7 @@ export function scoreLove(digest: UsageDigest | null, texts: string[]): GradeCar
         { label: "우선순위", body: "배포가 고백보다 앞설 때가 많아요." },
         { label: "빈칸", body: "빈칸이 부끄러운 게 아니라, 그냥 비어 있어요." },
       ],
-      "뼈",
+      "핵심 조언",
       "소개팅 멘트를 물어보기 전에, 이번 주에 사람 이름을 한 번이라도 적어 봐요.",
       shallow,
     );
@@ -180,8 +180,8 @@ export function scoreLove(digest: UsageDigest | null, texts: string[]): GradeCar
         { label: "온도", body: "미지근해요. 그게 안전이기도 해요." },
         { label: "빈도", body: "그 얘기는 야간에 잠깐 나와요." },
       ],
-      "뼈",
-      "스친 걸 상담으로 늘리지 마요. 한 문장으로 물어보는 편이 나아요.",
+      "핵심 조언",
+      "가벼운 호감을 깊은 상담으로 부풀리지 마세요. 차라리 담백하게 한 문장으로 물어보세요.",
       shallow,
     );
   }
@@ -196,7 +196,7 @@ export function scoreLove(digest: UsageDigest | null, texts: string[]): GradeCar
         { label: "연습", body: "고백문을 여기서 먼저 돌려 봐요." },
         { label: "거리", body: "상대보다 모델이 더 자주 들어요." },
       ],
-      "뼈",
+      "핵심 조언",
       "조언을 한 번 더 받는 순간, 그 관계는 머리 속에서만 커져요. 보내든가, 접든가 해요.",
       shallow,
     );
@@ -211,7 +211,7 @@ export function scoreLove(digest: UsageDigest | null, texts: string[]): GradeCar
       { label: "과잉", body: "같은 장면을 여러 버전으로 돌려 봐요." },
       { label: "실전", body: "실전 로그는 상대적으로 적어요." },
     ],
-    "뼈",
+    "핵심 조언",
     "이 점수면 문제는 매력이 아니에요. 결정이에요. 오늘 보내지 않으면 내일도 프롬프트예요.",
     shallow,
   );
@@ -246,7 +246,7 @@ export function scoreSkill(digest: UsageDigest | null, texts: string[]): GradeCa
     return pack(
       score,
       "복붙",
-      "시키는 문장이 너무 얇아요",
+      "시키는 문장이 너무 짧아요",
       "한 줄로 던지고 결과를 탓해요.",
       "조건, 형식, 예시가 거의 없어요. AI는 추측으로 채워요.",
       [
@@ -263,7 +263,7 @@ export function scoreSkill(digest: UsageDigest | null, texts: string[]): GradeCa
       score,
       "시키는 사람",
       "일은 시켜요. 조련은 아니에요",
-      "무엇을는 분명해요. 어떻게는 대충이에요.",
+      "'무엇을'은 분명한데, '어떻게'가 대충이에요.",
       "평균 문장은 버텨요. 예외와 형식이 약해요.",
       [
         { label: "지시", body: "동사는 분명해요. 범위가 흐려요." },
@@ -301,7 +301,7 @@ export function scoreSkill(digest: UsageDigest | null, texts: string[]): GradeCa
       { label: "절제", body: "길게 쓰는 게 아니라 빈칸을 막아요." },
     ],
     "조련 팁",
-    "여긴 자랑이 아니라 습관이에요. 한판에서 90초로 검증해 봐요.",
+    "여긴 자랑이 아니라 습관이에요. 대결에서 90초로 검증해 봐요.",
     shallow,
   );
 }

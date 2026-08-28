@@ -117,7 +117,7 @@ export function DuelRun() {
             <div className="grid gap-2 p-5">
               <p className="kicker">{duel.rank}</p>
               <p className="text-5xl font-semibold tabular-nums">{duel.score}</p>
-              <h2 className="text-[22px] font-semibold">이 한판에서 받은 점수예요</h2>
+              <h2 className="text-[22px] font-semibold">이번 대결에서 받은 점수예요</h2>
             </div>
             <ul className="grid gap-px bg-line md:grid-cols-2">
               {duel.notes.map((n) => (

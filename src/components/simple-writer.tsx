@@ -80,8 +80,8 @@ export function SimpleWriter({ onDone }: { onDone: (analysis: AnalysisResult) =>
           <p className="text-xs tracking-widest text-subtle uppercase">심플</p>
           <h2 className="mt-1 text-3xl font-semibold tracking-tight">평소 던지는 말을 적어 주세요</h2>
           <p className="mt-2 max-w-lg text-sm text-muted">
-            주제를 고르면 초안을 대신 써 드려요. 그 문장의 버릇이 4축에 쌓이고, 쓰는 AI가
-            16 지형 중 하나로 변해요.
+            주제를 고르면 초안을 대신 써 드려요. 그 문장의 버릇이 4가지 분석 지표에 쌓이고, 쓰는 AI가
+            16가지 유형 중 하나로 나와요.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -138,14 +138,14 @@ export function SimpleWriter({ onDone }: { onDone: (analysis: AnalysisResult) =>
             이 AI의 얼굴 보기
           </Button>
           <p className="text-xs text-subtle">
-            {ready ? "작성만으로 분석해요. 적은 내용은 이 탭에만 남아요." : "조금만 더 적으면 지형이 움직여요."}
+            {ready ? "작성만으로 분석해요. 적은 내용은 이 탭에만 남아요." : "조금만 더 입력하면 분석 결과가 나타나요."}
           </p>
         </div>
       </section>
       <aside className="grid gap-6">
         <div className="rounded-2xl bg-surface p-5 shadow-[var(--shadow-border)] md:p-6">
-          <p className="text-xs tracking-widest text-subtle uppercase">쌓이는 4축</p>
-          <p className="mt-2 text-2xl font-semibold">{leaning ?? "아직 얇아요"}</p>
+          <p className="text-xs tracking-widest text-subtle uppercase">4가지 분석 지표</p>
+          <p className="mt-2 text-2xl font-semibold">{leaning ?? "아직 데이터가 부족해요"}</p>
           <div className="mt-6">
             <AxisStack axes={axes} live />
           </div>

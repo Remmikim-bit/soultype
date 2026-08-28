@@ -5,7 +5,7 @@ export const AXIS_META = [
     key: "ie" as const,
     left: { letter: "I", label: "상전" },
     right: { letter: "E", label: "하인" },
-    hint: "낮게 물으면 위를 차지하고, 시키면 하수인이 돼요",
+    hint: "자세를 낮춰 물으면 위를 차지하고, 지시하면 도구처럼 대하게 돼요",
   },
   {
     key: "ns" as const,
@@ -17,7 +17,7 @@ export const AXIS_META = [
     key: "tf" as const,
     left: { letter: "T", label: "반골" },
     right: { letter: "F", label: "세뇌" },
-    hint: "반박을 시키면 반골, 위로·설득을 시키면 세뇌예요",
+    hint: "반박을 시키면 반골, 위로나 설득을 부탁하면 세뇌예요",
   },
   {
     key: "jp" as const,

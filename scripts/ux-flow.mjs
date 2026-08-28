@@ -215,7 +215,7 @@ await page.waitForTimeout(400);
 await shot("10-abuse-result");
 if (
   !(
-    (await visible("손맛")) ||
+    (await visible("거친 말투")) ||
     (await visible("손님")) ||
     (await visible("직구")) ||
     (await visible("부려먹는")) ||
